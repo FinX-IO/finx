@@ -1,3 +1,7 @@
+# If building the SDK to test-pypi or to pypi, the following environment variables are required:
+#
+# 1. `TWINE_USERNAME` - The username for the pypi account.
+# 2. `TWINE_PASSWORD` - The password for the pypi account.
 import json
 import os
 import urllib.request
@@ -5,7 +9,7 @@ import urllib.request
 
 def bump_version(level, deploy_environment):
     # Retrieve JSON data
-    url = "https://test.pypi.org/pypi/finx-io/json"
+    url = "https://test.pypi.org/pypi/finx/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
 
@@ -40,7 +44,7 @@ if os.getenv("DEPLOY_LEVEL"):
     VERSION = os.getenv("FINX_VERSION")
 
 else:
-    url = "https://pypi.org/pypi/finx-io/json"
+    url = "https://pypi.org/pypi/finx/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
     current_version = data["info"]["version"]
