@@ -54,7 +54,8 @@ jobs:
                   sudo apt-get update
                   sudo apt install -y python3-pip
                   sudo pip install pipenv
-                  pipenv run pip install -i https://test.pypi.org/simple/ finx
+                  pipenv run pip uninstall finx
+                  pipenv run pip install -i https://test.pypi.org/simple/ finx --upgrade
                   pipenv run bash integration_tests/integration_tests.sh
     resource_class: large
   pypi_publish:
