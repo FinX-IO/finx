@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "finx"
+authors = [
+  { name="FinX Capital Markets LLC", email="support@finx.io" },
+]
+license = {file = "LICENSE"}
+description = "Python client for FinX Platform APIs"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'aiohttp',
+    'setuptools',
+    'nest-asyncio',
+    'numpy',
+    'pandas',
+    'plotly',
+    'pytest',
+    'requests',
+    'scipy',
+    'websocket-client',
+    'websockets',
+]
+dynamic = ["version"]
+
+[tool.setuptools.package-dir]
+finx = "src/finx"
+
+[tool.setuptools.dynamic]
+version = {attr = "finx.version.NEXT_VERSION"}
+
+[project.urls]
+"Homepage" = "https://github.com/FinX-IO/finx"
+"Bug Tracker" = "https://github.com/FinX-IO/finx/issues"
