@@ -1,7 +1,7 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 orbs:
-  python: circleci/python@1.5.0
+  python: circleci/python@2.1.1
 jobs:
   build_and_unit_test:
     docker:
@@ -53,10 +53,8 @@ jobs:
                   sudo add-apt-repository universe -y
                   sudo apt-get update
                   sudo apt install -y python3-pip
-                  sudo pip uninstall finx -y
-                  sudo pip uninstall finx-io -y
                   sudo pip install pipenv
-                  pipenv run pip install -i https://test.pypi.org/simple/ finx --upgrade
+                  pipenv run pip install -i https://test.pypi.org/simple/ finx==0.1.7
                   pipenv run bash integration_tests/integration_tests.sh
     resource_class: large
   pypi_publish:
