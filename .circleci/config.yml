@@ -4,8 +4,8 @@ orbs:
   python: circleci/python@1.5.0
 jobs:
   build_and_unit_test:
-#    docker:
-#      - image: cimg/python:3.10.2
+    docker:
+      - image: cimg/python:3.10.2
     steps:
       - checkout
       - python/install-packages:
@@ -16,11 +16,10 @@ jobs:
             export DEPLOY_LEVEL='patch'
             export DEPLOY_ENVIRONMENT='test'
             pytest src/finx/test
-    machine: true
     resource_class: large
   test_pypi_publish:
-#    docker:
-#      - image: cimg/python:3.10.2
+    docker:
+      - image: cimg/python:3.10.2
     steps:
       - checkout
       - when:
@@ -39,11 +38,10 @@ jobs:
                   python3 -m build
                   python3 -m pip install --upgrade twine
                   python3 -m twine upload --repository testpypi dist/*
-    machine: true
     resource_class: large
   integration_test:
-#    docker:
-#      - image: cimg/python:3.10.2
+    docker:
+      - image: cimg/python:3.10.2
     steps:
       - checkout
       - when:
@@ -58,11 +56,10 @@ jobs:
                   sudo pip install pipenv
                   pipenv run pip install -i https://test.pypi.org/simple/ finx --upgrade
                   pipenv run bash integration_tests/integration_tests.sh
-    machine: true
     resource_class: large
   pypi_publish:
-#    docker:
-#      - image: cimg/python:3.10.2
+    docker:
+      - image: cimg/python:3.10.2
     steps:
         - checkout
         - when:
@@ -80,7 +77,6 @@ jobs:
                     python3 -m pip install --upgrade build
                     python3 -m build
                     python3 -m twine upload dist/*
-    machine: true
     resource_class: large
 workflows:
   build:
