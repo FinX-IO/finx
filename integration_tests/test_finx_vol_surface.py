@@ -11,7 +11,7 @@ def main():
     try:
         finx_client = FinXClient(
             "socket",
-            finx_api_endpoint=os.environ['FINX_API_ENDPOINT'],
+            finx_api_endpoint=os.environ['FINX_API_URL'],
             finx_api_key=os.environ['FINX_API_KEY'],
             ssl=True
         )
