@@ -30,6 +30,9 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[tool.setuptools]
+packages = ["finx*"]
+
 [tool.setuptools.package-dir]
 finx = "src/finx"
 
@@ -39,3 +42,4 @@ version = {attr = "finx.version.NEXT_VERSION"}
 [project.urls]
 "Homepage" = "https://github.com/FinX-IO/finx"
 "Bug Tracker" = "https://github.com/FinX-IO/finx/issues"
+
