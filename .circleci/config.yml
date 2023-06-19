@@ -4,8 +4,8 @@ orbs:
   python: circleci/python@1.5.0
 jobs:
   build_and_unit_test:
-    docker:
-      - image: cimg/python:3.10.2
+#    docker:
+#      - image: cimg/python:3.10.2
     steps:
       - checkout
       - python/install-packages:
@@ -19,8 +19,8 @@ jobs:
     machine: true
     resource_class: large
   test_pypi_publish:
-    docker:
-      - image: cimg/python:3.10.2
+#    docker:
+#      - image: cimg/python:3.10.2
     steps:
       - checkout
       - when:
@@ -42,8 +42,8 @@ jobs:
     machine: true
     resource_class: large
   integration_test:
-    docker:
-      - image: cimg/python:3.10.2
+#    docker:
+#      - image: cimg/python:3.10.2
     steps:
       - checkout
       - when:
@@ -61,8 +61,8 @@ jobs:
     machine: true
     resource_class: large
   pypi_publish:
-    docker:
-      - image: cimg/python:3.10.2
+#    docker:
+#      - image: cimg/python:3.10.2
     steps:
         - checkout
         - when:
