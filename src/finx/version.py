@@ -15,7 +15,10 @@ def bump_version(level, deploy_environment):
 
     # Extract current version
     current_version = data["info"]["version"]
-    major, minor, patch = map(int, current_version.split("."))
+    try:
+        major, minor, patch = map(int, current_version.split(".")[:3])
+    except Exception as e:
+        print(e)
 
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
