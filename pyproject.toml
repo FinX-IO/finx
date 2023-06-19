@@ -30,8 +30,10 @@ dependencies = [
 ]
 dynamic = ["version"]
 
-[tool.setuptools]
-packages = ["src/finx*"]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["finx*"]
+namespaces = false
 
 [tool.setuptools.package-dir]
 finx = "src/finx"
