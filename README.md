@@ -20,7 +20,7 @@ Analytics Platform (the 'FinX Platform'). The code in the SDK makes calls to RES
 
 To obtain an API Key, please visit [https://app.finx.io](https://app.finx.io) and register for an account.
 
-Full **Documentation** is available at [https://docs.finx.io](https://docs.finx.io)
+Full **Documentation** is available at [http://docs.finx.io](http://docs.finx.io)
 
 ***
 
