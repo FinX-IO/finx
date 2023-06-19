@@ -31,7 +31,7 @@ dependencies = [
 dynamic = ["version"]
 
 [tool.setuptools]
-packages = ["finx*"]
+packages = ["src/finx*"]
 
 [tool.setuptools.package-dir]
 finx = "src/finx"
