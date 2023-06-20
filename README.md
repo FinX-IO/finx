@@ -1,3 +1,6 @@
+This python package is the FinX Python SDK and is used to interface with the FinX Capital Markets Analytics Platform.
+
+
 | Branch | CircleCI Status Badge |
 | ------ | -------------------- |
 | PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/main.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/main) |
