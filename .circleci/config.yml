@@ -1,0 +1,94 @@
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+orbs:
+  python: circleci/python@2.1.1
+jobs:
+  build_and_unit_test:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run unit tests
+          command: |
+            export DEPLOY_LEVEL='patch'
+            export DEPLOY_ENVIRONMENT='test'
+            pytest src/finx/test
+    resource_class: large
+  test_pypi_publish:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+      - when:
+          condition:
+            equal: [ 'dev', << pipeline.git.branch >> ]
+          steps:
+            - run:
+                command: | # create whl, install twine and publish to Test PyPI
+                  export DEPLOY_LEVEL='major'
+                  export DEPLOY_ENVIRONMENT='test'
+                  echo 'FinX-IO new version to be deployed: '$FINX_NEW_VERSION
+                  sudo add-apt-repository universe -y
+                  sudo apt-get update
+                  sudo apt install -y python3-pip
+                  python3 -m pip install --upgrade build
+                  python3 -m build --wheel
+                  python3 -m pip install --upgrade twine
+                  python3 -m twine upload --repository testpypi dist/*
+    resource_class: large
+  integration_test:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+      - when:
+          condition:
+            equal: [ 'main-candidate', << pipeline.git.branch >> ]
+          steps:
+            - run:
+                command: | # install from Test PyPI and run integration integration_tests
+                  sudo add-apt-repository universe -y
+                  sudo apt-get update
+                  sudo apt install -y python3-pip
+                  sudo pip install pipenv
+                  pipenv clean
+                  pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
+                  pipenv run pip install -i https://test.pypi.org/simple/ finx --upgrade
+                  pipenv run bash integration_tests/integration_tests.sh
+    resource_class: large
+  pypi_publish:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+        - checkout
+        - when:
+            condition:
+              equal: [ 'main', << pipeline.git.branch >> ]
+            steps:
+              - run:
+                  command: | # create whl, install twine and publish to PyPI
+                    export DEPLOY_LEVEL='major'
+                    export DEPLOY_ENVIRONMENT='prod'
+                    sudo add-apt-repository universe -y
+                    sudo apt-get update
+                    sudo apt install -y python3-pip
+                    python3 -m pip install --upgrade build
+                    python3 -m build --wheel
+                    python3 -m twine upload dist/*
+    resource_class: large
+workflows:
+  build:
+    jobs:
+      - build_and_unit_test
+      - test_pypi_publish:
+          requires:
+            - build_and_unit_test
+      - integration_test:
+            requires:
+                - test_pypi_publish
+      - pypi_publish:
+            requires:
+                - integration_test
