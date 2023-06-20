@@ -70,21 +70,21 @@ in your user account settings, or in the email sent to you upon registration.
 In your python environment of choice, install finx using Pip:
 
     #! /bin/bash
-    pip install finx --upgrade
+    pip install finx-io --upgrade
     
 ### Pipenv installation
 
     #! /bin/bash
     pipenv clean
     pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-    pipenv run pip install finx --upgrade
+    pipenv run pip install finx-io --upgrade
 
 ## Check Installation and Environment Variables with Pipenv
 
     #! /bin/bash
     pipenv clean
     pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-    pipenv install finx --upgrade
+    pipenv install finx-io --upgrade
     pipenv shell
     export FINX_API_KEY=<your-api-key>
     export FINX_API_URL=<your-api-url>
