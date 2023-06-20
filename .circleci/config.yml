@@ -55,6 +55,7 @@ jobs:
                   sudo apt install -y python3-pip
                   sudo pip install pipenv
                   pipenv clean
+                  pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
                   pipenv run pip install -i https://test.pypi.org/simple/ finx --upgrade -y
                   pipenv run bash integration_tests/integration_tests.sh
     resource_class: large
