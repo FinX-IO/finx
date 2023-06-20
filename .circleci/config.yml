@@ -28,7 +28,7 @@ jobs:
           steps:
             - run:
                 command: | # create whl, install twine and publish to Test PyPI
-                  export DEPLOY_LEVEL='major'
+                  export DEPLOY_LEVEL='patch'
                   export DEPLOY_ENVIRONMENT='test'
                   echo 'FinX-IO new version to be deployed: '$FINX_NEW_VERSION
                   sudo add-apt-repository universe -y
@@ -70,7 +70,7 @@ jobs:
             steps:
               - run:
                   command: | # create whl, install twine and publish to PyPI
-                    export DEPLOY_LEVEL='major'
+                    export DEPLOY_LEVEL='patch'
                     export DEPLOY_ENVIRONMENT='prod'
                     sudo add-apt-repository universe -y
                     sudo apt-get update
