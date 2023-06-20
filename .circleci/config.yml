@@ -35,7 +35,7 @@ jobs:
                   sudo apt-get update
                   sudo apt install -y python3-pip
                   python3 -m pip install --upgrade build
-                  python3 -m build
+                  python3 -m build --wheel
                   python3 -m pip install --upgrade twine
                   python3 -m twine upload --repository testpypi dist/*
     resource_class: large
@@ -54,6 +54,8 @@ jobs:
                   sudo apt-get update
                   sudo apt install -y python3-pip
                   sudo pip install pipenv
+                  pipenv clean
+                  pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
                   pipenv run pip install -i https://test.pypi.org/simple/ finx --upgrade -y
                   pipenv run bash integration_tests/integration_tests.sh
     resource_class: large
@@ -70,12 +72,11 @@ jobs:
                   command: | # create whl, install twine and publish to PyPI
                     export DEPLOY_LEVEL='patch'
                     export DEPLOY_ENVIRONMENT='prod'
-                    python3 setup.py sdist bdist_wheel
                     sudo add-apt-repository universe -y
                     sudo apt-get update
                     sudo apt install -y python3-pip
                     python3 -m pip install --upgrade build
-                    python3 -m build
+                    python3 -m build --wheel
                     python3 -m twine upload dist/*
     resource_class: large
 workflows:

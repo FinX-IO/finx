@@ -30,6 +30,31 @@ Full **Documentation** is available at [http://docs.finx.io](http://docs.finx.io
 
 The FinX SDK requires Python 3.10 or higher.
 
+### Python Packages
+
+In your container, pipenv or other python environment, you must have the following
+packages installed:
+
+```requirements.txt
+aiohttp>=3.8.4
+setuptools>=67.0.0
+nest-asyncio>=1.5.6
+numpy>=1.25.0
+pandas>=2.0.2
+plotly>=5.15.0
+pytest>=6.2.5
+requests>=2.31.0
+scipy>=1.10.1
+websocket-client>=1.6.0
+websockets>=11.0.3
+```
+
+### Pipenv Dependency Installation
+
+```bash
+pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
+```
+
 ### ENVIRONMENT VARIABLES
 
 The FinX SDK will look for the following environment variables that are provided by FinX Capital Markets. You may find these
@@ -45,13 +70,21 @@ in your user account settings, or in the email sent to you upon registration.
 In your python environment of choice, install finx using Pip:
 
     #! /bin/bash
-    pip install finx
+    pip install finx --upgrade
     
+### Pipenv installation
+
+    #! /bin/bash
+    pipenv clean
+    pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
+    pipenv run pip install finx --upgrade
 
 ## Check Installation and Environment Variables with Pipenv
 
     #! /bin/bash
-    pipenv install finx
+    pipenv clean
+    pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
+    pipenv install finx --upgrade
     pipenv shell
     export FINX_API_KEY=<your-api-key>
     export FINX_API_URL=<your-api-url>
