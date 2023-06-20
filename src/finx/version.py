@@ -20,36 +20,31 @@ def bump_version(level, deploy_environment):
     except Exception as e:
         print(e)
 
+    new_version = current_version
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
         major += 1
         minor = 0
         patch = 0
+        return f"{major}.{minor}.{patch}"
     elif level == "minor" and deploy_environment == "test":
         minor += 1
         patch = 0
+        return f"{major}.{minor}.{patch}"
     elif level == "patch" and deploy_environment == "test":
         patch += 1
+        return f"{major}.{minor}.{patch}"
+    elif deploy_environment == "prod":
+        return current_version
     else:
         raise ValueError("Invalid level. Please choose 'major', 'minor', or 'patch'.")
 
-    # Build and return the new version string
-    new_version = f"{major}.{minor}.{patch}"
-    os.environ["FINX_NEW_VERSION"] = new_version
-    os.environ["FINX_VERSION"] = current_version
-    return new_version
 
-
-if os.getenv("DEPLOY_LEVEL"):
+if os.getenv("DEPLOY_ENVIRONMENT") == "test":
     DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
     DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
-    NEXT_VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
-    VERSION = os.getenv("FINX_VERSION")
-
-else:
-    url = "https://pypi.org/pypi/finx/json"
-    response = urllib.request.urlopen(url)
-    data = json.loads(response.read())
-    current_version = data["info"]["version"]
-    os.environ["FINX_VERSION"] = current_version
-    VERSION = current_version
+    VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
+elif os.getenv("DEPLOY_ENVIRONMENT") == "prod":
+    DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
+    DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
+    VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
