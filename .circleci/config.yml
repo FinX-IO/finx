@@ -35,9 +35,9 @@ jobs:
                   sudo apt-get update
                   sudo apt install -y python3-pip
                   python3 -m pip install --upgrade build
-                  python3 -m build
+                  python3 -m build --wheel
                   python3 -m pip install --upgrade twine
-                  python3 -m twine upload --repository testpypi dist/*
+                  python3 -m twine upload --repository testpypi wheel/*
     resource_class: large
   integration_test:
     docker:
@@ -71,13 +71,12 @@ jobs:
                   command: | # create whl, install twine and publish to PyPI
                     export DEPLOY_LEVEL='patch'
                     export DEPLOY_ENVIRONMENT='prod'
-                    python3 setup.py sdist bdist_wheel
                     sudo add-apt-repository universe -y
                     sudo apt-get update
                     sudo apt install -y python3-pip
                     python3 -m pip install --upgrade build
-                    python3 -m build
-                    python3 -m twine upload dist/*
+                    python3 -m build --wheel
+                    python3 -m twine upload wheel/*
     resource_class: large
 workflows:
   build:
