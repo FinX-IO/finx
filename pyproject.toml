@@ -39,7 +39,7 @@ namespaces = false
 finx = "src/finx"
 
 [tool.setuptools.dynamic]
-version = {attr = "finx.version.NEXT_VERSION"}
+version = {attr = "finx.version.VERSION"}
 
 [project.urls]
 "Homepage" = "https://github.com/FinX-IO/finx"
