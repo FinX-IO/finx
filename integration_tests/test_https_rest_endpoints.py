@@ -3,7 +3,7 @@
 import os
 import urllib.request
 
-base_api_url = os.environ['FINX_API_KEY']
+base_api_url = os.environ['FINX_API_URL']
 
 finx_api_key = os.getenv('FINX_API_KEY')
 user_email = os.getenv('FINX_USER_EMAIL')
