@@ -1,10 +1,7 @@
-# BUILD STATUS
-
-### CircleCI
-
-#### main branch: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/main.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/main)
-
-#### dev branch: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/dev.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/dev)
+| Branch | CircleCI Status Badge |
+| ------ | -------------------- |
+| PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/main.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/main) |
+| Test.PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/dev.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/dev) |
 
 ### FinX Capital Markets LLC
 
