@@ -49,12 +49,6 @@ websocket-client>=1.6.0
 websockets>=11.0.3
 ```
 
-### Pipenv Dependency Installation
-
-```bash
-pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-```
-
 ### ENVIRONMENT VARIABLES
 
 The FinX SDK will look for the following environment variables that are provided by FinX Capital Markets. You may find these
