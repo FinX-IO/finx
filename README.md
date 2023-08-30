@@ -101,6 +101,7 @@ finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FI
 function_list = finx_client.list_api_functions()
 print(function_list)
 ```
+Full **Documentation** with all available functions is available at [http://docs.finx.io](http://docs.finx.io)
 
 ---
 title: FinX Python SDK
