@@ -97,7 +97,7 @@ import os
 import finx
 from finx.client import FinXClient
 
-finx_client = FinXClient('socket', ssl=True, 'FINX_API_KEY' = '<your-api-key>', 'FINX_API_URL' = '<your-api-url>', FINX_API_URL_BACKUP = '<your-api-url-backup>', FINX_USER_EMAIL' = '<your-email>')
+finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FINX_API_URL = '<your-api-url>', FINX_API_URL_BACKUP = '<your-api-url-backup>', FINX_USER_EMAIL' = '<your-email>')
 function_list = finx_client.list_api_functions()
 print(function_list)
 ```
