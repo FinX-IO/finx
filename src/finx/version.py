@@ -9,7 +9,7 @@ import urllib.request
 
 def bump_version(level, deploy_environment):
     # Retrieve JSON data
-    url = "https://test.pypi.org/pypi/finx/json"
+    url = "https://test.pypi.org/pypi/finx-io/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
 
@@ -34,16 +34,16 @@ def bump_version(level, deploy_environment):
         patch += 1
         return f"{major}.{minor}.{patch}"
     if level == "major" and deploy_environment == "prod":
-        major += 1
+        major += 0
         minor = 0
         patch = 0
         return f"{major}.{minor}.{patch}"
     elif level == "minor" and deploy_environment == "prod":
-        minor += 1
+        minor += 0
         patch = 0
         return f"{major}.{minor}.{patch}"
     elif level == "patch" and deploy_environment == "prod":
-        patch += 1
+        patch += 0
         return f"{major}.{minor}.{patch}"
     else:
         raise ValueError("Invalid level. Please choose 'major', 'minor', or 'patch'.")
