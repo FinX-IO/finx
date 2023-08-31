@@ -49,20 +49,14 @@ websocket-client>=1.6.0
 websockets>=11.0.3
 ```
 
-### Pipenv Dependency Installation
-
-```bash
-pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-```
-
 ### ENVIRONMENT VARIABLES
 
 The FinX SDK will look for the following environment variables that are provided by FinX Capital Markets. You may find these
 in your user account settings, or in the email sent to you upon registration. 
 
 1. `FINX_API_KEY` - The API Key provided by FinX Capital Markets LLC
-2. `FINX_API_URL` - The URL of the FinX Platform API.
-3. `FINX_API_URL_BACKUP` - The backup URL of the FinX Platform API.
+2. `FINX_API_ENDPOINT` - The URL of the FinX Platform API.
+3. `FINX_API_ENDPOINT_BACKUP` - The backup URL of the FinX Platform API.
 4. `FINX_USER_EMAIL` - The email address used to register with FinX.
 
 ## Install from PyPI using Pip
@@ -76,41 +70,33 @@ In your python environment of choice, install finx using Pip:
 
     #! /bin/bash
     pipenv clean
-    pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-    pipenv run pip install finx-io --upgrade
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
+    pipenv install finx-io 
 
 ## Check Installation and Environment Variables with Pipenv
 
     #! /bin/bash
     pipenv clean
-    pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-    pipenv install finx-io --upgrade
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
+    pipenv install finx-io 
     pipenv shell
     export FINX_API_KEY=<your-api-key>
     export FINX_API_URL=<your-api-url>
-    export FINX_API_URL_BACKUP=<your-api-url-backup>
     export FINX_USER_EMAIL=<your-email>
-    python3 -c "import finx; from finx import version; print(version.VERSION)"
     python3 -c "import finx; from finx.client import FinXClient; finx_client = FinXClient('socket', ssl=True); function_list = finx_client.list_api_functions(); print(function_list)"
 
-## Quick Start Example
-
-Here's a quick python snippet to get you started:
-
+Run a pipenv python shell with environment variables set, and run the following code:
 ```python3
 #! /usr/bin/env python3
 import os
 import finx
 from finx.client import FinXClient
-os.environ('FINX_API_KEY') = '<your-api-key>'
-os.environ('FINX_API_URL') = '<your-api-url>'
-os.environ('FINX_API_URL_BACKUP') = '<your-api-url-backup>'
-os.environ('FINX_USER_EMAIL') = '<your-email>'
 
-finx_client = FinXClient('socket', ssl=True)
+finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FINX_API_ENDPOINT = '<your-api-url>', FINX_API_ENDPOINT_BACKUP = '<your-api-url-backup>', FINX_USER_EMAIL' = '<your-email>')
 function_list = finx_client.list_api_functions()
 print(function_list)
 ```
+Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
 
 ---
 title: FinX Python SDK
