@@ -91,7 +91,7 @@ In your python environment of choice, install finx using Pip:
 
 Here's a quick python snippet to get you started:
 
-Set your environment with 'pipenv shell'
+Set your environment with `pipenv shell`
 
 ```python3
 #! /usr/bin/env python3
