@@ -9,7 +9,7 @@ import urllib.request
 
 def bump_version(level, deploy_environment):
     # Retrieve JSON data
-    url = "https://test.pypi.org/pypi/finx/json"
+    url = "https://test.pypi.org/pypi/finx-io/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
 
