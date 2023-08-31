@@ -48,3 +48,4 @@ elif os.getenv("DEPLOY_ENVIRONMENT") == "prod":
     DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
     DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
     VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
+
