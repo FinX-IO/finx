@@ -20,7 +20,6 @@ def bump_version(level, deploy_environment):
     except Exception as e:
         print(e)
 
-    new_version = current_version
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
         major += 1
@@ -34,8 +33,18 @@ def bump_version(level, deploy_environment):
     elif level == "patch" and deploy_environment == "test":
         patch += 1
         return f"{major}.{minor}.{patch}"
-    elif deploy_environment == "prod":
-        return current_version
+    if level == "major" and deploy_environment == "prod":
+        major += 1
+        minor = 0
+        patch = 0
+        return f"{major}.{minor}.{patch}"
+    elif level == "minor" and deploy_environment == "prod":
+        minor += 1
+        patch = 0
+        return f"{major}.{minor}.{patch}"
+    elif level == "patch" and deploy_environment == "prod":
+        patch += 1
+        return f"{major}.{minor}.{patch}"
     else:
         raise ValueError("Invalid level. Please choose 'major', 'minor', or 'patch'.")
 
@@ -44,8 +53,11 @@ if os.getenv("DEPLOY_ENVIRONMENT") == "test":
     DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
     DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
     VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
+    os.environ["FINX_VERSION"] = VERSION
 elif os.getenv("DEPLOY_ENVIRONMENT") == "prod":
     DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
     DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
     VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
+    os.environ["FINX_VERSION"] = VERSION
+
 

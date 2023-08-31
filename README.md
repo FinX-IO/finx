@@ -55,9 +55,8 @@ The FinX SDK will look for the following environment variables that are provided
 in your user account settings, or in the email sent to you upon registration. 
 
 1. `FINX_API_KEY` - The API Key provided by FinX Capital Markets LLC
-2. `FINX_API_ENDPOINT` - The URL of the FinX Platform API.
-3. `FINX_API_ENDPOINT_BACKUP` - The backup URL of the FinX Platform API.
-4. `FINX_USER_EMAIL` - The email address used to register with FinX.
+2. `FINX_API_URL` - The URL of the FinX Platform API.
+3. `FINX_USER_EMAIL` - The email address used to register with FinX.
 
 ## Install from PyPI using Pip
 
@@ -68,12 +67,16 @@ In your python environment of choice, install finx using Pip:
     
 ### Pipenv installation
 
+Pipenv is a handy tool for managing python environments. To install finx using pipenv, run the following commands:
+
     #! /bin/bash
     pipenv clean
     pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
     pipenv install finx-io 
 
 ## Check Installation and Environment Variables with Pipenv
+
+Here's a full example of how to install finx using pipenv, with a quick test to ensure the environment variables are set correctly:
 
     #! /bin/bash
     pipenv clean
@@ -85,14 +88,21 @@ In your python environment of choice, install finx using Pip:
     export FINX_USER_EMAIL=<your-email>
     python3 -c "import finx; from finx.client import FinXClient; finx_client = FinXClient('socket', ssl=True); function_list = finx_client.list_api_functions(); print(function_list)"
 
-Run a pipenv python shell with environment variables set, and run the following code:
+## Python Shell
+
+You can set or fetch environment variables locally in python if you wish:
 ```python3
 #! /usr/bin/env python3
 import os
 import finx
 from finx.client import FinXClient
 
-finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FINX_API_ENDPOINT = '<your-api-url>', FINX_API_ENDPOINT_BACKUP = '<your-api-url-backup>', FINX_USER_EMAIL' = '<your-email>')
+finx_client = FinXClient(
+    'socket', 
+    ssl=True, 
+    FINX_API_KEY = os.getenv('FINX_API_KEY'), 
+    FINX_API_URL = os.getenv('FINX_API_URL'), 
+    FINX_USER_EMAIL = os.getenv('FINX_USER_EMAIL'))
 function_list = finx_client.list_api_functions()
 print(function_list)
 ```
