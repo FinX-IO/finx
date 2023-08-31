@@ -45,6 +45,8 @@ def bump_version(level, deploy_environment):
     elif level == "patch" and deploy_environment == "prod":
         patch += 0
         return f"{major}.{minor}.{patch}"
+    if deploy_environment == "no-deploy":
+        return f"{major}.{minor}.{patch}"
     else:
         raise ValueError("Invalid level. Please choose 'major', 'minor', or 'patch'.")
 
