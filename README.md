@@ -55,9 +55,8 @@ The FinX SDK will look for the following environment variables that are provided
 in your user account settings, or in the email sent to you upon registration. 
 
 1. `FINX_API_KEY` - The API Key provided by FinX Capital Markets LLC
-2. `FINX_API_ENDPOINT` - The URL of the FinX Platform API.
-3. `FINX_API_ENDPOINT_BACKUP` - The backup URL of the FinX Platform API.
-4. `FINX_USER_EMAIL` - The email address used to register with FinX.
+2. `FINX_API_URL` - The URL of the FinX Platform API.
+3. `FINX_USER_EMAIL` - The email address used to register with FinX.
 
 ## Install from PyPI using Pip
 
