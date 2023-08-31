@@ -1,10 +1,11 @@
-This python package is the FinX Python SDK and is used to interface with the FinX Capital Markets Analytics Platform.
+This python package is the **FinX Python SDK** and is used to interface with the **FinX Capital Markets Analytics 
+Platform**.
 
 
-| Branch | CircleCI Status Badge |
-| ------ | -------------------- |
+| Branch | Build & Test Results                                                                                                                                                                                                          |
+| ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/main.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/main) |
-| Test.PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/dev.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/dev) |
+| Test.PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/dev.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/dev)   |
 
 ### FinX Capital Markets LLC
 
@@ -71,7 +72,7 @@ Pipenv is a handy tool for managing python environments. To install finx using p
 
     #! /bin/bash
     pipenv clean
-    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
     pipenv install finx-io 
 
 ## Check Installation and Environment Variables with Pipenv
@@ -80,7 +81,7 @@ Here's a full example of how to install finx using pipenv, with a quick test to 
 
     #! /bin/bash
     pipenv clean
-    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
     pipenv install finx-io 
     pipenv shell
     export FINX_API_KEY=<your-api-key>
