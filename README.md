@@ -55,8 +55,8 @@ The FinX SDK will look for the following environment variables that are provided
 in your user account settings, or in the email sent to you upon registration. 
 
 1. `FINX_API_KEY` - The API Key provided by FinX Capital Markets LLC
-2. `FINX_API_URL` - The URL of the FinX Platform API.
-3. `FINX_API_URL_BACKUP` - The backup URL of the FinX Platform API.
+2. `FINX_API_ENDPOINT` - The URL of the FinX Platform API.
+3. `FINX_API_ENDPOINT_BACKUP` - The backup URL of the FinX Platform API.
 4. `FINX_USER_EMAIL` - The email address used to register with FinX.
 
 ## Install from PyPI using Pip
@@ -81,8 +81,8 @@ In your python environment of choice, install finx using Pip:
     pipenv install finx-io --upgrade
     pipenv shell
     export FINX_API_KEY=<your-api-key>
-    export FINX_API_URL=<your-api-url>
-    export FINX_API_URL_BACKUP=<your-api-url-backup>
+    export FINX_API_ENDPOINT=<your-api-url>
+    export FINX_API_ENDPOINT_BACKUP=<your-api-url-backup>
     export FINX_USER_EMAIL=<your-email>
     python3 -c "import finx; from finx import version; print(version.VERSION)"
     python3 -c "import finx; from finx.client import FinXClient; finx_client = FinXClient('socket', ssl=True); function_list = finx_client.list_api_functions(); print(function_list)"
@@ -99,7 +99,7 @@ import os
 import finx
 from finx.client import FinXClient
 
-finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FINX_API_URL = '<your-api-url>', FINX_API_URL_BACKUP = '<your-api-url-backup>', FINX_USER_EMAIL' = '<your-email>')
+finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FINX_API_ENDPOINT = '<your-api-url>', FINX_API_ENDPOINT_BACKUP = '<your-api-url-backup>', FINX_USER_EMAIL' = '<your-email>')
 function_list = finx_client.list_api_functions()
 print(function_list)
 ```
