@@ -24,9 +24,6 @@ from websocket import WebSocketApp, enableTrace
 
 enableTrace(False)
 
-DEFAULT_API_URL = os.getenv('FINX_API_URL')
-BACKUP_API_URL = os.getenv('FINX_API_URL_BACKUP')
-
 nest_asyncio.apply()
 ALREADY_RUNNING = asyncio.get_event_loop().is_running()
 
@@ -79,11 +76,15 @@ class SessionManager:
 class _FinXClient:
 
     def __init__(self, **kwargs):
-        self.__api_key = kwargs.get('finx_api_key') or os.environ.get('FINX_API_KEY')
+        self.__api_key = kwargs.get('finx_api_key') or os.getenv('FINX_API_KEY')
         if self.__api_key is None:
             raise Exception('API key not found - please include the keyword argument '
                             'finx_api_key or set the environment variable FINX_API_KEY')
-        self.__api_url = kwargs.get('finx_api_endpoint') or DEFAULT_API_URL or BACKUP_API_URL
+        try:
+            self.__api_url = kwargs.get('finx_api_endpoint') or kwargs.get('finx_api_url') or os.getenv('FINX_API_URL')
+        except Exception as e:
+            raise Exception('API URL not found - please include the keyword argument '
+                            'finx_api_endpoint or set the environment variable FINX_API_URL')
         self.cache_size = kwargs.get('cache_size') or 100000
         self.cache = dict()
         self.cache_method_size = dict(security_analytics=3, cash_flows=1, reference_data=3)
@@ -142,8 +143,6 @@ class _FinXClient:
             for index, batch in enumerate(["batch_", ""]):
                 inputs = [batch_inputs, f"{required_str}{optional_str}"][index]
                 params = [batch_params, f"{required_zip}{optional_zip}"][index]
-                #                 print(f'def {batch}{name}(self, {inputs}**kwargs):\n'
-                #                       f'    return self._{batch}dispatch("{f"{name}"}", {params}**kwargs)')
                 exec(f'def {batch}{name}(self, {inputs}**kwargs):\n'
                      f'    return self._{batch}dispatch("{f"{name}"}", {params}**kwargs)',
                      locals())

@@ -70,14 +70,14 @@ In your python environment of choice, install finx using Pip:
 
     #! /bin/bash
     pipenv clean
-    pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-    pipenv run pip install finx-io --upgrade
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
+    pipenv install finx-io 
 
 ## Check Installation and Environment Variables with Pipenv
 
     #! /bin/bash
     pipenv clean
-    pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
     pipenv install finx-io 
     pipenv shell
     export FINX_API_KEY=<your-api-key>
@@ -85,29 +85,7 @@ In your python environment of choice, install finx using Pip:
     export FINX_USER_EMAIL=<your-email>
     python3 -c "import finx; from finx.client import FinXClient; finx_client = FinXClient('socket', ssl=True); function_list = finx_client.list_api_functions(); print(function_list)"
 
-## Quick Start Example
-
-Here's a quick python snippet to get you started, using pipenv:
-
-Set your environment with `pipenv shell` as follows:
-
-```#! /bin/bash
-pipenv clean
-pipenv run pip install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
-pipenv install finx-io --upgrade
-pipenv shell
-export FINX_API_KEY=<your-api-key>
-export FINX_API_URL=<your-api-url>
-export FINX_USER_EMAIL=<your-email>
-```
-and then run the following:
-
-```bash
-python
-```
-to bring up a python shell (>>>)
-
-
+Run a pipenv python shell with environment variables set, and run the following code:
 ```python3
 #! /usr/bin/env python3
 import os
@@ -118,7 +96,7 @@ finx_client = FinXClient('socket', ssl=True, FINX_API_KEY = '<your-api-key>', FI
 function_list = finx_client.list_api_functions()
 print(function_list)
 ```
-Full **Documentation** with all available functions is available at [http://docs.finx.io](http://docs.finx.io)
+Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
 
 ---
 title: FinX Python SDK
