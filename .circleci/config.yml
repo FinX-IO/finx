@@ -49,6 +49,8 @@ jobs:
           steps:
             - run:
                 command: | # install from Test PyPI and run integration integration_tests
+                  export DEPLOY_LEVEL='patch'
+                  export DEPLOY_ENVIRONMENT='no-deploy'
                   sudo add-apt-repository universe -y
                   sudo apt-get update
                   sudo apt install -y python3-pip
