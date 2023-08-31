@@ -9,7 +9,7 @@ import urllib.request
 
 def bump_version(level, deploy_environment):
     # Retrieve JSON data
-    url = "https://test.pypi.org/pypi/finx/json"
+    url = "https://test.pypi.org/pypi/finx-io/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
 
@@ -20,7 +20,6 @@ def bump_version(level, deploy_environment):
     except Exception as e:
         print(e)
 
-    new_version = current_version
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
         major += 1
@@ -34,8 +33,20 @@ def bump_version(level, deploy_environment):
     elif level == "patch" and deploy_environment == "test":
         patch += 1
         return f"{major}.{minor}.{patch}"
-    elif deploy_environment == "prod":
-        return current_version
+    if level == "major" and deploy_environment == "prod":
+        major += 0
+        minor = 0
+        patch = 0
+        return f"{major}.{minor}.{patch}"
+    elif level == "minor" and deploy_environment == "prod":
+        minor += 0
+        patch = 0
+        return f"{major}.{minor}.{patch}"
+    elif level == "patch" and deploy_environment == "prod":
+        patch += 0
+        return f"{major}.{minor}.{patch}"
+    if deploy_environment == "no-deploy":
+        return f"{major}.{minor}.{patch}"
     else:
         raise ValueError("Invalid level. Please choose 'major', 'minor', or 'patch'.")
 
@@ -44,8 +55,11 @@ if os.getenv("DEPLOY_ENVIRONMENT") == "test":
     DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
     DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
     VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
+    os.environ["FINX_VERSION"] = VERSION
 elif os.getenv("DEPLOY_ENVIRONMENT") == "prod":
     DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
     DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
     VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
+    os.environ["FINX_VERSION"] = VERSION
+
 
