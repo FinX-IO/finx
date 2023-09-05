@@ -21,7 +21,7 @@ Analytics Platform (the 'FinX Platform'). The code in the SDK makes calls to RES
 
 To obtain an API Key, please visit [https://app.finx.io](https://app.finx.io) and register for an account.
 
-Full **Documentation** is available at [http://docs.finx.io](http://docs.finx.io)
+Full **Documentation** is available at [https://finx-capital-markets.gitbook.io/](https://finx-capital-markets.gitbook.io/)
 
 ***
 
@@ -68,11 +68,12 @@ In your python environment of choice, install finx using Pip:
     
 ### Pipenv installation
 
-Pipenv is a handy tool for managing python environments. To install finx using pipenv, run the following commands:
+Pipenv is a handy tool for managing python environments. We recommend creating a fresh directory for running a clean 
+pipenv environment. To install finx using pipenv, run the following commands:
 
     #! /bin/bash
     pipenv clean
-    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
+    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
     pipenv install finx-io 
 
 ## Check Installation and Environment Variables with Pipenv
@@ -80,32 +81,32 @@ Pipenv is a handy tool for managing python environments. To install finx using p
 Here's a full example of how to install finx using pipenv, with a quick test to ensure the environment variables are set correctly:
 
     #! /bin/bash
+    mkdir pipenv-temp && cd pipenv-temp
     pipenv clean
     pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
     pipenv install finx-io 
     pipenv shell
-    export FINX_API_KEY=<your-api-key>
-    export FINX_API_URL=<your-api-url>
-    export FINX_USER_EMAIL=<your-email>
+    export FINX_API_KEY=<replace-with-your-api-key>
+    export FINX_API_URL=<replace-with-your-api-url>
+    export FINX_USER_EMAIL=<replace-with-your-email>
     python3 -c "import finx; from finx.client import FinXClient; finx_client = FinXClient('socket', ssl=True); function_list = finx_client.list_api_functions(); print(function_list)"
 
 ## Python Shell
 
-You can set or fetch environment variables locally in python if you wish:
+Local Python3 Shell with environment variables pre-set:
+
 ```python3
 #! /usr/bin/env python3
-import os
 import finx
+import os
+import pandas as pd
+
 from finx.client import FinXClient
 
-finx_client = FinXClient(
-    'socket', 
-    ssl=True, 
-    FINX_API_KEY = os.getenv('FINX_API_KEY'), 
-    FINX_API_URL = os.getenv('FINX_API_URL'), 
-    FINX_USER_EMAIL = os.getenv('FINX_USER_EMAIL'))
+finx_client = FinXClient('socket',ssl=True)
 function_list = finx_client.list_api_functions()
-print(function_list)
+df = pd.DataFrame(function_list)
+df
 ```
 Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
 
