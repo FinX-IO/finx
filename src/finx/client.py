@@ -3,23 +3,24 @@
 Author: FinX Capital Markets LLC (Dick Mulé, Geoff Fite)
 Purpose: Client for accessing the FinX Platform APIs
 """
-import os
-import json
-import types
-import aiohttp
 import asyncio
-import requests
 import functools
-import nest_asyncio
-import pandas as pd
-from uuid import uuid4
+import json
+import os
+import types
 from gc import collect
-from time import sleep
 from io import StringIO
 from sys import getsizeof
 from threading import Thread
+from time import sleep
 from traceback import format_exc
 from urllib.parse import urlparse
+from uuid import uuid4
+
+import aiohttp
+import nest_asyncio
+import pandas as pd
+import requests
 from websocket import WebSocketApp, enableTrace
 
 enableTrace(False)
