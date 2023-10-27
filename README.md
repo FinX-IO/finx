@@ -21,7 +21,7 @@ Analytics Platform (the 'FinX Platform'). The code in the SDK makes calls to RES
 
 To obtain an API Key, please visit [https://app.finx.io](https://app.finx.io) and register for an account.
 
-Full **Documentation** is available at [https://finx-capital-markets.gitbook.io/](https://finx-capital-markets.gitbook.io/)
+Full **Documentation** is available at [https://finx-capital-markets.gitbook.io/product-docs/](https://finx-capital-markets.gitbook.io/product-docs/)
 
 ***
 
@@ -108,7 +108,7 @@ function_list = finx_client.list_api_functions()
 df = pd.DataFrame(function_list)
 df
 ```
-Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
+Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/product-docs/)
 
 ---
 title: FinX Python SDK
