@@ -158,7 +158,7 @@ class _FinXClient:
         if file_result.get('is_json'):
             response = json.loads(response)
         else:
-            response = pd.read_csv(StringIO(response), engine='python')
+            response = pd.read_csv(StringIO(response), engine='python', converters={'security_id': str})
         return response
 
     @Hybrid
