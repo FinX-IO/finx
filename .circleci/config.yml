@@ -86,11 +86,15 @@ workflows:
     jobs:
       - build_and_unit_test
       - test_pypi_publish:
+          context:
+          - test-pypi
           requires:
             - build_and_unit_test
       - integration_test:
             requires:
                 - test_pypi_publish
       - pypi_publish:
-            requires:
-                - integration_test
+          context:
+            - pypi
+          requires:
+              - integration_test
