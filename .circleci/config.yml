@@ -18,6 +18,8 @@ jobs:
             pytest src/finx/test
     resource_class: large
   test_pypi_publish:
+    context:
+      - test-pypi
     docker:
       - image: cimg/python:3.10.2
     steps:
@@ -61,6 +63,8 @@ jobs:
                   pipenv run bash integration_tests/integration_tests.sh
     resource_class: large
   pypi_publish:
+    context:
+      - pypi
     docker:
       - image: cimg/python:3.10.2
     steps:
