@@ -452,7 +452,7 @@ class _SocketFinXClient(_FinXClient):
                 return cached_responses
             print(f'{len(cached_responses)} out of {total_requests} requests found in cache')
             if chunk_payload:
-                payload['batch_input'] = self._upload_batch_file(outstanding_requests if batch_input else [payload])
+                payload['batch_input'] = self.upload_batch_file(outstanding_requests if batch_input else [payload])
             else:
                 payload['batch_input'] = outstanding_requests
             payload['api_method'] = 'batch_' + api_method
