@@ -471,7 +471,6 @@ class _SocketFinXClient(_FinXClient):
                 return cache_keys[0]
             cache_keys = [cache_keys]
         payload['cache_key'] = [x for x in cache_keys if x[0] is None]
-        print(f'{payload=}')
         self._socket.send(json.dumps(payload))
         blocking = kwargs.get('blocking', self.blocking)
         if blocking:
