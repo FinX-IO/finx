@@ -153,7 +153,7 @@ class _FinXClient:
         url, params = self.__api_url + f'{("api/" not in self.__api_url and "api/") or ""}batch-download/', {
             'filename': file_result['filename'],
             'bucket_name': file_result.get('bucket_name')}
-        print(url, params)
+#         print(url, params)
         response = requests.get(url, params=params).content.decode('utf-8')
         if file_result.get('is_json'):
             response = json.loads(response)
@@ -376,9 +376,11 @@ class _SocketFinXClient(_FinXClient):
     def upload_batch_file(self, batch_input):
         print('Uploading batch file...')
         filename = f'{uuid4()}.csv'
+#         print(f'{type(batch_input)=}')
         if type(batch_input) in [pd.DataFrame, pd.Series]:
             batch_input.to_csv(filename, index=False)
         elif type(batch_input) is list:
+#             print(batch_input[0])
             if type(batch_input[0]) in [dict, list]:
                 request_dicts = [x.get("request") for x in batch_input if type(x) == dict]
                 request_dicts = [x for x in request_dicts if x]
@@ -393,7 +395,7 @@ class _SocketFinXClient(_FinXClient):
                 with open(filename, 'w+') as file:
                     file.write('\n'.join(batch_input))
         file = open(filename, 'rb')
-        print('URL ', self.__api_url + f'{("api" not in self.__api_url and "api/") or ""}batch-upload/')
+#         print('URL ', self.__api_url + f'{("api" not in self.__api_url and "api/") or ""}batch-upload/')
         response = requests.post(  # Upload file to server and record filename
             self.__api_url + f'{("api/" not in self.__api_url and "api/") or ""}batch-upload/',
             data={'finx_api_key': self.__api_key, 'filename': filename},
@@ -406,7 +408,7 @@ class _SocketFinXClient(_FinXClient):
         os.remove(filename)
         if response.get('failed'):
             raise Exception(f'Failed to upload file: {response["message"]}')
-        print('Batch file uploaded')
+#         print('Batch file uploaded')
         return response.get('filename', filename)
 
     def _dispatch(self, api_method, **kwargs):
@@ -435,14 +437,14 @@ class _SocketFinXClient(_FinXClient):
             batch_input = kwargs.pop('batch_input', None)
             base_cache_payload = kwargs.copy()
             base_cache_payload['api_method'] = api_method
-            if not chunk_payload:
-                cache_keys, cached_responses, outstanding_requests = self._parse_batch_input(
-                    batch_input,
-                    base_cache_payload)
-            else:
-                cache_keys, cached_responses, outstanding_requests = \
-                    [self.check_cache(api_method, payload.get('security_id'), payload)], [], [payload]
-                cache_keys[0] = list(cache_keys[0])[:-1] + ["None"]
+#             if not chunk_payload:
+            cache_keys, cached_responses, outstanding_requests = self._parse_batch_input(
+                batch_input,
+                base_cache_payload)
+#             else:
+#                 cache_keys, cached_responses, outstanding_requests = \
+#                     [self.check_cache(api_method, payload.get('security_id'), payload)], [], payload
+#                 cache_keys[0] = list(cache_keys[0])[:-1] + ["None"]
             total_requests = len(cached_responses) + len(outstanding_requests)
             print(f'total requests = {total_requests}')
             if len(cached_responses) == total_requests:
@@ -452,7 +454,7 @@ class _SocketFinXClient(_FinXClient):
                 return cached_responses
             print(f'{len(cached_responses)} out of {total_requests} requests found in cache')
             if chunk_payload:
-                payload['batch_input'] = self._upload_batch_file(outstanding_requests if batch_input else [payload])
+                payload['batch_input'] = self.upload_batch_file(outstanding_requests if batch_input else [payload])
             else:
                 payload['batch_input'] = outstanding_requests
             payload['api_method'] = 'batch_' + api_method
