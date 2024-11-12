@@ -66,6 +66,9 @@ jobs:
         env:
           DEPLOY_LEVEL: "patch"
           DEPLOY_ENVIRONMENT: "no-deploy"
+          FINX_API_KEY: ${{ secrets.FINX_API_KEY }}
+          FINX_EMAIL: ${{ secrets.FINX_USER_EMAIL }}
+          FINX_API_URL: ${{ secrets.FINX_API_ENDPOINT }}
         run: bash integration_tests/integration_tests.sh
 
   pypi_publish:
