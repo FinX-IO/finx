@@ -9,16 +9,14 @@ import urllib.request
 
 def bump_version(level, deploy_environment):
     # Retrieve JSON data
+    # TODO: Replace the finx-io-sandbox with a variable
     url = "https://test.pypi.org/pypi/finx-io/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
-
     # Extract current version
     current_version = data["info"]["version"]
-    try:
-        major, minor, patch = map(int, current_version.split(".")[:3])
-    except Exception as e:
-        print(e)
+    major, minor, patch = map(int, current_version.split(".")[:3])
+    print('major, minor, patch: ', major, minor, patch)
 
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
@@ -33,7 +31,7 @@ def bump_version(level, deploy_environment):
     elif level == "patch" and deploy_environment == "test":
         patch += 1
         return f"{major}.{minor}.{patch}"
-    if level == "major" and deploy_environment == "prod":
+    elif level == "major" and deploy_environment == "prod":
         major += 0
         minor = 0
         patch = 0
@@ -45,21 +43,10 @@ def bump_version(level, deploy_environment):
     elif level == "patch" and deploy_environment == "prod":
         patch += 0
         return f"{major}.{minor}.{patch}"
-    if deploy_environment == "no-deploy":
-        return f"{major}.{minor}.{patch}"
-    else:
-        raise ValueError("Invalid level. Please choose 'major', 'minor', or 'patch'.")
+    elif level == "patch" and deploy_environment == "no-deploy":
+        patch += 0
+        return None
 
 
-if os.getenv("DEPLOY_ENVIRONMENT") == "test":
-    DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
-    DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
-    VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
-    os.environ["FINX_VERSION"] = VERSION
-elif os.getenv("DEPLOY_ENVIRONMENT") == "prod":
-    DEPLOY_LEVEL = os.getenv("DEPLOY_LEVEL")
-    DEPLOY_ENVIRONMENT = os.getenv("DEPLOY_ENVIRONMENT")
-    VERSION = bump_version(DEPLOY_LEVEL, DEPLOY_ENVIRONMENT)
-    os.environ["FINX_VERSION"] = VERSION
-
-
+VERSION = bump_version(os.getenv("DEPLOY_LEVEL"), os.getenv("DEPLOY_ENVIRONMENT"))
+os.environ["FINX_VERSION"] = VERSION
