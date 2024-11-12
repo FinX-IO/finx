@@ -15,7 +15,7 @@ Please see LICENSE and SECURITY for terms of use.
 
 # FinX Python Software Development Kit
 
-This **FinX SDK** is a python package that has interfaces to the FinX Capital Markets
+The **FinX SDK** is a python package that has interfaces to the FinX Capital Markets
 Analytics Platform (the 'FinX Platform'). The code in the SDK makes calls to REST APIs 
 & WebSocket endpoints. A valid ___FinX API Key___ is required for the SDK to return results.
 
