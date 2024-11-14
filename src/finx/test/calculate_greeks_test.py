@@ -1,6 +1,11 @@
+#! python
+"""
+author: dick mule
+purpose: Calculate Greeks Test
+"""
 import unittest
 
-from ..client import  FinXClient
+from ..deprecated_client import FinXClient
 
 
 class CalculateGreeksTest(unittest.TestCase):
