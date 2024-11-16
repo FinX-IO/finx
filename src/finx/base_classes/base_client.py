@@ -7,7 +7,7 @@ from abc import abstractmethod, ABC
 from io import StringIO
 from traceback import format_exc
 from types import MethodType
-from typing import Any, Optional
+from typing import Any, NamedTuple, Optional
 
 import os
 import json
@@ -19,13 +19,19 @@ import requests
 
 from pydantic import Field, PrivateAttr
 
-from finx.base_classes.context_manager import ApiContextManager
+from finx.base_classes.context_manager import ApiContextManager, CacheLookup
 from finx.base_classes.from_kwargs import BaseMethods
 from finx.base_classes.session_manager import SessionManager
 from finx.utils.concurrency import hybrid, Hybrid
 
 _BATCH_INPUTS = 'batch_params=None, input_file=None, output_file=None, '
 _BATCH_PARAMS = 'batch_params=batch_params, input_file=input_file, output_file=output_file, '
+
+
+class PayloadCache(NamedTuple):
+    job_id: str
+    payload: dict
+    cache_keys: list[CacheLookup]
 
 
 class BaseFinXClient(BaseMethods, ABC):
@@ -35,7 +41,7 @@ class BaseFinXClient(BaseMethods, ABC):
     context: Optional[ApiContextManager] = Field(None, repr=False)
     session: Optional[SessionManager] = Field(None, repr=False)
     finalized: Optional[weakref.finalize] = None
-    last_job: str = Field(None, repr=False)
+    _payload_cache: Optional[PayloadCache] = PrivateAttr(None)
     _cleaned_up: bool = PrivateAttr(False)
 
     def model_post_init(self, __context: Any) -> None:
@@ -57,6 +63,22 @@ class BaseFinXClient(BaseMethods, ABC):
             v = getattr(self, k)
             if isinstance(v, Hybrid):
                 v.set_event_loop(self.context.event_loop)
+
+    def update_payload_cache(self, job_id: str, payload: dict, cache_keys: list[CacheLookup]) -> None:
+        """
+        Update the payload cache
+
+        :param job_id: Job ID
+        :type job_id: str
+        :param payload: Payload data
+        :type payload: dict
+        :param cache_keys: Cache keys
+        :type cache_keys: list[CacheLookup]
+        :return: None type object
+        :rtype: None
+        """
+        self._payload_cache = PayloadCache(job_id, payload, cache_keys)
+        print(f'Updating payload cache: {self._payload_cache}')
 
     def cleanup(self):
         """
@@ -119,14 +141,14 @@ class BaseFinXClient(BaseMethods, ABC):
             required_zip = (", ".join([f"{x}={x}" for x in required]) + ", ") if required else ""
             optional_str = (", ".join([f'{k}={v}' for k, v in optional.items()]) + ", ") if optional is not None else ""
             optional_zip = (", ".join([f"{x}={x}" for x in optional.keys()]) + ", ") if optional is not None else ""
-            local_vals = locals() | {'hybrid': hybrid}
+            local_vals = locals() | {'hybrid': hybrid, 'pd': pd}
             for index, batch in enumerate(["batch_", ""]):
                 inputs = [_BATCH_INPUTS, f"{required_str}{optional_str}"][index]
                 params = [_BATCH_PARAMS, f"{required_zip}{optional_zip}"][index]
                 string_repr = (
                     f'async def {batch}{name}(self, {inputs}**kwargs):\n'
                     f'    result = await self._{batch}dispatch("{f"{name}"}", {params}**kwargs)\n'
-                    f'    if not isinstance(result, (list, dict)):\n'
+                    f'    if not isinstance(result, (list, dict, pd.DataFrame)):\n'
                     f'        return await result\n'
                     f'    return result'
                 )

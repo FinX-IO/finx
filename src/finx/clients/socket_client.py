@@ -157,8 +157,8 @@ class FinXSocketClient(BaseFinXClient):
                 message = json.loads(message)
                 if message.get('is_authenticated') and not self.is_authenticated:
                     return self.__handle_authentication()
-                if (job_id := message.get('job_id')) is not None:
-                    self.last_job = job_id
+                if (job_id := message.get('job_id')) is not None and self._payload_cache:
+                    self.update_payload_cache(job_id, *list(self._payload_cache)[1:])
                     return
                 if (error := message.get('error')) is not None:
                     print(f'API returned error: {error}')
@@ -356,10 +356,18 @@ class FinXSocketClient(BaseFinXClient):
                 key: value for key, value in kwargs.items()
                 if key != 'finx_api_key' and key != 'api_method'
             })
+        if self._payload_cache:
+            payload.update(self._payload_cache.payload)
+            payload['monitor_hash_key'] = self._payload_cache.job_id
+            self._socket.send(json.dumps(payload))
+            results = await self._listen_for_results(self._payload_cache.cache_keys, callback, **kwargs)
+            self._payload_cache = None
+            return results
         payload_size: int = get_size(payload)
         chunk_payload: bool = payload_size > 1e5
         cache_keys: list[CacheLookup] = []
-        if not (is_batch or chunk_payload):
+        need_to_batch: bool = is_batch or chunk_payload
+        if not need_to_batch:
             cache_lookup: CacheLookup = self.context.check_cache(**payload)
             if cache_lookup.value is not None:
                 print('Request found in cache')
@@ -396,11 +404,11 @@ class FinXSocketClient(BaseFinXClient):
             payload.update({k: v for k, v in kwargs.items() if k != 'request'})
             payload['run_batch'] = is_batch
         payload['cache_key'] = [list(x) for x in cache_keys if x.value is None]
-        if self.last_job:
-            payload['monitor_hash_key'] = self.last_job
+        if need_to_batch:
+            self.update_payload_cache("", payload, cache_keys)
         self._socket.send(json.dumps(payload))
         results = await self._listen_for_results(cache_keys, callback, **kwargs)
-        self.last_job = None
+        self._payload_cache = None
         return results
 
     @hybrid
