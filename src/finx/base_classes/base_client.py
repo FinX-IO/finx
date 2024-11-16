@@ -214,6 +214,7 @@ class BaseFinXClient(BaseMethods, ABC):
         """
         file = open(filename, 'rb')
         # Upload file to server and record filename
+        print(f'Uploading batch file to {self.context.api_url}batch-upload/')
         response = requests.post(
             f'{self.context.api_url}batch-upload/',
             data={'finx_api_key': self.context.api_key, 'filename': filename},
@@ -223,6 +224,8 @@ class BaseFinXClient(BaseMethods, ABC):
             response = response.json()
         except requests.JSONDecodeError:
             print(f'UPLOAD ERROR: {response.status_code=} -> {response.text=}')
+            if remove_file:
+                os.remove(filename)
             raise Exception('Failed to upload file')
         file.close()
         if remove_file:
