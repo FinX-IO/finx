@@ -75,6 +75,17 @@ class FinXSocketClient(BaseFinXClient):
             if not self.is_authenticated:
                 raise Exception('Client not authenticated')
 
+    def cleanup(self):
+        """
+        Cleanup method
+
+        :return: None type
+        :rtype: None
+        """
+        if self._socket:
+            on_close = self._wrap_on_close()
+            on_close(self._socket, -1, 'Client cleanup')
+
     @property
     def is_ssl(self) -> bool:
         """
@@ -83,7 +94,7 @@ class FinXSocketClient(BaseFinXClient):
         :return: Boolean value of SSL status
         :rtype: bool
         """
-        return 'https' in self.context.base_url
+        return 'https' in self.context.api_url
 
     @property
     def is_authenticated(self) -> bool:
@@ -147,6 +158,9 @@ class FinXSocketClient(BaseFinXClient):
                 message = json.loads(message)
                 if message.get('is_authenticated') and not self.is_authenticated:
                     return self.__handle_authentication()
+                if (job_id := message.get('job_id')) is not None:
+                    self.last_job = job_id
+                    return
                 if (error := message.get('error')) is not None:
                     print(f'API returned error: {error}')
                     data = error
@@ -198,7 +212,7 @@ class FinXSocketClient(BaseFinXClient):
 
         return on_error
 
-    def _wrap_on_close(self) -> Callable[[FinXWebSocket], None]:
+    def _wrap_on_close(self) -> Callable[[FinXWebSocket, Any, Any], None]:
         """
         Wrap on close function so that it binds to self
 
@@ -206,7 +220,7 @@ class FinXSocketClient(BaseFinXClient):
         :rtype: callable[FinXWebSocket]
         """
 
-        def on_close(s: FinXWebSocket):
+        def on_close(s: FinXWebSocket, status_code: int, message: str) -> None:
             """
             On close function
 
@@ -215,11 +229,10 @@ class FinXSocketClient(BaseFinXClient):
             :return: None type
             :rtype: None
             """
-            print('Socket closed')
+            print(f'Socket closed: {status_code=}/{message=}')
             self._is_authenticated = False
-            self._socket = None
-            self._socket_thread.join()
             self._socket_thread = None
+            self._socket = None
             s.close()
 
         return on_close
@@ -240,17 +253,15 @@ class FinXSocketClient(BaseFinXClient):
         :rtype: tuple[list[CacheLookup], list[dict], list[dict]]
         """
         print('Parsing batch input...')
+        cache_keys: list[CacheLookup] = []
         batch_input_df = [pd.DataFrame, pd.read_csv][isinstance(batch_input, str)](batch_input)
-        batch_input_df['cache_keys'] = [
-            self.context.check_cache(
-                base_cache_payload['api_method'],
-                security_id=security_input.get('security_id'),
+        for security_input in batch_input_df.to_dict('records'):
+            cache_lookup = self.context.check_cache(
                 **(base_cache_payload | security_input)
             )
-            for security_input in batch_input_df.to_dict(orient='records')
-        ]
+            cache_keys.append(cache_lookup)
+        batch_input_df['cache_keys'] = cache_keys
         batch_input_df['cached_responses'] = batch_input_df['cache_keys'].map(lambda x: x.value)
-        cache_keys = batch_input_df['cache_keys'].tolist()
         cached_responses = batch_input_df.loc[
             batch_input_df['cached_responses'].notnull()
         ]['cached_responses'].tolist()
@@ -273,9 +284,15 @@ class FinXSocketClient(BaseFinXClient):
                 on_close=self._wrap_on_close()
             )
             print(f'Connecting to {self.ws_url} ...')
+
+            def run_socket_forever(*args, **kwargs):
+                print('Running socket forever')
+                completed = self._socket.run_forever(*args, **kwargs)
+                print(f'Socket completed: {completed}')
+
             self._socket_thread = Thread(
-                target=self._socket.run_forever,
-                daemon=True,
+                target=run_socket_forever,
+                daemon=False,
                 kwargs={
                     'skip_utf8_validation': True,
                     'sslopt': {'check_hostname': False}
@@ -357,14 +374,14 @@ class FinXSocketClient(BaseFinXClient):
             base_cache_payload: dict = kwargs.copy()
             base_cache_payload['api_method'] = api_method
             if chunk_payload:
+                cache_keys.append(self.context.check_cache(**payload))
+                cached_responses = [cache_keys[0].value]
+                outstanding_requests = [payload]
+            else:
                 cache_keys, cached_responses, outstanding_requests = self._parse_batch_input(
                     batch_input, base_cache_payload
                 )
                 total_requests = len(cached_responses) + len(outstanding_requests)
-            else:
-                cache_keys.append(self.context.check_cache(**payload))
-                cached_responses = [cache_keys[0].value]
-                outstanding_requests = [payload]
             print(f'total requests = {total_requests}')
             if len(cached_responses) == total_requests:
                 print(f'All {total_requests} requests found in cache')
@@ -373,27 +390,37 @@ class FinXSocketClient(BaseFinXClient):
                 return cached_responses
             print(f'{len(cached_responses)} out of {total_requests} requests found in cache')
             payload['api_method'] = 'batch_' + api_method
-            payload['batch_input'] = self.upload_batch_file(
+            payload['batch_input'] = outstanding_requests if not chunk_payload else self._upload_batch_file(
                 [payload, outstanding_requests][int(batch_input or chunk_payload)]
             )
             payload = {k: v for k, v in payload.items() if k in ['batch_input', 'api_method']}
             payload.update({k: v for k, v in kwargs.items() if k != 'request'})
             payload['run_batch'] = is_batch
         payload['cache_key'] = [list(x) for x in cache_keys if x.value is None]
+        if self.last_job:
+            payload['monitor_hash_key'] = self.last_job
         self._socket.send(json.dumps(payload))
-        return await self._listen_for_results(cache_keys, callback, **kwargs)
+        results = await self._listen_for_results(cache_keys, callback, **kwargs)
+        self.last_job = None
+        return results
 
     @hybrid
-    async def _dispatch_batch(self, api_method: str, security_params: list[dict], **kwargs) -> list[dict]:
+    async def _batch_dispatch(self, api_method: str, batch_params: list[dict], **kwargs) -> list[dict]:
         """
         Abstract batch request dispatch function. Issues a request for each input
 
         :param api_method: API method to call
         :type api_method: str
-        :param security_params: List of security parameters
-        :type security_params: list[dict]
+        :param batch_params: List of security parameters
+        :type batch_params: list[dict]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Response from the API
         :rtype: list[dict]
         """
+        return self._dispatch(
+            api_method,
+            batch_input=batch_params,
+            **kwargs,
+            is_batch=True
+        )

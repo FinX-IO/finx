@@ -9,19 +9,20 @@ from traceback import format_exc
 from types import MethodType
 from typing import Any, Optional
 
-import asyncio
 import os
 import json
+import time
+import weakref
 
 import pandas as pd
 import requests
 
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 
 from finx.base_classes.context_manager import ApiContextManager
 from finx.base_classes.from_kwargs import BaseMethods
 from finx.base_classes.session_manager import SessionManager
-from finx.utils.concurrency import hybrid
+from finx.utils.concurrency import hybrid, Hybrid
 
 _BATCH_INPUTS = 'batch_params=None, input_file=None, output_file=None, '
 _BATCH_PARAMS = 'batch_params=batch_params, input_file=input_file, output_file=output_file, '
@@ -33,6 +34,9 @@ class BaseFinXClient(BaseMethods, ABC):
     """
     context: Optional[ApiContextManager] = Field(None, repr=False)
     session: Optional[SessionManager] = Field(None, repr=False)
+    finalized: Optional[weakref.finalize] = None
+    last_job: str = Field(None, repr=False)
+    _cleaned_up: bool = PrivateAttr(False)
 
     def model_post_init(self, __context: Any) -> None:
         """
@@ -45,7 +49,44 @@ class BaseFinXClient(BaseMethods, ABC):
         """
         if not self.context:
             self.context = ApiContextManager(**self.extra_attrs)
+        self.finalized = weakref.finalize(self, self.free)
         super().model_post_init(__context)
+        for k in dir(self):
+            if '__' in k:
+                continue
+            v = getattr(self, k)
+            if isinstance(v, Hybrid):
+                v.set_event_loop(self.context.event_loop)
+
+    def cleanup(self):
+        """
+        Require any inheritable class to clean up the c++ object
+
+        :return: None type object
+        :rtype: None
+        """
+
+    def free(self):
+        """
+        Free the c++ object
+
+        :return: None type object
+        :rtype: None
+        """
+        if not self._cleaned_up:
+            self.cleanup()
+            self._cleaned_up = True
+
+    def __del__(self):
+        """
+        Destructor to ensure that any thread/socket resources are freed
+
+        :return: None type object
+        :rtype: None
+        """
+        if getattr(self, "finalized", None) is None:
+            return
+        self.free()
 
     @staticmethod
     def _parse_request_response(response: requests.Response, is_json: bool = False) -> dict | pd.DataFrame:
@@ -81,10 +122,16 @@ class BaseFinXClient(BaseMethods, ABC):
             for index, batch in enumerate(["batch_", ""]):
                 inputs = [_BATCH_INPUTS, f"{required_str}{optional_str}"][index]
                 params = [_BATCH_PARAMS, f"{required_zip}{optional_zip}"][index]
-                exec(f'async def {batch}{name}(self, {inputs}**kwargs):\n'
-                     f'    return await self._{batch}dispatch("{f"{name}"}", {params}**kwargs)',
-                     local_vals)
+                string_repr = (
+                    f'async def {batch}{name}(self, {inputs}**kwargs):\n'
+                    f'    result = await self._{batch}dispatch("{f"{name}"}", {params}**kwargs)\n'
+                    f'    if not isinstance(result, (list, dict)):\n'
+                    f'        return await result\n'
+                    f'    return result'
+                )
+                exec(string_repr, local_vals)
                 self.__dict__[f'{batch}{name}'] = hybrid(MethodType(local_vals[f'{batch}{name}'], self))
+                self.__dict__[f'{batch}{name}'].set_event_loop(self.context.event_loop)
 
     @hybrid
     async def download_file(
@@ -111,7 +158,7 @@ class BaseFinXClient(BaseMethods, ABC):
         if not use_async:
             return self._parse_request_response(
                 requests.get(
-                    f'{self.context.api_url}batch-downloads/',
+                    f'{self.context.api_url}batch-download/',
                     params={'filename': filename, 'bucket_name': bucket_name}
                 ),
                 is_json_response
@@ -119,13 +166,15 @@ class BaseFinXClient(BaseMethods, ABC):
         if not self.session:
             async with SessionManager() as session:
                 result = await session.get(
-                    f'{self.context.api_url}batch-downloads/',
+                    f'{self.context.api_url}batch-download/',
+                    is_json_response=is_json_response,
                     filename=filename,
                     bucket_name=bucket_name
                 )
             return result
         return await self.session.get(
-            f'{self.context.api_url}batch-downloads/',
+            f'{self.context.api_url}batch-download/',
+            is_json_response=is_json_response,
             filename=filename,
             bucket_name=bucket_name
         )
@@ -174,7 +223,7 @@ class BaseFinXClient(BaseMethods, ABC):
             )
         ]
         for file in files_to_download:
-            downloaded_files[file['filename']] = await self.download_file(file)
+            downloaded_files[file['filename']] = await self.download_file(**file, use_async=False)
         return downloaded_files
 
     @hybrid
@@ -189,7 +238,7 @@ class BaseFinXClient(BaseMethods, ABC):
         """
         remaining_keys = cache_keys
         while len(remaining_keys):
-            await asyncio.sleep(0.01)
+            time.sleep(0.05)
             remaining_results = [self.context.cache.get(key[1], dict()).get(key[2], None) for key in remaining_keys]
             remaining_keys = [remaining_keys[i] for i, value in enumerate(remaining_results) if value is None]
         file_results: list[tuple[int, dict]] = []
@@ -211,7 +260,7 @@ class BaseFinXClient(BaseMethods, ABC):
                     file_df['cache_key'].map(lambda x: json.loads(x) == list(cache_keys[index]))
                 ].to_dict(orient='records')[0]
             if 'filename' in matched_result:
-                matched_result['result'] = self._download_file(matched_result)
+                matched_result['result'] = await self.download_file(**matched_result)
                 matched_result = {
                     k: matched_result[k] for k in ['security_id', 'result', 'cache_key']
                 }
@@ -264,14 +313,14 @@ class BaseFinXClient(BaseMethods, ABC):
 
     @abstractmethod
     @hybrid
-    async def _dispatch_batch(self, api_method: str, security_params: list[dict], **kwargs) -> list[dict]:
+    async def _batch_dispatch(self, api_method: str, batch_params: list[dict], **kwargs) -> list[dict]:
         """
         Abstract batch request dispatch function. Issues a request for each input
 
         :param api_method: API method to call
         :type api_method: str
-        :param security_params: List of security parameters
-        :type security_params: list[dict]
+        :param batch_params: List of api parameters
+        :type batch_params: list[dict]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Response from the API

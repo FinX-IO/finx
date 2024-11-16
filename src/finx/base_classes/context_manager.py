@@ -3,9 +3,11 @@
 author: dick mule
 purpose: Base Context Manager for FinX SDK
 """
+from typing import Any, NamedTuple, Optional
+
+import asyncio
 import gc as garbage_collector
 import os
-from typing import Any, NamedTuple
 
 from pydantic import Field
 
@@ -33,11 +35,12 @@ class ApiContextManager(BaseMethods):
     """
     Context manager that manages the api key, endpoint configurations, and the results cache
     """
-    api_key: str = Field("", hidden=True, repr=False)
-    api_url: str = Field("https://api.finx.io/", hidden=True, repr=False)
+    api_key: Optional[str] = Field(None, hidden=True, repr=False)
+    api_url: Optional[str] = Field(None, hidden=True, repr=False)
     cache_size: int = Field(100000, repr=False)
     cache: dict[str, dict[str, dict]] = Field(default_factory=dict, repr=False)
     timeout: int = Field(100, repr=False)
+    event_loop: asyncio.AbstractEventLoop = Field(default_factory=asyncio.get_event_loop, repr=False)
 
     def model_post_init(self, __context: Any) -> None:
         """

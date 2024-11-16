@@ -3,8 +3,10 @@
 author: dick mule
 purpose: utils for facilitating concurrency of methods
 """
+import inspect
+
 from asgiref.sync import sync_to_async, async_to_sync
-from typing import Callable, Coroutine, Union
+from typing import Any, Callable, Coroutine, Union
 
 import asyncio
 import functools
@@ -56,29 +58,32 @@ def to_sync(func: AWAITABLE, force_new_loop: bool = False):
     return async_to_sync(func, force_new_loop=force_new_loop)
 
 
-def task_runner(task: Coroutine):
+def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
     """
     Run async task in event loop.  If loop is not running, create new loop.
 
     :param task: Async method to be run
     :type task: Coroutine
+    :param loop: Event loop to run task
+    :type loop: asyncio.AbstractEventLoop
     :return: Result of async method
     :rtype: Any
     """
     new_loop: bool = False
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        new_loop = True
-    run_loop = (
-        loop.is_running() and
-        not _ALREADY_RUNNING and
-        loop.create_task
-    ) or loop.run_until_complete
+    if loop is None:
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            new_loop = True
+    is_running: bool = loop.is_running()
+    not_already = not _ALREADY_RUNNING
+    run_loop = [loop.run_until_complete, loop.create_task][is_running and not_already]
     try:
         result = run_loop(task)
+        # if inspect.iscoroutine(result):
+        #     asyncio.run_coroutine_threadsafe(result, loop)
         if new_loop:
             loop.close()
         return result
@@ -104,9 +109,10 @@ class Hybrid:
         :type func: Callable | AWAITABLE
         """
         self._func: Callable = func
-        self._func_name = func.__name__
-        self._func_path = func.__name__
-        self._func_class = None
+        self._func_name: str = func.__name__
+        self._func_path: str = func.__name__
+        self._func_class: Any = None
+        self._event_loop: asyncio.AbstractEventLoop = None
         functools.update_wrapper(self, func)
 
     @property
@@ -144,7 +150,18 @@ class Hybrid:
         :return: Async result of function
         :rtype: Any
         """
-        return task_runner(self.run_func(*args, **kwargs))
+        return task_runner(self.run_func(*args, **kwargs), self._event_loop)
+
+    def set_event_loop(self, loop: asyncio.AbstractEventLoop):
+        """
+        Set event loop for function
+
+        :param loop: Event loop to be set
+        :type loop: asyncio.AbstractEventLoop
+        :return: None
+        :rtype: None
+        """
+        self._event_loop = loop
 
     async def run_func(self, *args, **kwargs):
         """
@@ -199,6 +216,16 @@ class Hybrid:
         :rtype: str
         """
         return self._func_name
+
+    @property
+    def event_loop(self):
+        """
+        Property returning protected _event_loop
+
+        :return: Event loop
+        :rtype: asyncio.AbstractEventLoop
+        """
+        return self._event_loop
 
 
 @decohints
@@ -352,7 +379,7 @@ class ProcessWithReturnValue(mp.Process):
         """
         if isinstance(self.target_to_wrap, Hybrid):
             loop = self.check_event_loop()
-            result = task_runner(self.target_to_wrap.run_async(*args, **kwargs))
+            result = task_runner(self.target_to_wrap.run_async(*args, **kwargs), self.check_event_loop())
             loop.close()
         else:
             result = self.target_to_wrap(*args, **kwargs)
