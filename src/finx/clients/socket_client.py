@@ -331,7 +331,6 @@ class FinXSocketClient(BaseFinXClient):
             elif type(batch_input[0]) is str:
                 with open(filename, 'w+') as file:
                     file.write('\n'.join(batch_input))
-        print(f'{filename=}')
         return self.upload_file(filename, remove_file=True)
 
     @hybrid
@@ -348,7 +347,6 @@ class FinXSocketClient(BaseFinXClient):
         """
         assert self._socket, 'Socket not initialized'
         assert self.is_authenticated, 'Socket not authenticated'
-        is_batch: bool = kwargs.pop('is_batch', False)
         callback: callable = kwargs.pop('callback', None)
         payload: dict = {'api_method': api_method}
         if any(kwargs):
@@ -356,6 +354,7 @@ class FinXSocketClient(BaseFinXClient):
                 key: value for key, value in kwargs.items()
                 if key != 'finx_api_key' and key != 'api_method'
             })
+        is_batch: bool = kwargs.pop('is_batch', False)
         if self._payload_cache:
             payload.update(self._payload_cache.payload)
             payload['monitor_hash_key'] = self._payload_cache.job_id

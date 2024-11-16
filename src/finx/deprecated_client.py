@@ -439,8 +439,8 @@ class _SocketFinXClient(_FinXClient):
             base_cache_payload['api_method'] = api_method
             if not chunk_payload:
                 cache_keys, cached_responses, outstanding_requests = self._parse_batch_input(
-                    batch_input,
-                    base_cache_payload)
+                    batch_input, base_cache_payload
+                )
             else:
                 cache_keys, cached_responses, outstanding_requests = \
                     [self.check_cache(api_method, payload.get('security_id'), payload)], [], [payload]
