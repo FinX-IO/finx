@@ -3,6 +3,7 @@
 author: dick mule
 purpose: base class for AIOHTTP session manager
 """
+import asyncio
 from io import StringIO
 from typing import Any, Optional
 
@@ -30,6 +31,17 @@ class SessionManager(BaseModel):
         if not self._session:
             self._session = aiohttp.ClientSession(headers={'content-type': 'application/json'})
         super().model_post_init(__context)
+
+    def set_event_loop(self, loop: asyncio.AbstractEventLoop):
+        """
+        Update event loop for session
+
+        :param loop: Event loop to be set
+        :type loop: asyncio.AbstractEventLoop
+        :return: None type
+        :rtype: None
+        """
+        self._session.loop = loop
 
     async def __aenter__(self):
         """

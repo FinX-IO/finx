@@ -83,8 +83,7 @@ class FinXSocketClient(BaseFinXClient):
         :rtype: None
         """
         if self._socket:
-            on_close = self._wrap_on_close()
-            on_close(self._socket, -1, 'Client cleanup')
+            self._socket.close()
 
     @property
     def is_ssl(self) -> bool:
@@ -285,7 +284,7 @@ class FinXSocketClient(BaseFinXClient):
             )
             print(f'Connecting to {self.ws_url} ...')
 
-            def run_socket_forever(*args, **kwargs):
+            def run_socket_forever(*args, **kwargs) -> None:
                 print('Running socket forever')
                 completed = self._socket.run_forever(*args, **kwargs)
                 print(f'Socket completed: {completed}')

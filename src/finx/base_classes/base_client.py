@@ -84,6 +84,7 @@ class BaseFinXClient(BaseMethods, ABC):
         :return: None type object
         :rtype: None
         """
+        print('Cleaning up {}'.format(self.__class__.__name__))
         if getattr(self, "finalized", None) is None:
             return
         self.free()

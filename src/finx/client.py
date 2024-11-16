@@ -3,9 +3,10 @@
 author: dick mule
 purpose: Expose FinX Clients for API usage
 """
+import asyncio
 from typing import Union
 
-from finx.base_classes.base_client import BaseFinXClient, ApiContextManager
+from finx.base_classes.base_client import BaseFinXClient, ApiContextManager, SessionManager
 from finx.clients import rest_client, socket_client
 from finx.utils.enums import ComparatorEnum
 
@@ -30,6 +31,7 @@ class ClientTypes(ComparatorEnum):
 class _FinXClientFactory:
     __instance: "_FinXClientFactory" = None
     __context_manager: ApiContextManager = None
+    __session_manager: SessionManager = None
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -46,14 +48,23 @@ class _FinXClientFactory:
         if finx_api_endpoint:
             self.__context_manager.api_url = finx_api_endpoint
 
-    def __call__(self, client_type: Union[str, ClientTypes] = 'socket', *args, **kwargs) -> 'BaseFinXClient':
+    def __call__(
+            self,
+            client_type: Union[str, ClientTypes] = 'socket',
+            loop: asyncio.AbstractEventLoop = None,
+            *args,
+            **kwargs) -> 'BaseFinXClient':
         if isinstance(client_type, str):
             client_type = ClientTypes.get(client_type)
         if isinstance(client_type, int):
             client_type = ClientTypes.from_int(client_type)
         self.set_credentials(kwargs.pop('finx_api_key', None), kwargs.pop('finx_api_endpoint', None))
         if client_type is ClientTypes.rest:
-            return rest_client.FinXRestClient.from_kwargs(context=self.__context_manager, **kwargs)
+            if self.__context_manager.event_loop and not self.__session_manager:
+                self.__session_manager = SessionManager(event_loop=self.__context_manager.event_loop)
+            return rest_client.FinXRestClient.from_kwargs(
+                context=self.__context_manager, session=self.__session_manager, **kwargs
+            )
         return socket_client.FinXSocketClient.from_kwargs(context=self.__context_manager, **kwargs)
 
 

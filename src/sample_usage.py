@@ -34,13 +34,13 @@ async def main():
     # )
     # print(f'{exchange_rates=}')
     finx_socket.context.clear_cache()
-    finx_socket._socket.close()
-    # args = dict(
-    #     security_id=['91282CCA7', 'DE0001141786'] * 2,
-    #     as_of_date=['2021-05-19', '2020-04-21', '2021-05-18', '2020-04-20']
-    # )
-    # batch_result = await finx_socket.batch_get_security_reference_data(args)
-    # print(pd.DataFrame(batch_result).T)
+    args = dict(
+        security_id=['91282CCA7', 'DE0001141786'] * 2,
+        as_of_date=['2021-05-19', '2020-04-21', '2021-05-18', '2020-04-20']
+    )
+    batch_result = await finx_socket.batch_get_security_reference_data(args)
+    print(pd.DataFrame(batch_result).T)
+    finx_socket.cleanup()
     # NOW REST
     finx_rest = FinXClient(
         ClientTypes.rest,
