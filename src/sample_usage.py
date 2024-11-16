@@ -24,15 +24,15 @@ async def main():
     print(f'{greeks=} / {inspect.getfullargspec(greeks.my_func)}')
     result = await greeks(101, 100, 0.01, 0.1, 0., 0.25, 5.)
     print(f'{result=}')
-    # deal_information = await finx_socket.get_deal_information(
-    #     security_id='75575WAA4',
-    #     as_of_date='2024-09-30'
-    # )
-    # print(f'{deal_information=}')
-    # exchange_rates = await finx_socket.forecast_exchange_rates(
-    #     ['USD', 'GBP'], '2023-09-30', 'GBP'
-    # )
-    # print(f'{exchange_rates=}')
+    deal_information = await finx_socket.get_deal_information(
+        security_id='75575WAA4',
+        as_of_date='2024-09-30'
+    )
+    print(f'{deal_information=}')
+    exchange_rates = await finx_socket.forecast_exchange_rates(
+        ['USD', 'GBP'], '2023-09-30', 'GBP'
+    )
+    print(f'{exchange_rates=}')
     finx_socket.context.clear_cache()
     args = dict(
         security_id=['91282CCA7', 'DE0001141786'] * 2,
