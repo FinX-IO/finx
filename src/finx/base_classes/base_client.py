@@ -215,6 +215,7 @@ class BaseFinXClient(BaseMethods, ABC):
         file = open(filename, 'rb')
         # Upload file to server and record filename
         print(f'Uploading batch file to {self.context.api_url}batch-upload/')
+        print(pd.read_csv(filename))
         response = requests.post(
             f'{self.context.api_url}batch-upload/',
             data={'finx_api_key': self.context.api_key, 'filename': filename},
