@@ -301,8 +301,7 @@ class FinXSocketClient(BaseFinXClient):
         except Exception as e:
             raise Exception(f'Failed to connect to {self.ws_url}: {e}')
 
-    @hybrid
-    async def _upload_batch_file(self, batch_input: Any) -> str:
+    def _upload_batch_file(self, batch_input: Any) -> str:
         """
         Upload a batch file to the API
 
@@ -332,6 +331,7 @@ class FinXSocketClient(BaseFinXClient):
             elif type(batch_input[0]) is str:
                 with open(filename, 'w+') as file:
                     file.write('\n'.join(batch_input))
+        print(f'{filename=}')
         return self.upload_file(filename, remove_file=True)
 
     @hybrid
@@ -382,7 +382,7 @@ class FinXSocketClient(BaseFinXClient):
             base_cache_payload['api_method'] = api_method
             if chunk_payload:
                 cache_keys.append(self.context.check_cache(**payload))
-                cached_responses = [cache_keys[0].value]
+                cached_responses = []
                 outstanding_requests = [payload]
             else:
                 cache_keys, cached_responses, outstanding_requests = self._parse_batch_input(
@@ -398,7 +398,7 @@ class FinXSocketClient(BaseFinXClient):
             print(f'{len(cached_responses)} out of {total_requests} requests found in cache')
             payload['api_method'] = 'batch_' + api_method
             payload['batch_input'] = outstanding_requests if not chunk_payload else self._upload_batch_file(
-                [payload, outstanding_requests][int(batch_input or chunk_payload)]
+                [[payload], outstanding_requests][batch_input is not None]
             )
             payload = {k: v for k, v in payload.items() if k in ['batch_input', 'api_method']}
             payload.update({k: v for k, v in kwargs.items() if k != 'request'})
@@ -406,7 +406,12 @@ class FinXSocketClient(BaseFinXClient):
         payload['cache_key'] = [list(x) for x in cache_keys if x.value is None]
         if need_to_batch:
             self.update_payload_cache("", payload, cache_keys)
-        self._socket.send(json.dumps(payload))
+        try:
+            self._socket.send(json.dumps(payload))
+        except Exception as e:
+            for k, v in payload.items():
+                print(f'{k}: {str(v)[:1000]}')
+            raise Exception(f'Failed to serialize payload')
         results = await self._listen_for_results(cache_keys, callback, **kwargs)
         self._payload_cache = None
         return results

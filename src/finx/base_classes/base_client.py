@@ -78,7 +78,6 @@ class BaseFinXClient(BaseMethods, ABC):
         :rtype: None
         """
         self._payload_cache = PayloadCache(job_id, payload, cache_keys)
-        print(f'Updating payload cache: {self._payload_cache}')
 
     def cleanup(self):
         """
@@ -219,7 +218,12 @@ class BaseFinXClient(BaseMethods, ABC):
             f'{self.context.api_url}batch-upload/',
             data={'finx_api_key': self.context.api_key, 'filename': filename},
             files={'file': file}
-        ).json()
+        )
+        try:
+            response = response.json()
+        except requests.JSONDecodeError:
+            print(f'UPLOAD ERROR: {response.status_code=} -> {response.text=}')
+            raise Exception('Failed to upload file')
         file.close()
         if remove_file:
             os.remove(filename)
