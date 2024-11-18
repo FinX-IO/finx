@@ -15,6 +15,7 @@ def main(environment: str = "dev"):
     finx_api_key = os.getenv('FINX_API_KEY')
     # TEST: Calculate a set of greeks on an option
     client = FinXClient(ClientTypes.socket)
+    client.load_functions()
     # s0, k, r, sigma, q, T, p, option_side, option_type
     greeks: dict = client.calculate_greeks(101, 100, 0.01, 0.88, 0, 5, 0.88, 'call', 'european')
     print(f'**********************\nGREEKS: {greeks}\n\n')
