@@ -1,0 +1,47 @@
+finx.version
+============
+
+.. py:module:: finx.version
+
+.. autoapi-nested-parse::
+
+   If building the SDK to test-pypi or to pypi, the following environment variables are required:
+
+   1. `TWINE_USERNAME` - The username for the pypi account.
+   2. `TWINE_PASSWORD` - The password for the pypi account.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   finx.version.VERSION
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   finx.version.bump_version
+
+
+Module Contents
+---------------
+
+.. py:function:: bump_version(level: str, deploy_environment: str) -> str
+
+   Version bumping function for the Finx SDK
+
+   :param level: Major, minor, or patch
+   :type level: str
+   :param deploy_environment: Test, prod, or no-deploy
+   :type deploy_environment: str
+   :return: The new version number
+   :rtype: str
+
+
+.. py:data:: VERSION
+

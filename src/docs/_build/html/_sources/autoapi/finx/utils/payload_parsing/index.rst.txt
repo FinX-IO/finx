@@ -1,0 +1,35 @@
+finx.utils.payload_parsing
+==========================
+
+.. py:module:: finx.utils.payload_parsing
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: utils for parsing payloads - sizing/etc.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   finx.utils.payload_parsing.get_size
+
+
+Module Contents
+---------------
+
+.. py:function:: get_size(obj: Any, seen: set = None) -> int
+
+   Recursively finds size of objects
+
+   :param obj: Any PyObject
+   :type obj: Any
+   :param seen: Set of objects seen
+   :type seen: set
+   :return: Size of object
+   :rtype: int
+
+

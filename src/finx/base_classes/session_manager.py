@@ -18,6 +18,7 @@ class SessionManager(BaseModel):
     """
     Class that can be used to manage an AIOHTTP Session for use in asynchronous endpoint requests
     """
+
     _session: Optional[aiohttp.ClientSession] = PrivateAttr(None)
 
     def model_post_init(self, __context: Any) -> None:
@@ -30,7 +31,9 @@ class SessionManager(BaseModel):
         :rtype: None
         """
         if not self._session:
-            self._session = aiohttp.ClientSession(headers={'content-type': 'application/json'})
+            self._session = aiohttp.ClientSession(
+                headers={"content-type": "application/json"}
+            )
         super().model_post_init(__context)
 
     def set_event_loop(self, loop: asyncio.AbstractEventLoop):
@@ -55,7 +58,9 @@ class SessionManager(BaseModel):
         :rtype: SessionManager
         """
         if not self._session:
-            self._session = aiohttp.ClientSession(headers={'content-type': 'application/json'})
+            self._session = aiohttp.ClientSession(
+                headers={"content-type": "application/json"}
+            )
         return self
 
     async def __aexit__(self, *err):
@@ -72,7 +77,13 @@ class SessionManager(BaseModel):
         await self._session.close()
         self._session = None
 
-    async def post(self, url: str, is_json_response: bool = True, is_json_data: bool = False, **kwargs):
+    async def post(
+        self,
+        url: str,
+        is_json_response: bool = True,
+        is_json_data: bool = False,
+        **kwargs,
+    ):
         """
         Call an endpoint with a POST request asynchronously
 
@@ -85,15 +96,15 @@ class SessionManager(BaseModel):
         :return: dictionary of the response
         :rtype: dict
         """
-        print(f'POSTING TO {url} with {kwargs} / {self._session.headers}')
+        print(f"POSTING TO {url} with {kwargs} / {self._session.headers}")
         async with self._session.post(url, json=kwargs) as resp:
             resp.raise_for_status()
             if is_json_response:
                 return await resp.json()
             return pd.read_csv(
-                StringIO((await resp.content.read()).decode('utf-8')),
-                engine='python',
-                converters={'security_id': str}
+                StringIO((await resp.content.read()).decode("utf-8")),
+                engine="python",
+                converters={"security_id": str},
             )
 
     async def get(self, url: str, is_json_response: bool = True, **kwargs):
@@ -114,7 +125,7 @@ class SessionManager(BaseModel):
             if is_json_response:
                 return await resp.json()
             return pd.read_csv(
-                StringIO((await resp.content.read()).decode('utf-8')),
-                engine='python',
-                converters={'security_id': str}
+                StringIO((await resp.content.read()).decode("utf-8")),
+                engine="python",
+                converters={"security_id": str},
             )

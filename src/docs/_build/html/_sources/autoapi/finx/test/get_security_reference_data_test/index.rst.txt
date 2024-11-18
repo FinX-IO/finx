@@ -1,0 +1,40 @@
+finx.test.get_security_reference_data_test
+==========================================
+
+.. py:module:: finx.test.get_security_reference_data_test
+
+.. autoapi-nested-parse::
+
+   author: Dick Mule
+   purpose: Unit test for get security reference data
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.test.get_security_reference_data_test.GetSecurityReferenceDataTest
+
+
+Module Contents
+---------------
+
+.. py:class:: GetSecurityReferenceDataTest(methodName='runTest')
+
+   Bases: :py:obj:`unittest.TestCase`
+
+
+   Unittest to get security reference data
+
+
+   .. py:method:: test_get_security_reference_data()
+
+      Method running socket client test
+
+      :return: None type object
+      :rtype: None
+
+
+
