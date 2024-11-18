@@ -33,13 +33,69 @@ async def main():
     #     ['USD', 'GBP'], '2023-09-30', 'GBP'
     # )
     # print(f'{exchange_rates=}')
-    finx_socket.context.clear_cache()
-    args = dict(
-        security_id=['91282CCA7', 'DE0001141786'] * 1000 + ['IM A FAKE ID'],
-        as_of_date=['2021-05-19', '2020-04-21', '2021-05-18', '2020-04-20'] * 500 + ['2024-09-30']
+    # finx_socket.context.clear_cache()
+    # args = dict(
+    #     security_id=['91282CCA7', 'DE0001141786'] * 1000 + ['IM A FAKE ID'],
+    #     as_of_date=['2021-05-19', '2020-04-21', '2021-05-18', '2020-04-20'] * 500 + ['2024-09-30']
+    # )
+    # batch_result = await finx_socket.batch_get_security_reference_data(args)
+    # print(pd.DataFrame(batch_result).T)
+    sample_json = {
+        "SecurityID": "USDGOVTL2_20241113_TEST",
+        "ReportDescription": "All",
+        "SecurityType": "private",
+        "MaturityDate": '2026-12-30',
+        "DatedDate": '2024-06-30',
+        "CouponRate": 2.938,
+        "CountryIsoAlpha3": "USA",
+        "CurrencyIso4217": "USD",
+        "CouponFrequency": "SEMIANNUAL",
+        "FirstCouponDate": '2024-12-30',
+        "FinalCouponDate": '2026-06-30',
+        "Description": "FI",
+        "IsAccrual": "FALSE",
+        "OriginalFace": None,
+        "ServiceFee": 0,
+        "LoanBalance": None,
+        "PaymentAmount": None,
+        "Haircut": None,
+        "RepoRate": None,
+        "T0_MarketValue": None,
+        "RepoUnderlying": None,
+        "ForwardStrike": None,
+        "ForeignCurrency": None,
+        "FixedLegID": None,
+        "FloatLegID": None
+    }
+    schedule_data = {
+        'CouponSchedule': [],
+        'SinkingFundSchedule': [
+            {
+                'SinkAmount': 50,
+                'SinkDate': '2025-12-30',
+            },
+            {
+                'SinkAmount': 50,
+                'SinkDate': '2026-12-30',
+            }
+        ],
+        'OptionSchedule': []
+    }
+    uploaded = await finx_socket.register_temporary_bond(sample_json, schedule_data)
+    print(f'{uploaded=}')
+    analytics = await finx_socket.calculate_security_analytics(
+        security_id='USDGOVTL2_20241113_TEST',
+        as_of_date='2024-09-30',
+        price=100.01,
+        use_test_data=True
     )
-    batch_result = await finx_socket.batch_get_security_reference_data(args)
-    print(pd.DataFrame(batch_result).T)
+    print(f'{analytics=}')
+    cash_flows = await finx_socket.get_security_cash_flows(
+        security_id='USDGOVTL2_20241113_TEST',
+        as_of_date='2024-09-30',
+        use_test_data=True
+    )
+    print(f'{cash_flows.T=}')
     finx_socket.cleanup()
     # NOW REST
     finx_rest = FinXClient(
