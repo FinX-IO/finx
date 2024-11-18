@@ -12,3 +12,4 @@ requests>=2.31.0
 scipy>=1.10.1
 websocket-client>=1.6.0
 websockets>=11.0.3
+pylint>=3.3.1
