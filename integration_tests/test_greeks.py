@@ -5,7 +5,7 @@ import os
 import asyncio
 import time
 import finx
-from finx.client import FinXClient
+from finx.client import FinXClient, ClientTypes
 import pandas as pd
 import numpy as np
 
@@ -14,7 +14,7 @@ def main(environment: str = "dev"):
     print('main routine kicked off using api_key:', os.getenv('FINX_API_KEY'))
     finx_api_key = os.getenv('FINX_API_KEY')
     # TEST: Calculate a set of greeks on an option
-    finx = FinXClient('socket', finx_api_key=finx_api_key, ssl=True)
+    finx = FinXClient(ClientTypes.socket)
     # s0, k, r, sigma, q, T, p, option_side, option_type
     greeks: dict = finx.calculate_greeks(101, 100, 0.01, 0.88, 0, 5, 0.88, 'call', 'european')
     print(f'**********************\nGREEKS: {greeks}\n\n')
