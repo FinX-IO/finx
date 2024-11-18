@@ -11,6 +11,7 @@ import pandas as pd
 
 class BatchForecastResults(NamedTuple):
     """Utility class for storing batch forecast results"""
+
     projected_analytics: pd.DataFrame
     forecasted_flows: pd.DataFrame
     error: Optional[str] = None
