@@ -177,7 +177,6 @@ class BaseFinXClient(BaseMethods, ABC):
                     MethodType(local_vals[f"{batch}{name}"], self)
                 )
                 self.__dict__[f"{batch}{name}"].set_event_loop(self.context.event_loop)
-                print(f"Loaded function: {batch}{name} ->\n{string_repr}")
 
     @hybrid
     async def download_file(
