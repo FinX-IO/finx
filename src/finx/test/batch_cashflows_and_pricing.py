@@ -1834,7 +1834,7 @@ class BatchCashFlows(unittest.TestCase):
         """
         finx_client = FinXClient(ClientTypes.socket)
         finx_client.load_functions()
-        data = pd.DataFrame(self.sample_records * 5)
+        data = pd.DataFrame(self.sample_records * 10)
         data["skip_projections"] = False
         payload = {}
         for column in data.columns:
