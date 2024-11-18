@@ -229,6 +229,8 @@ class FinXSocketClient(BaseFinXClient):
             :rtype: None
             """
             print(f'Socket closed: {status_code=}/{message=}')
+            if self._payload_cache:
+                return self._run_socket()
             self._is_authenticated = False
             self._socket_thread = None
             self._socket = None
@@ -379,7 +381,7 @@ class FinXSocketClient(BaseFinXClient):
             batch_input = kwargs.pop('batch_input', None)
             base_cache_payload: dict = kwargs.copy()
             base_cache_payload['api_method'] = api_method
-            if chunk_payload:
+            if chunk_payload and not is_batch:
                 cache_keys.append(self.context.check_cache(**payload))
                 cached_responses = []
                 outstanding_requests = [payload]
