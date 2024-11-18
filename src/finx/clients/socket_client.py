@@ -404,7 +404,7 @@ class FinXSocketClient(BaseFinXClient):
                 {
                     key: value
                     for key, value in kwargs.items()
-                    if key != "finx_api_key" and key != "api_method"
+                    if key not in ["finx_api_key", "api_method"]
                 }
             )
         is_batch: bool = kwargs.pop("is_batch", False)
@@ -475,7 +475,7 @@ class FinXSocketClient(BaseFinXClient):
         except Exception as e:
             for k, v in payload.items():
                 print(f"{k}: {str(v)[:1000]}")
-            raise Exception(f"Failed to serialize payload")
+            raise ValueError("Failed to serialize payload")
         results = await self._listen_for_results(cache_keys, callback, **kwargs)
         self._payload_cache = None
         return results

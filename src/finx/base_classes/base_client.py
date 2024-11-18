@@ -251,12 +251,12 @@ class BaseFinXClient(BaseMethods, ABC):
             print(f"UPLOAD ERROR: {response.status_code=} -> {response.text=}")
             if remove_file:
                 os.remove(filename)
-            raise Exception("Failed to upload file")
+            raise ValueError("Failed to upload file")
         file.close()
         if remove_file:
             os.remove(filename)
         if response.get("failed"):
-            raise Exception(f'Failed to upload file: {response["message"]}')
+            raise ValueError(f'Failed to upload file: {response["message"]}')
         print("Batch file uploaded")
         return response.get("filename", filename)
 
