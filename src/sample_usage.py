@@ -35,8 +35,8 @@ async def main():
     # print(f'{exchange_rates=}')
     finx_socket.context.clear_cache()
     args = dict(
-        security_id=['91282CCA7', 'DE0001141786'] * 10000,
-        as_of_date=['2021-05-19', '2020-04-21', '2021-05-18', '2020-04-20'] * 5000
+        security_id=['91282CCA7', 'DE0001141786'] * 1000 + ['IM A FAKE ID'],
+        as_of_date=['2021-05-19', '2020-04-21', '2021-05-18', '2020-04-20'] * 500 + ['2024-09-30']
     )
     batch_result = await finx_socket.batch_get_security_reference_data(args)
     print(pd.DataFrame(batch_result).T)

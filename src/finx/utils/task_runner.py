@@ -3,12 +3,12 @@
 author: dick mule
 purpose: utils for running async tasks and gathering results
 """
-import asyncio
-import multiprocessing as mp
-
 from dataclasses import dataclass, field
 from typing import Any, Union
 from uuid import uuid4
+
+import asyncio
+import multiprocessing as mp
 
 import pandas as pd
 

@@ -4,6 +4,7 @@ author: dick mule
 purpose: base class for AIOHTTP session manager
 """
 import asyncio
+
 from io import StringIO
 from typing import Any, Optional
 
