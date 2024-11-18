@@ -30,7 +30,6 @@ dependencies = [
     "websocket-client",
     "websockets",
 ]
-
 dynamic = ["version"]
 
 [tool.setuptools.packages.find]
