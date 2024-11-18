@@ -3,7 +3,6 @@
 author: dick mule
 purpose: utils for facilitating concurrency of methods
 """
-from asgiref.sync import sync_to_async, async_to_sync
 from typing import Any, Callable, Coroutine, Union
 
 import asyncio
@@ -11,6 +10,7 @@ import functools
 import multiprocessing as mp
 import threading
 
+from asgiref.sync import sync_to_async, async_to_sync
 
 AWAITABLE = Union[asyncio.Task, Coroutine]
 _ALREADY_RUNNING = asyncio.get_event_loop().is_running()
@@ -84,7 +84,7 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
             loop.close()
         return result
     except TypeError:
-        raise Exception("BAD LOOP PARAMS")
+        raise TypeError("BAD LOOP PARAMS")
 
 
 class Hybrid:
@@ -255,8 +255,9 @@ def hybrid(f: Callable) -> Hybrid:
 class ThreadWithReturnValue(threading.Thread):
     """Thread class with return value"""
 
+    # pylint: disable=too-many-positional-arguments
     def __init__(
-        self, target=None, group=None, name=None, args=(), kwargs={}, daemon=None
+        self, target=None, group=None, name=None, args=(), kwargs=None, daemon=None
     ):
         """
         Initialize ThreadWithReturnValue class.
@@ -322,7 +323,7 @@ class ThreadWithReturnValue(threading.Thread):
 class ProcessWithReturnValue(mp.Process):
     """Another processing class"""
 
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def __init__(
         self,
         target: Union[callable, Hybrid] = None,
@@ -375,7 +376,9 @@ class ProcessWithReturnValue(mp.Process):
         """
         if isinstance(self.target_to_wrap, Hybrid):
             loop = self.check_event_loop()
-            result = task_runner(self.target_to_wrap.run_async(*args, **kwargs), self.check_event_loop())
+            result = task_runner(
+                self.target_to_wrap.run_async(*args, **kwargs), self.check_event_loop()
+            )
             loop.close()
         else:
             result = self.target_to_wrap(*args, **kwargs)
@@ -430,14 +433,14 @@ class ProcessWithReturnValue(mp.Process):
 class ThreadFunction:
     """Thread function class decorator"""
 
-    def __init__(self, thread_function: Callable = None):
+    def __init__(self, thread_fn: Callable = None):
         """
         Initialize ThreadFunction class
 
-        :param thread_function: Function to be wrapped
-        :type thread_function: Callable
+        :param thread_fn: Function to be wrapped
+        :type thread_fn: Callable
         """
-        self.thread_function = thread_function
+        self.thread_function = thread_fn
         self._func_classes = []
 
     def __call__(self, *args, **kwargs):

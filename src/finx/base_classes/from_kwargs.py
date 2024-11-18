@@ -2,6 +2,7 @@
 author: dick mule
 purpose: interface to create class from Kwargs
 """
+
 from inspect import signature
 from typing import Any
 
@@ -12,10 +13,12 @@ from finx.utils.concurrency import Hybrid
 
 class BaseMethods(BaseModel):
     """Base method expanding pydantic model to be initialized from dict with extra values"""
+
     extra_attrs: dict[Any, Any] = {}
 
     class Config:
         """Nested Config for Pydantic Model"""
+
         arbitrary_types_allowed = True
         ignored_types = (Hybrid,)
 
@@ -31,7 +34,7 @@ class BaseMethods(BaseModel):
         super().model_post_init(__context)
 
     @classmethod
-    def from_kwargs(cls, **kwargs) -> 'BaseMethods':
+    def from_kwargs(cls, **kwargs) -> "BaseMethods":
         """
         Construct any base class from kwargs regardless of whether they're part of the class
 

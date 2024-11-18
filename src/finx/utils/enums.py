@@ -10,19 +10,6 @@ from typing import Any
 from aenum import Enum, NoAlias
 
 
-class IncrementID:
-    """Generic field attribute with unique id"""
-
-    @staticmethod
-    def new() -> field:
-        """
-        Create field attribute with unique id
-        :return: Dataclass field
-        :rtype: field
-        """
-        return field(default_factory=count().__next__, init=False)
-
-
 class EnumFunction:
     """Class for enum values.  Useful for assigning callable values to enums."""
 

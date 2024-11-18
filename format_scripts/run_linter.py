@@ -8,11 +8,11 @@ import sys
 from pylint.lint import Run
 
 
-def main(local: bool = False):
-    results = Run(['./finx/' if local else '/finx/'], exit=False)
+def main():
+    results = Run(['./src/'], exit=False)
     if results.linter.stats.global_note < 10.:
         raise Exception('Codebase is not fully linted!')
 
 
 if __name__ == '__main__':
-    main(sys.argv[-1] == 'LOCAL')
+    main()
