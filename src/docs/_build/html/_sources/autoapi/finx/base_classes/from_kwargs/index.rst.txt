@@ -1,0 +1,73 @@
+finx.base_classes.from_kwargs
+=============================
+
+.. py:module:: finx.base_classes.from_kwargs
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: interface to create class from Kwargs
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.base_classes.from_kwargs.BaseMethods
+
+
+Module Contents
+---------------
+
+.. py:class:: BaseMethods(/, **data: Any)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Base method expanding pydantic model to be initialized from dict with extra values
+
+
+   .. py:attribute:: extra_attrs
+      :type:  dict[Any, Any]
+
+
+   .. py:class:: Config
+
+      Nested Config for Pydantic Model
+
+
+      .. py:attribute:: arbitrary_types_allowed
+         :value: True
+
+
+
+      .. py:attribute:: ignored_types
+
+
+
+   .. py:method:: model_post_init(__context: Any) -> None
+
+      Pydantic model post init method to set up the c++ library
+
+      :param __context: A context dictionary for the model
+      :type __context: dict
+      :return: None type object
+      :rtype: None
+
+
+
+   .. py:method:: from_kwargs(**kwargs) -> BaseMethods
+      :classmethod:
+
+
+      Construct any base class from kwargs regardless of whether they're part of the class
+
+      :param kwargs: dictionary of all initialization values
+      :type kwargs: dict
+      :return: instance of the class
+      :rtype: cls
+
+
+

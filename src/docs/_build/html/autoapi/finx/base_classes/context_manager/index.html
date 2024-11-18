@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>finx.base_classes.context_manager &mdash; FinX SDK  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="finx.base_classes.from_kwargs" href="../from_kwargs/index.html" />
+    <link rel="prev" title="finx.base_classes.base_client" href="../base_client/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            FinX SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">finx</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">finx.base_classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client/index.html">finx.client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../clients/index.html">finx.clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../test/index.html">finx.test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">finx.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../version/index.html">finx.version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">FinX SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">finx</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">finx.base_classes</a></li>
+      <li class="breadcrumb-item active">finx.base_classes.context_manager</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/finx/base_classes/context_manager/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-finx.base_classes.context_manager">
+<span id="finx-base-classes-context-manager"></span><h1>finx.base_classes.context_manager<a class="headerlink" href="#module-finx.base_classes.context_manager" title="Link to this heading"></a></h1>
+<p>author: dick mule
+purpose: Base Context Manager for FinX SDK</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.base_classes.context_manager._ParamCacheKeys" title="finx.base_classes.context_manager._ParamCacheKeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_ParamCacheKeys</span></code></a></p></td>
+<td><p>Keys to check in Cache</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#finx.base_classes.context_manager.CacheLookup" title="finx.base_classes.context_manager.CacheLookup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CacheLookup</span></code></a></p></td>
+<td><p>A named tuple for cache lookup values</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.base_classes.context_manager.ApiContextManager" title="finx.base_classes.context_manager.ApiContextManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApiContextManager</span></code></a></p></td>
+<td><p>Context manager that manages the api key, endpoint configurations, and the results cache</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager._ParamCacheKeys">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.base_classes.context_manager.</span></span><span class="sig-name descname"><span class="pre">_ParamCacheKeys</span></span><a class="headerlink" href="#finx.base_classes.context_manager._ParamCacheKeys" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../utils/enums/index.html#finx.utils.enums.ExtendedEnum" title="finx.utils.enums.ExtendedEnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finx.utils.enums.ExtendedEnum</span></code></a></p>
+<p>Keys to check in Cache</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager._ParamCacheKeys.security_id">
+<span class="sig-name descname"><span class="pre">security_id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#finx.base_classes.context_manager._ParamCacheKeys.security_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager._ParamCacheKeys.as_of_date">
+<span class="sig-name descname"><span class="pre">as_of_date</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#finx.base_classes.context_manager._ParamCacheKeys.as_of_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager._ParamCacheKeys.api_method">
+<span class="sig-name descname"><span class="pre">api_method</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#finx.base_classes.context_manager._ParamCacheKeys.api_method" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager._ParamCacheKeys.input_file">
+<span class="sig-name descname"><span class="pre">input_file</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#finx.base_classes.context_manager._ParamCacheKeys.input_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager._ParamCacheKeys.output_file">
+<span class="sig-name descname"><span class="pre">output_file</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#finx.base_classes.context_manager._ParamCacheKeys.output_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.CacheLookup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.base_classes.context_manager.</span></span><span class="sig-name descname"><span class="pre">CacheLookup</span></span><a class="headerlink" href="#finx.base_classes.context_manager.CacheLookup" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>A named tuple for cache lookup values</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.CacheLookup.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#finx.base_classes.context_manager.CacheLookup.value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.CacheLookup.key">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#finx.base_classes.context_manager.CacheLookup.key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.CacheLookup.param_key">
+<span class="sig-name descname"><span class="pre">param_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#finx.base_classes.context_manager.CacheLookup.param_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.base_classes.context_manager.</span></span><span class="sig-name descname"><span class="pre">ApiContextManager</span></span><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../from_kwargs/index.html#finx.base_classes.from_kwargs.BaseMethods" title="finx.base_classes.from_kwargs.BaseMethods"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finx.base_classes.from_kwargs.BaseMethods</span></code></a></p>
+<p>Context manager that manages the api key, endpoint configurations, and the results cache</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.api_key">
+<span class="sig-name descname"><span class="pre">api_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.api_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.api_url">
+<span class="sig-name descname"><span class="pre">api_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.api_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.cache_size">
+<span class="sig-name descname"><span class="pre">cache_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.cache_size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.cache" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.timeout">
+<span class="sig-name descname"><span class="pre">timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.timeout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.event_loop">
+<span class="sig-name descname"><span class="pre">event_loop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">asyncio.AbstractEventLoop</span></em><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.event_loop" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.model_post_init">
+<span class="sig-name descname"><span class="pre">model_post_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.model_post_init" title="Link to this definition"></a></dt>
+<dd><p>Pydantic callback that allows all fields to be validated on class instantiation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>__context</strong> (<em>Any</em>) – Pydantic context info</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None type object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.clear_cache">
+<span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.clear_cache" title="Link to this definition"></a></dt>
+<dd><p>Clear the cache and run the garbage collector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager._cache_key_from_kwargs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_cache_key_from_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager._cache_key_from_kwargs" title="Link to this definition"></a></dt>
+<dd><p>Create a cache key from the kwargs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_method</strong> (<em>str</em>) – Name of the API method</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cache key</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.context_manager.ApiContextManager.check_cache">
+<span class="sig-name descname"><span class="pre">check_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#finx.base_classes.context_manager.CacheLookup" title="finx.base_classes.context_manager.CacheLookup"><span class="pre">CacheLookup</span></a></span></span><a class="headerlink" href="#finx.base_classes.context_manager.ApiContextManager.check_cache" title="Link to this definition"></a></dt>
+<dd><p>Check the cache for a value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_method</strong> (<em>str</em>) – Name of the API method</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cache lookup object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#finx.base_classes.context_manager.CacheLookup" title="finx.base_classes.context_manager.CacheLookup">CacheLookup</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../base_client/index.html" class="btn btn-neutral float-left" title="finx.base_classes.base_client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../from_kwargs/index.html" class="btn btn-neutral float-right" title="finx.base_classes.from_kwargs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, FinX Capital Markets.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

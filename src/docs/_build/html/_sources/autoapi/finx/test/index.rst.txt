@@ -1,0 +1,18 @@
+finx.test
+=========
+
+.. py:module:: finx.test
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/finx/test/calculate_greeks_test/index
+   /autoapi/finx/test/generic_test/index
+   /autoapi/finx/test/get_security_reference_data_test/index
+   /autoapi/finx/test/list_api_functions_test/index
+
+
