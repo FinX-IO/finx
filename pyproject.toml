@@ -17,6 +17,8 @@ classifiers = [
 ]
 dependencies = [
     "aiohttp",
+    "aenum",
+    "asgiref",
     "nest-asyncio",
     "numpy",
     "pandas",
@@ -26,6 +28,7 @@ dependencies = [
     "scipy",
     "websocket-client",
     "websockets",
+    "pydantic"
 ]
 
 dynamic = ["version"]

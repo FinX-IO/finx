@@ -3,8 +3,9 @@
 author: dick mule
 purpose: Expose FinX Clients for API usage
 """
-import asyncio
 from typing import Union
+
+import asyncio
 
 from finx.base_classes.base_client import BaseFinXClient, ApiContextManager, SessionManager
 from finx.clients import rest_client, socket_client

@@ -3,8 +3,6 @@
 author: dick mule
 purpose: utils for facilitating concurrency of methods
 """
-import inspect
-
 from asgiref.sync import sync_to_async, async_to_sync
 from typing import Any, Callable, Coroutine, Union
 

@@ -6,6 +6,7 @@ from inspect import signature
 from typing import Any
 
 from pydantic import BaseModel
+
 from finx.utils.concurrency import Hybrid
 
 
