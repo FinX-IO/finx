@@ -310,8 +310,7 @@ class BaseFinXClient(BaseMethods, ABC):
             ]
         file_results: list[tuple[int, dict]] = []
         results: list[Any] = [
-            self.context.cache.get(key[1], {}).get(key[2], None)
-            for key in cache_keys
+            self.context.cache.get(key[1], {}).get(key[2], None) for key in cache_keys
         ]
         for i, result in enumerate(results):
             if not isinstance(result, dict):

@@ -3,14 +3,19 @@
 # author: Geoff Fite
 import os
 import asyncio
-import time
-import finx
+
 from finx.client import FinXClient, ClientTypes
-import pandas as pd
-import numpy as np
 
 
 def main(environment: str = "dev"):
+    """
+    Main routine to test the FinXClient
+
+    :param environment: dev or prod, default is dev
+    :type environment: str
+    :return: None Type
+    :rtype: None
+    """
     print('main routine kicked off using api_key:', os.getenv('FINX_API_KEY'))
     finx_api_key = os.getenv('FINX_API_KEY')
     # TEST: Calculate a set of greeks on an option
