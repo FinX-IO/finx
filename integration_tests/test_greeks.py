@@ -28,7 +28,7 @@ if __name__ == '__main__':
     # Hybrid decorated methods can be called like synchronous methods
     print(f'{check_event_loop}')
     if check_event_loop.is_running():
-        asyncio.apply()
+        asyncio.set_event_loop(check_event_loop)
         # * The only caveat is if Hybrid method is called from within a running event loop *
         check_event_loop.run_until_complete(main())
     else:
