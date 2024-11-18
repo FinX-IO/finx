@@ -29,6 +29,7 @@ _BATCH_PARAMS = 'batch_params=batch_params, input_file=input_file, output_file=o
 
 
 class PayloadCache(NamedTuple):
+    """Payload object to manage state internally"""
     job_id: str
     payload: dict
     cache_keys: list[CacheLookup]

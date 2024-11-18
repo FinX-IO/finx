@@ -80,8 +80,6 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
     run_loop = [loop.run_until_complete, loop.create_task][is_running and not_already]
     try:
         result = run_loop(task)
-        # if inspect.iscoroutine(result):
-        #     asyncio.run_coroutine_threadsafe(result, loop)
         if new_loop:
             loop.close()
         return result

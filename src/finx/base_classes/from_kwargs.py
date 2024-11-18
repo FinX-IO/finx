@@ -15,6 +15,7 @@ class BaseMethods(BaseModel):
     extra_attrs: dict[Any, Any] = {}
 
     class Config:
+        """Nested Config for Pydantic Model"""
         arbitrary_types_allowed = True
         ignored_types = (Hybrid,)
 

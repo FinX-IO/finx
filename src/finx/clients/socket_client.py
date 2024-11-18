@@ -27,13 +27,21 @@ enableTrace(os.environ.get('ENABLE_SOCKET_TRACE') == 'True')
 
 
 class FinXWebSocket(WebSocketApp):
+    """Wrapper for python WebSocketApp"""
 
     @property
     def is_connected(self):
+        """
+        Simple function ensuring socket exists and is connected
+
+        :return: Socket is connected
+        :rtype: bool
+        """
         return self.sock is not None and self.sock.connected
 
 
 class FinXSocketClient(BaseFinXClient):
+    """FinX Socket Client interface"""
     _awaiting_auth: bool = PrivateAttr(False)
     _is_authenticated: bool = PrivateAttr(False)
     _socket: Optional[FinXWebSocket] = PrivateAttr(None)
@@ -128,6 +136,14 @@ class FinXSocketClient(BaseFinXClient):
         """
 
         def on_open(s: FinXWebSocket):
+            """
+            On open function
+
+            :param s: Socket
+            :type s: FinXWebSocket
+            :return: None type
+            :rtype: None
+            """
             print(f'Socket opened: {s.is_connected}')
             self.authenticate(s)
 
@@ -153,6 +169,16 @@ class FinXSocketClient(BaseFinXClient):
         """
 
         def on_message(s: FinXWebSocket, message: str):
+            """
+            On message function
+
+            :param s: Socket
+            :type s: FinXWebSocket
+            :param message: Message
+            :type message: str
+            :return: None type
+            :rtype: None
+            """
             try:
                 message = json.loads(message)
                 if message.get('is_authenticated') and not self.is_authenticated:

@@ -7,9 +7,18 @@ import os
 import urllib.request
 
 
-def bump_version(level, deploy_environment):
+def bump_version(level: str, deploy_environment: str) -> str:
+    """
+    Version bumping function for the Finx SDK
+
+    :param level: Major, minor, or patch
+    :type level: str
+    :param deploy_environment: Test, prod, or no-deploy
+    :type deploy_environment: str
+    :return: The new version number
+    :rtype: str
+    """
     # Retrieve JSON data
-    # TODO: Replace the finx-io-sandbox with a variable
     url = "https://test.pypi.org/pypi/finx-io/json"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
@@ -46,6 +55,8 @@ def bump_version(level, deploy_environment):
     elif level == "patch" and deploy_environment == "no-deploy":
         patch += 0
         return None
+    else:
+        return f"{major}.{minor}.{patch}"
 
 
 VERSION = bump_version(os.getenv("DEPLOY_LEVEL"), os.getenv("DEPLOY_ENVIRONMENT"))
