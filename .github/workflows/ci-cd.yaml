@@ -1,0 +1,98 @@
+---
+# File: .github/workflows/ci-cd.yaml
+
+name: CI/CD Pipeline
+
+on: [push]
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
+jobs:
+  build_and_unit_test:
+    name: Build and Unit Test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: ./.github/actions/setup-python
+
+  test_pypi_publish:
+    name: Publish to Test PyPI
+    runs-on: ubuntu-latest
+    needs: build_and_unit_test
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Pipenv
+        uses: ./.github/actions/setup-python
+
+      - name: Install Build Tools
+        run: pip install --upgrade build twine
+
+      - name: Build Wheel
+        env:
+          DEPLOY_LEVEL: "patch"
+          DEPLOY_ENVIRONMENT: "test"
+        run: python -m build --wheel
+
+      - name: Publish to Test PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        run: python -m twine upload --non-interactive --verbose --repository testpypi --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }} dist/*
+
+  integration_test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main-candidate'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Pipenv
+        uses: ./.github/actions/setup-python
+
+      - name: Install from Test PyPI
+        run: pip install -i https://test.pypi.org/simple/ finx-io --upgrade
+
+      - name: Run Integration Tests
+        env:
+          DEPLOY_LEVEL: "patch"
+          DEPLOY_ENVIRONMENT: "no-deploy"
+          FINX_API_KEY: ${{ secrets.FINX_API_KEY }}
+          FINX_EMAIL: ${{ secrets.FINX_USER_EMAIL }}
+          FINX_API_URL: ${{ secrets.FINX_API_ENDPOINT }}
+        run: bash integration_tests/integration_tests.sh
+
+  pypi_publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Pipenv
+        uses: ./.github/actions/setup-python
+
+      - name: Install Build Tools
+        run: pip install --upgrade build twine
+
+      - name: Build Wheel
+        env:
+          DEPLOY_LEVEL: "patch"
+          DEPLOY_ENVIRONMENT: "prod"
+        run: python -m build --wheel
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: python -m twine upload --non-interactive --verbose --repository pypi --username __token__ --password ${{ secrets.PYPI_TOKEN }} dist/*
