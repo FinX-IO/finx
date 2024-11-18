@@ -51,25 +51,32 @@ jobs:
   integration_test:
     name: Integration Test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main-candidate'
+    if: github.ref == 'refs/heads/cicd'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Python and Pipenv
-        uses: ./.github/actions/setup-python
-
-      - name: Install from Test PyPI
-        run: pip install -i https://test.pypi.org/simple/ finx-io --upgrade
-
-      - name: Run Integration Tests
+      - name: Install Dependencies & Initial Test
         env:
-          DEPLOY_LEVEL: "patch"
-          DEPLOY_ENVIRONMENT: "no-deploy"
           FINX_API_KEY: ${{ secrets.FINX_API_KEY }}
           FINX_EMAIL: ${{ secrets.FINX_USER_EMAIL }}
           FINX_API_URL: ${{ secrets.FINX_API_ENDPOINT }}
-        run: bash integration_tests/integration_tests.sh
+        run: ./local_tests/github_runner.sh
+
+      #- name: Setup Python and Pipenv
+      #  uses: ./.github/actions/setup-python
+
+      #- name: Install from Test PyPI
+      #  run: pip install -i https://test.pypi.org/simple/ finx-io --upgrade
+
+      #- name: Run Integration Tests
+      #  env:
+      #    DEPLOY_LEVEL: "patch"
+      #    DEPLOY_ENVIRONMENT: "no-deploy"
+      #    FINX_API_KEY: ${{ secrets.FINX_API_KEY }}
+      #    FINX_EMAIL: ${{ secrets.FINX_USER_EMAIL }}
+      #    FINX_API_URL: ${{ secrets.FINX_API_ENDPOINT }}
+      #  run: bash integration_tests/integration_tests.sh
 
   pypi_publish:
     name: Publish to PyPI
