@@ -37,11 +37,11 @@ class FinXRestClient(BaseFinXClient):
         :return: Data from the API
         :rtype: dict
         """
-        if (error := data.get('error')) is not None:
-            print(f'API returned error: {error}')
+        if (error := data.get("error")) is not None:
+            print(f"API returned error: {error}")
             return error
-        if isinstance(data.get('data'), dict) and data.get('data', dict()).get('filename'):
-            data = self.download_file(data['data'])
+        if isinstance(data.get("data"), dict) and data.get("data", {}).get("filename"):
+            data = self.download_file(data["data"])
         self.context.cache[cache_lookup.key] = data
         return data
 
@@ -57,28 +57,34 @@ class FinXRestClient(BaseFinXClient):
         :return: Response from the API
         :rtype: dict
         """
-        payload: dict = {
-            'finx_api_key': self.context.api_key,
-            'api_method': api_method
-        }
+        payload: dict = {"finx_api_key": self.context.api_key, "api_method": api_method}
         is_json_data = len(kwargs) > 0
-        payload.update({
-            key: value for key, value in kwargs.items()
-            if key not in ['finx_api_key', 'api_method']
-        })
+        payload.update(
+            {
+                key: value
+                for key, value in kwargs.items()
+                if key not in ["finx_api_key", "api_method"]
+            }
+        )
         cache_lookup = self.context.check_cache(api_method, **kwargs)
         if cache_lookup.value is not None:
             return cache_lookup.value
-        print(f'API CALL: {api_method} with {payload} / {kwargs}')
+        print(f"API CALL: {api_method} with {payload} / {kwargs}")
         if not self.session:
             async with SessionManager() as session:
-                data = await session.post(self.context.api_url, is_json_data=is_json_data, **payload)
+                data = await session.post(
+                    self.context.api_url, is_json_data=is_json_data, **payload
+                )
                 return self._unpack_session_response(data, cache_lookup)
-        data = await self.session.post(self.context.api_url, is_json_data=is_json_data, **payload)
+        data = await self.session.post(
+            self.context.api_url, is_json_data=is_json_data, **payload
+        )
         return self._unpack_session_response(data, cache_lookup)
 
     @hybrid
-    async def _batch_dispatch(self, api_method: str, batch_params: list[dict], **kwargs) -> list[dict]:
+    async def _batch_dispatch(
+        self, api_method: str, batch_params: list[dict], **kwargs
+    ) -> list[dict]:
         """
         Abstract batch request dispatch function. Issues a request for each input
 
@@ -91,11 +97,12 @@ class FinXRestClient(BaseFinXClient):
         :return: Response from the API
         :rtype: list[dict]
         """
-        assert api_method != 'list_api_functions' \
-               and type(batch_params) is list \
-               and len(batch_params) < 100
-        runner = TaskRunner(async_func=self._dispatch, concurrency_type='async')
+        assert (
+            api_method != "list_api_functions"
+            and isinstance(batch_params, list)
+            and len(batch_params) < 100
+        )
+        runner = TaskRunner(async_func=self._dispatch, concurrency_type="async")
         return runner.run_concurrently(
-            [{'api_method': api_method} | params for params in batch_params],
-            **kwargs
+            [{"api_method": api_method} | params for params in batch_params], **kwargs
         )

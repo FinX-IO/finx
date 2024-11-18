@@ -38,11 +38,14 @@ packages installed:
 
 ```requirements.txt
 aiohttp>=3.8.4
+aenum>=3.1.15
+asgiref>=3.8.1
 setuptools>=67.0.0
 nest-asyncio>=1.5.6
 numpy>=1.25.0
 pandas>=2.0.2
 plotly>=5.15.0
+pydantic>=2.3.0
 pytest>=6.2.5
 requests>=2.31.0
 scipy>=1.10.1
@@ -97,14 +100,15 @@ Local Python3 Shell with environment variables pre-set:
 
 ```python3
 #! /usr/bin/env python3
-import finx
-import os
 import pandas as pd
 
-from finx.client import FinXClient
+from finx.client import FinXClient, ClientTypes
 
-finx_client = FinXClient('socket',ssl=True)
+finx_client = FinXClient(ClientTypes.socket)
+finx_client.load_functions()  # Load all available functions with most recent API parameters
 function_list = finx_client.list_api_functions()
+
+finx_client.cleanup()  # MAKE SURE TO CLOSE THE SOCKET AND DAEMON THREAD
 df = pd.DataFrame(function_list)
 df
 ```

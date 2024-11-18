@@ -1,0 +1,213 @@
+finx.utils.enums
+================
+
+.. py:module:: finx.utils.enums
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: extend enum class
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.utils.enums.EnumFunction
+   finx.utils.enums.ExtendedEnum
+   finx.utils.enums.NoAliasEnum
+   finx.utils.enums.ComparatorEnum
+
+
+Module Contents
+---------------
+
+.. py:class:: EnumFunction(function: callable)
+
+   Class for enum values.  Useful for assigning callable values to enums.
+
+
+   .. py:attribute:: function
+
+
+   .. py:method:: __call__(*args, **kwargs)
+
+
+.. py:class:: ExtendedEnum
+
+   Bases: :py:obj:`aenum.Enum`
+
+
+   Enum extended with useful methods.
+
+
+   .. py:method:: fromlist(classname: str, data: list[dict], enum_key: str)
+      :classmethod:
+
+
+      Create enum from list of dictionaries
+
+      :param classname: create enum with this name
+      :type classname: str
+      :param data: list of dictionaries
+      :type data: list[dict]
+      :param enum_key: key to use for enum value
+      :type enum_key: str
+      :return: Enum class
+      :rtype: Enum
+
+
+
+   .. py:method:: list(name: bool = True) -> list
+      :classmethod:
+
+
+      Return list of enum values
+
+      :param name: return name if True, otherwise return value
+      :type name: bool
+      :return: list of enum values
+      :rtype: list
+
+
+
+   .. py:method:: tuple(name: bool = True) -> tuple
+      :classmethod:
+
+
+      Return tuple of enum values
+
+      :param name: return name if True, otherwise return value
+      :type name: bool
+      :return: tuple of enum values
+      :rtype: tuple
+
+
+
+   .. py:method:: dict() -> dict
+      :classmethod:
+
+
+      Return dictionary of enum values
+
+      :return: dictionary of enum values
+      :rtype: dict
+
+
+
+   .. py:method:: get(key: str, default: str = None, default_return: Any = None)
+      :classmethod:
+
+
+      Get enum value by key
+
+      :param key: enum value name
+      :type key: str
+      :param default: default value to return if key not found
+      :type default: str
+      :param default_return: default value to return if key not found
+      :type default_return: Any
+      :return: enum value
+      :rtype: Any
+
+
+
+.. py:class:: NoAliasEnum
+
+   Bases: :py:obj:`ExtendedEnum`
+
+
+   Enum with no alias
+
+
+   .. py:attribute:: _settings_
+
+
+.. py:class:: ComparatorEnum
+
+   Bases: :py:obj:`ExtendedEnum`
+
+
+   Enum with comparison methods
+
+
+   .. py:method:: __int__()
+
+      Return enum value as integer
+
+      :return: enum value as integer
+      :rtype: int
+
+
+
+   .. py:method:: __hash__()
+
+
+   .. py:method:: __valid_comparison(other) -> bool
+
+      Check if comparison is valid
+
+      :param other: other value to compare
+      :type other: int | self.__class__
+      :return: True if comparison is valid, otherwise False
+      :rtype: bool
+
+
+
+   .. py:method:: __lt__(other)
+
+      Less than comparison
+
+      :param other: other value to compare
+      :type other: int | self.__class__
+      :return: True if less than, otherwise False
+      :rtype: bool
+
+
+
+   .. py:method:: __le__(other)
+
+      Less than or equal comparison
+
+      :param other: other value to compare
+      :type other: int | self.__class__
+      :return: True if less than or equal, otherwise False
+      :rtype: bool
+
+
+
+   .. py:method:: __gt__(other)
+
+      Greater than comparison
+
+      :param other: other value to compare
+      :type other: int | self.__class__
+      :return: True if greater than, otherwise False
+      :rtype: bool
+
+
+
+   .. py:method:: __ge__(other)
+
+      Greater than or equal comparison
+
+      :param other: other value to compare
+      :type other: int | self.__class__
+      :return: True if greater than or equal, otherwise False
+      :rtype: bool
+
+
+
+   .. py:method:: __eq__(other)
+
+      Equal comparison
+
+      :param other: other value to compare
+      :type other: int | self.__class__
+      :return: True if equal, otherwise False
+      :rtype: bool
+
+
+
