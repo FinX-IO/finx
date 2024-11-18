@@ -4,6 +4,7 @@ author: dick mule
 purpose: extract results from batch api to standardized
 """
 from typing import NamedTuple, Optional
+from io import StringIO
 
 import pandas as pd
 
@@ -32,6 +33,6 @@ def load_results(result: dict):
             pd.DataFrame(),
             result.get("error", "Security could not be calculated"),
         )
-    analytics = pd.read_json(result["projected_analytics"])
-    cashflows = pd.read_json(result["forecasted_flows"])
+    analytics = pd.read_json(StringIO(result["projected_analytics"]))
+    cashflows = pd.read_json(StringIO(result["forecasted_flows"]))
     return BatchForecastResults(analytics, cashflows, None)
