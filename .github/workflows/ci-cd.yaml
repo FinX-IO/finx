@@ -61,7 +61,7 @@ jobs:
           FINX_API_KEY: ${{ secrets.FINX_API_KEY }}
           FINX_EMAIL: ${{ secrets.FINX_USER_EMAIL }}
           FINX_API_URL: ${{ secrets.FINX_API_ENDPOINT }}
-        run: ./local_tests/github_runner.sh
+        run: ./github/scripts/github_runner.sh
 
       #- name: Setup Python and Pipenv
       #  uses: ./.github/actions/setup-python
