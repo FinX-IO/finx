@@ -23,12 +23,12 @@ dependencies = [
     "numpy",
     "pandas",
     "plotly",
+    "pydantic",
     "pytest",
     "requests",
     "scipy",
     "websocket-client",
     "websockets",
-    "pydantic"
 ]
 
 dynamic = ["version"]
