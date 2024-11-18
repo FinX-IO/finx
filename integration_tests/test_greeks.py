@@ -14,9 +14,9 @@ def main(environment: str = "dev"):
     print('main routine kicked off using api_key:', os.getenv('FINX_API_KEY'))
     finx_api_key = os.getenv('FINX_API_KEY')
     # TEST: Calculate a set of greeks on an option
-    finx = FinXClient(ClientTypes.socket)
+    client = FinXClient(ClientTypes.socket)
     # s0, k, r, sigma, q, T, p, option_side, option_type
-    greeks: dict = finx.calculate_greeks(101, 100, 0.01, 0.88, 0, 5, 0.88, 'call', 'european')
+    greeks: dict = client.calculate_greeks(101, 100, 0.01, 0.88, 0, 5, 0.88, 'call', 'european')
     print(f'**********************\nGREEKS: {greeks}\n\n')
 
 
