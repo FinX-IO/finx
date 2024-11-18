@@ -6,12 +6,14 @@ purpose: Unit test for get security reference data
 
 import unittest
 
-from ..deprecated_client import FinXClient
+from finx.client import FinXClient, ClientTypes
 
 
 class GetSecurityReferenceDataTest(unittest.TestCase):
+
     def test_get_security_reference_data(self):
-        finx_client = FinXClient('socket', ssl=True)
+        finx_client = FinXClient(ClientTypes.socket)
+        finx_client.load_functions()
         results: dict = finx_client.get_security_reference_data(security_id='912796YB9', as_of_date='2021-01-01')
         self.assertTrue(results['asset_class'] == 'bond')  # add assertion here
         # args = dict(
@@ -22,7 +24,7 @@ class GetSecurityReferenceDataTest(unittest.TestCase):
         # data = finx_client.batch_get_security_reference_data(args)
         # print(f'{data=}')
         # self.assertTrue(all(isinstance(x['security_id'], str) for x in data))
-
+        finx_client.cleanup()
 
 
 if __name__ == '__main__':
