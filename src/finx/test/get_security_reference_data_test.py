@@ -1,6 +1,12 @@
+#! python
+"""
+author: Dick Mule
+purpose: Unit test for get security reference data
+"""
+
 import unittest
 
-from ..client import FinXClient
+from ..deprecated_client import FinXClient
 
 
 class GetSecurityReferenceDataTest(unittest.TestCase):

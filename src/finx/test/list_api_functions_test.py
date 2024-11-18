@@ -1,6 +1,11 @@
+#! python
+"""
+author: dick mule
+purpose: unittest the list api functions method
+"""
 import unittest
 
-from ..client import FinXClient
+from ..deprecated_client import FinXClient
 
 
 class ListAPIFunctionsTest(unittest.TestCase):
