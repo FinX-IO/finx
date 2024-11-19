@@ -12,7 +12,7 @@ import threading
 
 from asgiref.sync import sync_to_async, async_to_sync
 
-AWAITABLE = Union[asyncio.Task, Coroutine]
+Awaitable = Union[asyncio.Task, Coroutine]
 _ALREADY_RUNNING = asyncio.get_event_loop().is_running()
 
 
@@ -42,12 +42,12 @@ def to_async(func: Callable, thread_safe: bool = False):
     return sync_to_async(func, thread_sensitive=thread_safe)
 
 
-def to_sync(func: AWAITABLE, force_new_loop: bool = False):
+def to_sync(func: Awaitable, force_new_loop: bool = False):
     """
     Wrap asgiref functionality.  Easier naming convention.
 
     :param func: Async method to be converted to sync.
-    :type func: AWAITABLE
+    :type func: Awaitable
     :param force_new_loop: Specify whether to force new loop
     :type force_new_loop: bool
     :return: Converted Async method -> Sync
@@ -83,14 +83,14 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
         if new_loop:
             loop.close()
         return result
-    except TypeError:
-        raise TypeError("BAD LOOP PARAMS")
+    except TypeError as exc:
+        raise TypeError("BAD LOOP PARAMS") from exc
 
 
 class Hybrid:
     """Add some features to hybrid async methods"""
 
-    def __init__(self, func: Callable | AWAITABLE):
+    def __init__(self, func: Callable | Awaitable):
         """
         Initialize Hybrid class with function
 
@@ -102,7 +102,7 @@ class Hybrid:
                 return "done"
 
         :param func: Function to be wrapped
-        :type func: Callable | AWAITABLE
+        :type func: Callable | Awaitable
         """
         self._func: Callable = func
         self._func_name: str = func.__name__
@@ -256,6 +256,7 @@ class ThreadWithReturnValue(threading.Thread):
     """Thread class with return value"""
 
     # pylint: disable=too-many-positional-arguments
+    # pylint: disable=too-many-function-args
     def __init__(
         self, target=None, group=None, name=None, args=(), kwargs=None, daemon=None
     ):

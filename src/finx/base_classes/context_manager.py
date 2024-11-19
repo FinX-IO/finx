@@ -14,6 +14,8 @@ from pydantic import Field
 from finx.base_classes.from_kwargs import BaseMethods
 from finx.utils.enums import ExtendedEnum
 
+# pylint: disable=no-member
+
 
 class _ParamCacheKeys(ExtendedEnum):
     """Keys to check in Cache"""
@@ -128,6 +130,8 @@ class ApiContextManager(BaseMethods):
         )
         cached_value = self.cache.get(cache_key, {}).get(params_key)
         if cached_value is None:
+            # pylint: disable=unsupported-assignment-operation
             self.cache[cache_key] = {}
+            # pylint: disable=unsubscriptable-object
             self.cache[cache_key][params_key] = None
         return CacheLookup(cached_value, cache_key, params_key)

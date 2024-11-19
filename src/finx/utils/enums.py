@@ -3,8 +3,6 @@
 author: dick mule
 purpose: extend enum class
 """
-from dataclasses import field
-from itertools import count
 from typing import Any
 
 from aenum import Enum, NoAlias
@@ -23,7 +21,26 @@ class EnumFunction:
         self.function = function
 
     def __call__(self, *args, **kwargs):
+        """
+        Run wrapped function when called
+
+        :param args: Tuple of arguments to unpack
+        :type args: tuple
+        :param kwargs: Key word arguments for function
+        :type kwargs: dict
+        """
         return self.function(*args, **kwargs)
+
+    def run_function(self, *args, **kwargs):
+        """
+        Run wrapped function when called
+
+        :param args: Tuple of arguments to unpack
+        :type args: tuple
+        :param kwargs: Key word arguments for function
+        :type kwargs: dict
+        """
+        return self(*args, **kwargs)
 
 
 class ExtendedEnum(Enum):

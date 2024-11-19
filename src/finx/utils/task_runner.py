@@ -12,7 +12,7 @@ import multiprocessing as mp
 
 import pandas as pd
 
-from finx.utils.concurrency import AWAITABLE
+from finx.utils.concurrency import Awaitable
 from finx.utils.enums import ComparatorEnum
 
 from finx.utils.concurrency import Hybrid, hybrid, ProcessWithReturnValue
@@ -95,7 +95,7 @@ class ProgressManager:
 class AsyncTaskManager(ProgressManager):
     """Class to manage running of multiple coroutines"""
 
-    tasks: list[AWAITABLE] = field(default_factory=list)
+    tasks: list[Awaitable] = field(default_factory=list)
     chunk_size: int = -1
     __total_tasks: int = -1
 
@@ -149,12 +149,12 @@ class AsyncTaskManager(ProgressManager):
         self.__total_tasks = value
 
     @staticmethod
-    async def wrap_task(async_task: AWAITABLE, task_id: int) -> dict:
+    async def wrap_task(async_task: Awaitable, task_id: int) -> dict:
         """
         Wraps an async task and makes it possible to retrieve results in order
 
         :param async_task: Awaitable async task to be wrapped
-        :type async_task: AWAITABLE
+        :type async_task: Awaitable
         :param task_id: Task id
         :type task_id: int
         :return: dict of task id and result allows for sorting
@@ -164,14 +164,14 @@ class AsyncTaskManager(ProgressManager):
         return {"id": task_id, "result": result}
 
     @staticmethod
-    def wrap_tasks(tasks: list[AWAITABLE]) -> list[AWAITABLE]:
+    def wrap_tasks(tasks: list[Awaitable]) -> list[Awaitable]:
         """
         Wrap all tasks for sort ordering results based on original position
 
         :param tasks: list of tasks
-        :type tasks: list[AWAITABLE]
+        :type tasks: list[Awaitable]
         :return: list of wrapped tasks
-        :rtype: list[AWAITABLE]
+        :rtype: list[Awaitable]
         """
         return [AsyncTaskManager.wrap_task(x, i) for i, x in enumerate(tasks)]
 
@@ -313,7 +313,7 @@ class TaskRunner(AsyncProcessManager):
     """Interface for running a variety of async methods"""
 
     async_func: Union[ProcessWithReturnValue, Hybrid]
-    tasks: list[AWAITABLE | ProcessWithReturnValue] = field(default_factory=list)
+    tasks: list[Awaitable | ProcessWithReturnValue] = field(default_factory=list)
     concurrency_type: str | ConcurrencyTypes = field(
         default_factory=lambda: ConcurrencyTypes.async_thread
     )
