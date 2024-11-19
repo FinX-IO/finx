@@ -30,6 +30,13 @@ _BATCH_PARAMS = (
 )
 
 
+# pylint: disable=no-member
+# pylint: disable=too-many-lines
+# pylint: disable=too-many-locals
+# pylint: disable=missing-timeout
+# pylint: disable=consider-using-with
+
+
 class PayloadCache(NamedTuple):
     """Payload object to manage state internally"""
 
@@ -38,6 +45,7 @@ class PayloadCache(NamedTuple):
     cache_keys: list[CacheLookup]
 
 
+# pylint: disable=too-many-public-methods
 class BaseFinXClient(BaseMethods, ABC):
     """
     Base FinX Client interface - will initialize a context manager and session manager
@@ -112,7 +120,6 @@ class BaseFinXClient(BaseMethods, ABC):
         :return: None type object
         :rtype: None
         """
-        print("Cleaning up {}".format(self.__class__.__name__))
         if getattr(self, "finalized", None) is None:
             return
         self.free()
@@ -172,7 +179,7 @@ class BaseFinXClient(BaseMethods, ABC):
                     f"        return await result\n"
                     f"    return result"
                 )
-                exec(string_repr, local_vals)
+                exec(string_repr, local_vals)  # pylint: disable=exec-used
                 self.__dict__[f"{batch}{name}"] = hybrid(
                     MethodType(local_vals[f"{batch}{name}"], self)
                 )
@@ -246,11 +253,11 @@ class BaseFinXClient(BaseMethods, ABC):
         )
         try:
             response = response.json()
-        except requests.JSONDecodeError:
+        except requests.JSONDecodeError as exc:
             print(f"UPLOAD ERROR: {response.status_code=} -> {response.text=}")
             if remove_file:
                 os.remove(filename)
-            raise ValueError("Failed to upload file")
+            raise ValueError("Failed to upload file") from exc
         file.close()
         if remove_file:
             os.remove(filename)
@@ -327,7 +334,8 @@ class BaseFinXClient(BaseMethods, ABC):
             else:
                 matched_result = file_df.loc[
                     file_df["cache_key"].map(
-                        lambda x: json.loads(x) == list(cache_keys[index])
+                        lambda x: json.loads(x)
+                        == list(cache_keys[index])  # pylint: disable=cell-var-from-loop
                     )
                 ].to_dict(orient="records")[0]
             if "filename" in matched_result:
@@ -358,7 +366,7 @@ class BaseFinXClient(BaseMethods, ABC):
         :rtype: Any
         """
         try:
-            results, file_results = await self._wait_for_results(cache_keys)
+            results, _ = await self._wait_for_results(cache_keys)
             if (
                 (output_file := kwargs.get("output_file")) is not None
                 and len(results) > 0
@@ -373,7 +381,7 @@ class BaseFinXClient(BaseMethods, ABC):
                 if len(results) > 1
                 else results[0] if len(results) > 0 else results
             )
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-exception-caught
             print(f"Failed to find result/execute callback: {format_exc()}")
             print(f"Exception: {e}")
 
@@ -411,6 +419,12 @@ class BaseFinXClient(BaseMethods, ABC):
 
     @hybrid
     async def load_functions(self):
+        """
+        Load all available functions from the API
+
+        :return: None type object
+        :rtype: None
+        """
         all_functions = await self._dispatch("list_api_functions")
         self._reload_function_definitions(all_functions)
 
@@ -667,6 +681,7 @@ class BaseFinXClient(BaseMethods, ABC):
 
     @hybrid
     # pylint: disable=too-many-positional-arguments
+    # pylint: disable=invalid-name
     async def calculate_greeks(
         self, s0, k, r, sigma, q, T, price, option_side=None, option_type=None, **kwargs
     ):

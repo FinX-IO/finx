@@ -1,14 +1,22 @@
-import os
+#! python
+"""
+author: FinX Capital Markets
+purpose: Setup file for FinX Python Client
+"""
 from setuptools import setup
 
-setup(name='finx-io',
-      version=os.getenv("FINX_VERSION"),
-      description='Python client for FinX Platform APIs',
-      url="https://github.com/FinX-IO/finx",
-      author='FinX Capital Markets LLC',
-      author_email='support@finx.io',
-      license='MIT',
-      install_requires=["aiohttp",
+import os
+
+setup(
+    name="finx-io",
+    version=os.getenv("FINX_VERSION"),
+    description="Python client for FinX Platform APIs",
+    url="https://github.com/FinX-IO/finx",
+    author="FinX Capital Markets LLC",
+    author_email="support@finx.io",
+    license="MIT",
+    install_requires=[
+        "aiohttp",
         "aenum",
         "asgiref",
         "setuptools",
@@ -26,5 +34,7 @@ setup(name='finx-io',
         "sphinx",
         "sphinx-autoapi",
         "autodoc_pydantic",
-        "sphinx-rtd-theme"],
-      zip_safe=False)
+        "sphinx-rtd-theme",
+    ],
+    zip_safe=False,
+)

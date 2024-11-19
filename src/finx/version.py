@@ -23,7 +23,7 @@ def bump_version(level: str, deploy_environment: str) -> str:
     """
     # Retrieve JSON data
     url = "https://test.pypi.org/pypi/finx-io/json"
-    response = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)  # pylint: disable=consider-using-with
     data = json.loads(response.read())
     # Extract current version
     current_version = data["info"]["version"]
