@@ -4,6 +4,8 @@ This python package is the **FinX Python SDK** and is used to interface with the
 Platform**.
 
 Please see LICENSE and SECURITY for terms of use.
+| Branch | Build & Test Results                                                                                                                                                                                                           |
+| ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 ***
 
