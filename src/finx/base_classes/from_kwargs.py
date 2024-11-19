@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from finx.utils.concurrency import Hybrid
 
 
+# pylint: disable=too-few-public-methods
 class BaseMethods(BaseModel):
     """Base method expanding pydantic model to be initialized from dict with extra values"""
 
@@ -31,6 +32,7 @@ class BaseMethods(BaseModel):
         :return: None type object
         :rtype: None
         """
+        # pylint: disable=useless-parent-delegation
         super().model_post_init(__context)
 
     @classmethod
@@ -44,7 +46,7 @@ class BaseMethods(BaseModel):
         :rtype: cls
         """
         native_args, new_args = {}, {}
-        cls_fields = {k for k in signature(cls).parameters}
+        cls_fields = set(signature(cls).parameters)
         for name, val in kwargs.items():
             if name in cls_fields:
                 native_args[name] = val

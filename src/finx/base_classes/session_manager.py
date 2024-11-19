@@ -81,7 +81,6 @@ class SessionManager(BaseModel):
         self,
         url: str,
         is_json_response: bool = True,
-        is_json_data: bool = False,
         **kwargs,
     ):
         """

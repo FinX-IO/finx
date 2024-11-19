@@ -215,7 +215,7 @@ class FinXSocketClient(BaseFinXClient):
                     else:
                         value = data
                     self.context.cache[key[1]][key[2]] = value
-            except Exception as e:
+            except Exception as e:  # pylint: disable=broad-exception-caught
                 print(
                     f"Socket ({s.is_connected}) on_message error: {format_exc()}, {message}"
                 )
@@ -273,6 +273,7 @@ class FinXSocketClient(BaseFinXClient):
             self._socket_thread = None
             self._socket = None
             s.close()
+            return None
 
         return on_close
 
@@ -346,8 +347,9 @@ class FinXSocketClient(BaseFinXClient):
                 },
             )
             self._socket_thread.start()
-        except Exception as e:
-            raise Exception(f"Failed to connect to {self.ws_url}: {e}")
+        except Exception as e:  # pylint: disable=broad-exception-raised
+            # pylint: disable=broad-exception-raised
+            raise Exception(f"Failed to connect to {self.ws_url}: {e}") from e
 
     def _upload_batch_file(self, batch_input: Any) -> str:
         """
@@ -372,18 +374,27 @@ class FinXSocketClient(BaseFinXClient):
                     if x
                 ]
                 if request_dicts:
-                    with open(filename, "w+") as file:
+                    # pylint: disable=unspecified-encoding
+                    with open(
+                        filename, "w+"
+                    ) as file:
                         file.write("\n".join(request_dicts))
                     file.close()
                     print("MADE BATCH FILE")
                 else:
                     pd.DataFrame(batch_input).to_csv(filename, index=False)
-            elif type(batch_input[0]) is str:
-                with open(filename, "w+") as file:
+            elif isinstance(batch_input[0], str):
+                # pylint: disable=unspecified-encoding
+                with open(
+                    filename, "w+"
+                ) as file:
                     file.write("\n".join(batch_input))
         return self.upload_file(filename, remove_file=True)
 
     @hybrid
+    # pylint: disable=too-many-locals
+    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-statements
     async def _dispatch(self, api_method: str, **kwargs) -> dict:
         """
         Dispatch a request to the API
@@ -475,7 +486,7 @@ class FinXSocketClient(BaseFinXClient):
         except Exception as e:
             for k, v in payload.items():
                 print(f"{k}: {str(v)[:1000]}")
-            raise ValueError("Failed to serialize payload")
+            raise ValueError("Failed to serialize payload") from e
         results = await self._listen_for_results(cache_keys, callback, **kwargs)
         self._payload_cache = None
         return results

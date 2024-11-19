@@ -8,13 +8,14 @@ import unittest
 import pandas as pd
 
 from finx.client import FinXClient, ClientTypes
-from finx.helpers.batch_cash_flows import load_results
+from finx.helpers.batch_cash_flows import load_results, BatchForecastResults
 
 
 class BatchCashFlows(unittest.TestCase):
     """Unittest batch cash flows"""
 
     @property
+    # pylint: disable=too-many-lines
     def sample_records(self):
         """
         Return sample records
@@ -1841,6 +1842,7 @@ class BatchCashFlows(unittest.TestCase):
             payload[column] = data[column].tolist()
         results = finx_client.batch_forecast_cf_and_prices(payload)
         unpacked_results = list(map(load_results, results))
+        self.assertTrue(isinstance(unpacked_results[0], BatchForecastResults))
         finx_client.cleanup()
 
 

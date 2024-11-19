@@ -9,7 +9,7 @@ from pylint.lint import Run
 
 
 def main():
-    results = Run(['./src/'], exit=False)
+    results = Run(['./src/finx'], exit=False)
     if results.linter.stats.global_note < 10.:
         raise Exception('Codebase is not fully linted!')
 
