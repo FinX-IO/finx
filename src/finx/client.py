@@ -80,7 +80,7 @@ class _FinXClientFactory:
         client_type: Union[str, ClientTypes] = "socket",
         loop: asyncio.AbstractEventLoop = None,
         **kwargs,
-    ) -> "BaseFinXClient":
+    ) -> socket_client.FinXSocketClient | rest_client.FinXRestClient:
         """
         Call method for the factory class
 

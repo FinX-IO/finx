@@ -1,13 +1,21 @@
-## FinX Capital Markets LLC
+# FinX Capital Markets
 
 This python package is the **FinX Python SDK** and is used to interface with the **FinX Capital Markets Analytics 
 Platform**.
+
+
+| Branch | Build & Test Results                                                                                                                                                                                                           |
+| ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/main.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/main) |
+| Test.PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/dev.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/dev)   |
+
+### FinX Capital Markets LLC
 
 Please see LICENSE and SECURITY for terms of use.
 
 ***
 
-### FinX Python Software Development Kit
+# FinX Python Software Development Kit
 
 The **FinX SDK** is a python package that has interfaces to the FinX Capital Markets
 Analytics Platform (the 'FinX Platform'). The code in the SDK makes calls to REST APIs 
@@ -19,9 +27,9 @@ Full **Documentation** is available at [https://finx-capital-markets.gitbook.io/
 
 ***
 
-### Installation
+# Installation
 
-### Requirements
+## Requirements
 
 The FinX SDK requires Python 3.10 or higher.
 
@@ -30,7 +38,7 @@ The FinX SDK requires Python 3.10 or higher.
 In your container, pipenv or other python environment, you must have the following
 packages installed:
 
-```
+```requirements.txt
 aiohttp>=3.8.4
 aenum>=3.1.15
 asgiref>=3.8.1
@@ -56,7 +64,7 @@ in your user account settings, or in the email sent to you upon registration.
 2. `FINX_API_URL` - The URL of the FinX Platform API.
 3. `FINX_USER_EMAIL` - The email address used to register with FinX.
 
-### Install from PyPI using Pip
+## Install from PyPI using Pip
 
 In your python environment of choice, install finx using Pip:
 
@@ -73,7 +81,7 @@ pipenv environment. To install finx using pipenv, run the following commands:
     pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
     pipenv install finx-io 
 
-### Check Installation and Environment Variables with Pipenv
+## Check Installation and Environment Variables with Pipenv
 
 Here's a full example of how to install finx using pipenv, with a quick test to ensure the environment variables are set correctly:
 
