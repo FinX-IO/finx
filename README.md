@@ -6,7 +6,8 @@ Platform**.
 Please see LICENSE and SECURITY for terms of use.
 | Branch | Build & Test Results                                                                                                                                                                                                           |
 | ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-
+| PyPi.org | INSERT BADGE |
+| Test.PyPi.org | INSERT BADGE|
 ***
 
 ### FinX Python Software Development Kit
