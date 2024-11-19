@@ -1,0 +1,237 @@
+finx.clients.socket_client
+==========================
+
+.. py:module:: finx.clients.socket_client
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: FinX Socket Client
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.clients.socket_client.FinXWebSocket
+   finx.clients.socket_client.FinXSocketClient
+
+
+Module Contents
+---------------
+
+.. py:class:: FinXWebSocket(url: str, header: Union[list, dict, Callable, None] = None, on_open: Optional[Callable[[websocket._core.WebSocket], None]] = None, on_reconnect: Optional[Callable[[websocket._core.WebSocket], None]] = None, on_message: Optional[Callable[[websocket._core.WebSocket, Any], None]] = None, on_error: Optional[Callable[[websocket._core.WebSocket, Any], None]] = None, on_close: Optional[Callable[[websocket._core.WebSocket, Any, Any], None]] = None, on_ping: Optional[Callable] = None, on_pong: Optional[Callable] = None, on_cont_message: Optional[Callable] = None, keep_running: bool = True, get_mask_key: Optional[Callable] = None, cookie: Optional[str] = None, subprotocols: Optional[list] = None, on_data: Optional[Callable] = None, socket: Optional[WebSocketApp.__init__.socket] = None)
+
+   Bases: :py:obj:`websocket.WebSocketApp`
+
+
+   Wrapper for python WebSocketApp
+
+
+   .. py:property:: is_connected
+
+      Simple function ensuring socket exists and is connected
+
+      :return: Socket is connected
+      :rtype: bool
+
+
+
+.. py:class:: FinXSocketClient
+
+   Bases: :py:obj:`finx.base_classes.base_client.BaseFinXClient`
+
+
+   FinX Socket Client interface
+
+
+   .. py:attribute:: _awaiting_auth
+      :type:  bool
+
+
+   .. py:attribute:: _is_authenticated
+      :type:  bool
+
+
+   .. py:attribute:: _socket
+      :type:  Optional[FinXWebSocket]
+
+
+   .. py:attribute:: _socket_thread
+      :type:  Optional[threading.Thread]
+
+
+   .. py:property:: ws_url
+
+      Get the websocket URL
+
+      :return: Websocket URL
+      :rtype: str
+
+
+
+   .. py:method:: model_post_init(__context: Any) -> None
+
+      Pydantic base method that initializes all fields
+
+      :param __context: Context information for pydantic
+      :type __context: Any
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: cleanup()
+
+      Cleanup method
+
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:property:: is_ssl
+      :type: bool
+
+
+      Check if the socket is SSL
+
+      :return: Boolean value of SSL status
+      :rtype: bool
+
+
+
+   .. py:property:: is_authenticated
+      :type: bool
+
+
+      Check if the socket is authenticated
+
+      :return: Boolean value of authentication status
+      :rtype: bool
+
+
+
+   .. py:method:: authenticate(s: FinXWebSocket)
+
+      Authenticate the socket connection
+
+      :param s: Socket
+      :type s: FinXWebSocket
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: _wrap_on_open()
+
+      Wrap on open function so that it binds to self
+
+      :return: Callable on open function for FinXWebSocket
+      :rtype: callable[FinXWebSocket]
+
+
+
+   .. py:method:: __handle_authentication()
+
+      Handle authentication
+
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: _wrap_on_message()
+
+      Wrap on message function so that it binds to self
+
+      :return: Callable on message function for FinXWebSocket
+      :rtype: callable[FinXWebSocket, str]
+
+
+
+   .. py:method:: _wrap_on_error() -> Callable[[FinXWebSocket, Exception], None]
+
+      Wrap on error function so that it binds to self
+
+      :return: Callable on error function for FinXWebSocket
+      :rtype: callable[FinXWebSocket, Exception]
+
+
+
+   .. py:method:: _wrap_on_close() -> Callable[[FinXWebSocket, Any, Any], None]
+
+      Wrap on close function so that it binds to self
+
+      :return: Callable on close function for FinXWebSocket
+      :rtype: callable[FinXWebSocket]
+
+
+
+   .. py:method:: _parse_batch_input(batch_input: Any, base_cache_payload: dict) -> tuple[list[finx.base_classes.context_manager.CacheLookup], list[dict], list[dict]]
+
+      Parse batch input
+
+      :param batch_input: Batch input
+      :type batch_input: Any
+      :param base_cache_payload: Base cache payload
+      :type base_cache_payload: dict
+      :return: Cache keys, cached responses, outstanding requests
+      :rtype: tuple[list[CacheLookup], list[dict], list[dict]]
+
+
+
+   .. py:method:: _run_socket()
+
+      Run the socket connection
+
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: _upload_batch_file(batch_input: Any) -> str
+
+      Upload a batch file to the API
+
+      :param batch_input: Batch input
+      :type batch_input: Any
+      :return: Filename of the batch file
+      :rtype: str
+
+
+
+   .. py:method:: _dispatch(api_method: str, **kwargs) -> dict
+      :async:
+
+
+      Dispatch a request to the API
+
+      :param api_method: API method to call
+      :type api_method: str
+      :param kwargs: Keyword arguments
+      :type kwargs: dict
+      :return: Response from the API
+      :rtype: dict
+
+
+
+   .. py:method:: _batch_dispatch(api_method: str, batch_params: list[dict], **kwargs) -> list[dict]
+      :async:
+
+
+      Abstract batch request dispatch function. Issues a request for each input
+
+      :param api_method: API method to call
+      :type api_method: str
+      :param batch_params: List of security parameters
+      :type batch_params: list[dict]
+      :param kwargs: Keyword arguments
+      :type kwargs: dict
+      :return: Response from the API
+      :rtype: list[dict]
+
+
+

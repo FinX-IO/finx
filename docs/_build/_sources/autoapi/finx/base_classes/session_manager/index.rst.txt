@@ -1,0 +1,118 @@
+finx.base_classes.session_manager
+=================================
+
+.. py:module:: finx.base_classes.session_manager
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: base class for AIOHTTP session manager
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.base_classes.session_manager.SessionManager
+
+
+Module Contents
+---------------
+
+.. py:class:: SessionManager(/, **data: Any)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Class that can be used to manage an AIOHTTP Session for use in asynchronous endpoint requests
+
+
+   .. py:attribute:: _session
+      :type:  Optional[aiohttp.ClientSession]
+
+
+   .. py:method:: model_post_init(__context: Any) -> None
+
+      Pydantic base method that initializes all fields
+
+      :param __context: Context information for pydantic
+      :type __context: Any
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: set_event_loop(loop: asyncio.AbstractEventLoop)
+
+      Update event loop for session
+
+      :param loop: Event loop to be set
+      :type loop: asyncio.AbstractEventLoop
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: __aenter__()
+      :async:
+
+
+      Entrance method that initializes a session - forces usage within a with statement
+
+      >>> with SessionManager() as session:
+      >>>     # Do something with session
+
+      :return: Session Manager Class
+      :rtype: SessionManager
+
+
+
+   .. py:method:: __aexit__(*err)
+      :async:
+
+
+      Exit method that closes session after with statement is terminated
+
+      :param err: Error information
+      :type err: tuple
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: post(url: str, is_json_response: bool = True, **kwargs)
+      :async:
+
+
+      Call an endpoint with a POST request asynchronously
+
+      :param url: String URL of the endpoint
+      :type url: str
+      :param is_json_response: Boolean flag to determine if the response is JSON
+      :type is_json_response: bool
+      :param kwargs: Data to be sent to the endpoint
+      :type kwargs: dict
+      :return: dictionary of the response
+      :rtype: dict
+
+
+
+   .. py:method:: get(url: str, is_json_response: bool = True, **kwargs)
+      :async:
+
+
+      Call an endpoint with a GET request asynchronously
+
+      :param url: String URL of the endpoint
+      :type url: str
+      :param is_json_response: Boolean flag to determine if the response is JSON
+      :type is_json_response: bool
+      :param kwargs: Data to be sent to the endpoint
+      :type kwargs: dict
+      :return: dictionary of the response
+      :rtype: dict
+
+
+

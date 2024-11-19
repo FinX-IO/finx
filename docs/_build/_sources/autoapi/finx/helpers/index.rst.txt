@@ -1,0 +1,15 @@
+finx.helpers
+============
+
+.. py:module:: finx.helpers
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/finx/helpers/batch_cash_flows/index
+
+

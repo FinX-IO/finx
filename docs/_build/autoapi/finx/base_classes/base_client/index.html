@@ -1,0 +1,1172 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>finx.base_classes.base_client &mdash; FinX SDK  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css?v=a0a71c94" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="finx.base_classes.context_manager" href="../context_manager/index.html" />
+    <link rel="prev" title="finx.base_classes" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            FinX SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">Readme File</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">finx</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">finx.base_classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client/index.html">finx.client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../clients/index.html">finx.clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../helpers/index.html">finx.helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../test/index.html">finx.test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">finx.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../version/index.html">finx.version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">FinX SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">finx</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">finx.base_classes</a></li>
+      <li class="breadcrumb-item active">finx.base_classes.base_client</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/finx/base_classes/base_client/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-finx.base_classes.base_client">
+<span id="finx-base-classes-base-client"></span><h1>finx.base_classes.base_client<a class="headerlink" href="#module-finx.base_classes.base_client" title="Link to this heading"></a></h1>
+<p>author: dick mule
+purpose: Base Client interface that underpins REST and SOCKET implementations</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.base_classes.base_client._BATCH_INPUTS" title="finx.base_classes.base_client._BATCH_INPUTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_BATCH_INPUTS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#finx.base_classes.base_client._BATCH_PARAMS" title="finx.base_classes.base_client._BATCH_PARAMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_BATCH_PARAMS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.base_classes.base_client.PayloadCache" title="finx.base_classes.base_client.PayloadCache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PayloadCache</span></code></a></p></td>
+<td><p>Payload object to manage state internally</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#finx.base_classes.base_client.BaseFinXClient" title="finx.base_classes.base_client.BaseFinXClient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseFinXClient</span></code></a></p></td>
+<td><p>Base FinX Client interface - will initialize a context manager and session manager</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="finx.base_classes.base_client._BATCH_INPUTS">
+<span class="sig-prename descclassname"><span class="pre">finx.base_classes.base_client.</span></span><span class="sig-name descname"><span class="pre">_BATCH_INPUTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'batch_params=None,</span> <span class="pre">input_file=None,</span> <span class="pre">output_file=None,</span> <span class="pre">'</span></em><a class="headerlink" href="#finx.base_classes.base_client._BATCH_INPUTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="finx.base_classes.base_client._BATCH_PARAMS">
+<span class="sig-prename descclassname"><span class="pre">finx.base_classes.base_client.</span></span><span class="sig-name descname"><span class="pre">_BATCH_PARAMS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'batch_params=batch_params,</span> <span class="pre">input_file=input_file,</span> <span class="pre">output_file=output_file,</span> <span class="pre">'</span></em><a class="headerlink" href="#finx.base_classes.base_client._BATCH_PARAMS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.PayloadCache">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.base_classes.base_client.</span></span><span class="sig-name descname"><span class="pre">PayloadCache</span></span><a class="headerlink" href="#finx.base_classes.base_client.PayloadCache" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Payload object to manage state internally</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.PayloadCache.job_id">
+<span class="sig-name descname"><span class="pre">job_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#finx.base_classes.base_client.PayloadCache.job_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.PayloadCache.payload">
+<span class="sig-name descname"><span class="pre">payload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#finx.base_classes.base_client.PayloadCache.payload" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.PayloadCache.cache_keys">
+<span class="sig-name descname"><span class="pre">cache_keys</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../context_manager/index.html#finx.base_classes.context_manager.CacheLookup" title="finx.base_classes.context_manager.CacheLookup"><span class="pre">finx.base_classes.context_manager.CacheLookup</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.base_classes.base_client.PayloadCache.cache_keys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.base_classes.base_client.</span></span><span class="sig-name descname"><span class="pre">BaseFinXClient</span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../from_kwargs/index.html#finx.base_classes.from_kwargs.BaseMethods" title="finx.base_classes.from_kwargs.BaseMethods"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finx.base_classes.from_kwargs.BaseMethods</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base FinX Client interface - will initialize a context manager and session manager</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../context_manager/index.html#finx.base_classes.context_manager.ApiContextManager" title="finx.base_classes.context_manager.ApiContextManager"><span class="pre">finx.base_classes.context_manager.ApiContextManager</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.context" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.session">
+<span class="sig-name descname"><span class="pre">session</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../session_manager/index.html#finx.base_classes.session_manager.SessionManager" title="finx.base_classes.session_manager.SessionManager"><span class="pre">finx.base_classes.session_manager.SessionManager</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.session" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.finalized">
+<span class="sig-name descname"><span class="pre">finalized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">weakref.finalize</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.finalized" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._payload_cache">
+<span class="sig-name descname"><span class="pre">_payload_cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#finx.base_classes.base_client.PayloadCache" title="finx.base_classes.base_client.PayloadCache"><span class="pre">PayloadCache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._payload_cache" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._cleaned_up">
+<span class="sig-name descname"><span class="pre">_cleaned_up</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._cleaned_up" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.model_post_init">
+<span class="sig-name descname"><span class="pre">model_post_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.model_post_init" title="Link to this definition"></a></dt>
+<dd><p>Pydantic base method that initializes all fields</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>__context</strong> (<em>Any</em>) – Context information for pydantic</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None type</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.update_payload_cache">
+<span class="sig-name descname"><span class="pre">update_payload_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../context_manager/index.html#finx.base_classes.context_manager.CacheLookup" title="finx.base_classes.context_manager.CacheLookup"><span class="pre">finx.base_classes.context_manager.CacheLookup</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.update_payload_cache" title="Link to this definition"></a></dt>
+<dd><p>Update the payload cache</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_id</strong> (<em>str</em>) – Job ID</p></li>
+<li><p><strong>payload</strong> (<em>dict</em>) – Payload data</p></li>
+<li><p><strong>cache_keys</strong> (<em>list</em><em>[</em><a class="reference internal" href="../context_manager/index.html#finx.base_classes.context_manager.CacheLookup" title="finx.base_classes.context_manager.CacheLookup"><em>CacheLookup</em></a><em>]</em>) – Cache keys</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None type object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.cleanup">
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.cleanup" title="Link to this definition"></a></dt>
+<dd><p>Require any inheritable class to clean up the c++ object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.free">
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.free" title="Link to this definition"></a></dt>
+<dd><p>Free the c++ object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.__del__">
+<span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.__del__" title="Link to this definition"></a></dt>
+<dd><p>Destructor to ensure that any thread/socket resources are freed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._parse_request_response">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_parse_request_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">requests.Response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._parse_request_response" title="Link to this definition"></a></dt>
+<dd><p>Parse the response from a request</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>response</strong> (<em>requests.Response</em>) – Response from a request</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parsed response</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict | pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._reload_function_definitions">
+<span class="sig-name descname"><span class="pre">_reload_function_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_functions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._reload_function_definitions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.download_file">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_async</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_json_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.download_file" title="Link to this definition"></a></dt>
+<dd><p>Download a file from the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Name of the file to download</p></li>
+<li><p><strong>bucket_name</strong> (<em>str</em>) – Bucket name to download from</p></li>
+<li><p><strong>use_async</strong> (<em>bool</em>) – Use async method</p></li>
+<li><p><strong>is_json_response</strong> (<em>bool</em>) – Response is JSON</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File contents</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict | pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.upload_file">
+<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.upload_file" title="Link to this definition"></a></dt>
+<dd><p>Download a file from the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Name of the file to download</p></li>
+<li><p><strong>remove_file</strong> (<em>bool</em>) – Remove temporary file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File contents</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict | pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._download_file_results">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_download_file_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._download_file_results" title="Link to this definition"></a></dt>
+<dd><p>Download file results from the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_results</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>dict</em><em>]</em><em>]</em>) – File results</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._wait_for_results">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_wait_for_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._wait_for_results" title="Link to this definition"></a></dt>
+<dd><p>Function to monitor keys and wait til all results are available</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cache_keys</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of cache keys</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of results and file results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[Any], list[tuple[int, dict]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._listen_for_results">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_listen_for_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._listen_for_results" title="Link to this definition"></a></dt>
+<dd><p>Listen for results from the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache_keys</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of cache keys</p></li>
+<li><p><strong>callback</strong> (<em>callable</em>) – Callback function to process results</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._dispatch">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._dispatch" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Async<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Dispatch a request to the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_method</strong> (<em>str</em>) – API method to call</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Response from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient._batch_dispatch">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_batch_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient._batch_dispatch" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Async<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Abstract batch request dispatch function. Issues a request for each input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_method</strong> (<em>str</em>) – API method to call</p></li>
+<li><p><strong>batch_params</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – List of api parameters</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Response from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.load_functions">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_functions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.load_functions" title="Link to this definition"></a></dt>
+<dd><p>Load all available functions from the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.list_api_functions">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_api_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.list_api_functions" title="Link to this definition"></a></dt>
+<dd><p>List all available API functions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of API functions</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_coverage_check">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_coverage_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_coverage_check" title="Link to this definition"></a></dt>
+<dd><p>Batch coverage check function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.coverage_check">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coverage_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.coverage_check" title="Link to this definition"></a></dt>
+<dd><p>Coverage check function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_list_fixings">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_list_fixings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_list_fixings" title="Link to this definition"></a></dt>
+<dd><p>Batch list fixings function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.list_fixings">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_fixings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.list_fixings" title="Link to this definition"></a></dt>
+<dd><p>List fixings function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to list fixings for</p></li>
+<li><p><strong>currency</strong> (<em>str</em>) – Currency to list fixings for</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_get_fixings">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_get_fixings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_get_fixings" title="Link to this definition"></a></dt>
+<dd><p>Batch get fixings function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.get_fixings">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_fixings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fixings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.get_fixings" title="Link to this definition"></a></dt>
+<dd><p>Get fixings function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fixings</strong> (<em>list</em>) – List of fixings to get</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to get fixings for</p></li>
+<li><p><strong>tenors</strong> (<em>str</em>) – List of tenors to get fixings for (comma separated list)</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_get_curve">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_get_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_get_curve" title="Link to this definition"></a></dt>
+<dd><p>Batch get curve function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.get_curve">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.get_curve" title="Link to this definition"></a></dt>
+<dd><p>Get curve function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curve_name</strong> (<em>str</em>) – Name of the curve to get</p></li>
+<li><p><strong>currency</strong> (<em>str</em>) – Currency to get curve for</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date for curve</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date for curve</p></li>
+<li><p><strong>country_code</strong> (<em>str</em>) – Country code</p></li>
+<li><p><strong>fixing</strong> (<em>str</em>) – Fixing for curve</p></li>
+<li><p><strong>tenor</strong> (<em>str</em>) – Tenor for curve</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.interpolate_curve">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interpolate_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.interpolate_curve" title="Link to this definition"></a></dt>
+<dd><p>Interpolate curve function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_obs</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – List of observed times</p></li>
+<li><p><strong>r_obs</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – List of observed rates</p></li>
+<li><p><strong>t_new</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – List of new (interpolated) times</p></li>
+<li><p><strong>interpolator</strong> (<em>str</em>) – Interpolator to use</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.get_exchange_rate_history">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_exchange_rate_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">currency_list</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.get_exchange_rate_history" title="Link to this definition"></a></dt>
+<dd><p>Get exchange rate history function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>currency_list</strong> (<em>list</em>) – List of currencies to get exchange rate history for</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.forecast_exchange_rates">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forecast_exchange_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">currency_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_convert_currency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.forecast_exchange_rates" title="Link to this definition"></a></dt>
+<dd><p>Forecast exchange rates function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>currency_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of currencies to forecast exchange rates for</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to forecast exchange rates for</p></li>
+<li><p><strong>post_convert_currency</strong> (<em>str</em>) – Currency to convert exchange rates to</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.upload_private_data">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upload_private_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.upload_private_data" title="Link to this definition"></a></dt>
+<dd><p>Upload private data function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Name of the file to upload</p></li>
+<li><p><strong>test_data</strong> (<em>dict</em>) – Test data to upload</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_calculate_greeks">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_calculate_greeks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_calculate_greeks" title="Link to this definition"></a></dt>
+<dd><p>Batch calculate greeks function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.calculate_greeks">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_greeks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.calculate_greeks" title="Link to this definition"></a></dt>
+<dd><p>Calculate greeks function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s0</strong> (<em>float</em>) – Initial price</p></li>
+<li><p><strong>k</strong> (<em>float</em>) – Strike price</p></li>
+<li><p><strong>r</strong> (<em>float</em>) – Risk-free rate</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – Volatility</p></li>
+<li><p><strong>q</strong> (<em>float</em>) – Dividend yield</p></li>
+<li><p><strong>T</strong> (<em>float</em>) – Time to maturity</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the option</p></li>
+<li><p><strong>option_side</strong> (<em>str</em>) – Side of the option (i.e. call or put)</p></li>
+<li><p><strong>option_type</strong> (<em>str</em>) – Type of the option (i.e. european or american)</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_get_security_reference_data">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_get_security_reference_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_get_security_reference_data" title="Link to this definition"></a></dt>
+<dd><p>Batch get security reference data function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.get_security_reference_data">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_security_reference_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price_as_yield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_schedule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.get_security_reference_data" title="Link to this definition"></a></dt>
+<dd><p>Get security reference data function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to get security reference data for</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the security</p></li>
+<li><p><strong>price_as_yield</strong> (<em>bool</em><em> | </em><em>str</em>) – Price as yield</p></li>
+<li><p><strong>include_schedule</strong> (<em>bool</em>) – Include schedule data</p></li>
+<li><p><strong>use_test_data</strong> (<em>bool</em>) – Use test data</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_get_security_cpr">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_get_security_cpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_get_security_cpr" title="Link to this definition"></a></dt>
+<dd><p>Batch get security CPR function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.get_security_cpr">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_security_cpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.get_security_cpr" title="Link to this definition"></a></dt>
+<dd><p>Get security CPR function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to get security CPR for</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the security</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_get_security_cash_flows">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_get_security_cash_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_get_security_cash_flows" title="Link to this definition"></a></dt>
+<dd><p>Batch get security cash flows function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.get_security_cash_flows">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_security_cash_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lognormal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatility</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drift_a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shock_in_bp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price_as_yield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.get_security_cash_flows" title="Link to this definition"></a></dt>
+<dd><p>Get security cash flows function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to get security cash flows for</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the security</p></li>
+<li><p><strong>lognormal</strong> (<em>bool</em>) – Lognormal distribution</p></li>
+<li><p><strong>volatility</strong> (<em>float</em>) – Volatility</p></li>
+<li><p><strong>drift_a</strong> (<em>float</em>) – Mean Reversion</p></li>
+<li><p><strong>yield_shift</strong> (<em>float</em>) – Yield shift</p></li>
+<li><p><strong>shock_in_bp</strong> (<em>float</em>) – Shock in basis points</p></li>
+<li><p><strong>price_as_yield</strong> (<em>bool</em><em> | </em><em>str</em>) – Price as yield</p></li>
+<li><p><strong>cpr</strong> (<em>float</em>) – CPR</p></li>
+<li><p><strong>psa</strong> (<em>float</em>) – PSA</p></li>
+<li><p><strong>use_test_data</strong> (<em>bool</em>) – Use test data</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_calculate_security_analytics">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_calculate_security_analytics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_calculate_security_analytics" title="Link to this definition"></a></dt>
+<dd><p>Batch calculate security analytics function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.calculate_security_analytics">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_security_analytics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lognormal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatility</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drift_a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shock_in_bp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price_as_yield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.calculate_security_analytics" title="Link to this definition"></a></dt>
+<dd><p>Calculate security analytics function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to calculate security analytics for</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the security</p></li>
+<li><p><strong>lognormal</strong> (<em>bool</em>) – Lognormal distribution</p></li>
+<li><p><strong>volatility</strong> (<em>float</em>) – Volatility</p></li>
+<li><p><strong>drift_a</strong> (<em>float</em>) – Mean Reversion</p></li>
+<li><p><strong>yield_shift</strong> (<em>float</em>) – Yield shift</p></li>
+<li><p><strong>shock_in_bp</strong> (<em>float</em>) – Shock in basis points</p></li>
+<li><p><strong>price_as_yield</strong> (<em>bool</em><em> | </em><em>str</em>) – Price as yield</p></li>
+<li><p><strong>cpr</strong> (<em>float</em>) – CPR</p></li>
+<li><p><strong>psa</strong> (<em>float</em>) – PSA</p></li>
+<li><p><strong>use_test_data</strong> (<em>bool</em>) – Use test data</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_calculate_security_key_rates">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_calculate_security_key_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_calculate_security_key_rates" title="Link to this definition"></a></dt>
+<dd><p>Batch calculate security key rates function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.calculate_security_key_rates">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_security_key_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lognormal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatility</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drift_a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_rate_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price_as_yield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.calculate_security_key_rates" title="Link to this definition"></a></dt>
+<dd><p>Calculate security key rates function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to calculate security key rates for</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the security</p></li>
+<li><p><strong>lognormal</strong> (<em>bool</em>) – Lognormal distribution</p></li>
+<li><p><strong>volatility</strong> (<em>float</em>) – Volatility</p></li>
+<li><p><strong>drift_a</strong> (<em>float</em>) – Mean Reversion</p></li>
+<li><p><strong>yield_shift</strong> (<em>float</em>) – Yield shift</p></li>
+<li><p><strong>key_rate_times</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – Key rate times</p></li>
+<li><p><strong>price_as_yield</strong> (<em>bool</em><em> | </em><em>str</em>) – Price as yield</p></li>
+<li><p><strong>cpr</strong> (<em>float</em>) – CPR</p></li>
+<li><p><strong>psa</strong> (<em>float</em>) – PSA</p></li>
+<li><p><strong>use_test_data</strong> (<em>bool</em>) – Use test data</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_forecast_cf_and_prices">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_forecast_cf_and_prices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_forecast_cf_and_prices" title="Link to this definition"></a></dt>
+<dd><p>Batch forecast cash flows and prices function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.forecast_cf_and_prices">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forecast_cf_and_prices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_of_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lognormal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatility</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drift_a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shock_in_bp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price_as_yield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_projections</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_spread_shock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reindex_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporting_dates_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_convert_currency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_reference_curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_convention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_security_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inflation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.forecast_cf_and_prices" title="Link to this definition"></a></dt>
+<dd><p>Forecast cash flows and prices function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_id</strong> (<em>str</em>) – Security ID</p></li>
+<li><p><strong>as_of_date</strong> (<em>str</em>) – Date to forecast cash flows and prices for</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – Price of the security</p></li>
+<li><p><strong>lognormal</strong> (<em>bool</em>) – Lognormal distribution</p></li>
+<li><p><strong>volatility</strong> (<em>float</em>) – Volatility</p></li>
+<li><p><strong>drift_a</strong> (<em>float</em>) – Mean Reversion</p></li>
+<li><p><strong>yield_shift</strong> (<em>float</em>) – Yield shift</p></li>
+<li><p><strong>shock_in_bp</strong> (<em>float</em>) – Shock in basis points</p></li>
+<li><p><strong>price_as_yield</strong> (<em>bool</em><em> | </em><em>str</em>) – Price as yield</p></li>
+<li><p><strong>skip_projections</strong> (<em>bool</em>) – Skip projections</p></li>
+<li><p><strong>is_spread_shock</strong> (<em>bool</em>) – Spread shock</p></li>
+<li><p><strong>reindex_frequency</strong> (<em>int</em>) – Reindex frequency (12 = monthly)</p></li>
+<li><p><strong>cpr</strong> (<em>float</em>) – CPR</p></li>
+<li><p><strong>psa</strong> (<em>float</em>) – PSA</p></li>
+<li><p><strong>reporting_dates_only</strong> (<em>bool</em>) – Reporting dates only</p></li>
+<li><p><strong>post_convert_currency</strong> (<em>str</em>) – Post convert currency</p></li>
+<li><p><strong>use_reference_curve</strong> (<em>bool</em>) – Use reference curve</p></li>
+<li><p><strong>use_test_data</strong> (<em>bool</em>) – Use test data</p></li>
+<li><p><strong>reset_convention</strong> (<em>str</em>) – Reset convention</p></li>
+<li><p><strong>alt_security_id</strong> (<em>str</em>) – Alternative security ID</p></li>
+<li><p><strong>inflation_type</strong> (<em>str</em>) – Inflation type</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.batch_register_temporary_bond">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_register_temporary_bond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.batch_register_temporary_bond" title="Link to this definition"></a></dt>
+<dd><p>Batch register temporary bond function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_params</strong> (<em>dict</em>) – dict of batch parameters</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>) – string path to input file</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – string path to output file</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.base_classes.base_client.BaseFinXClient.register_temporary_bond">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register_temporary_bond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.base_classes.base_client.BaseFinXClient.register_temporary_bond" title="Link to this definition"></a></dt>
+<dd><p>Register temporary bond function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reference_data</strong> (<em>dict</em>) – Reference data</p></li>
+<li><p><strong>schedule_data</strong> (<em>dict</em>) – Schedule data</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from the API</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="finx.base_classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../context_manager/index.html" class="btn btn-neutral float-right" title="finx.base_classes.context_manager" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, FinX Capital Markets.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>finx.utils.task_runner &mdash; FinX SDK  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css?v=a0a71c94" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="finx.version" href="../../version/index.html" />
+    <link rel="prev" title="finx.utils.string_utils" href="../string_utils/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            FinX SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">Readme File</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">finx</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../base_classes/index.html">finx.base_classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client/index.html">finx.client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../clients/index.html">finx.clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../helpers/index.html">finx.helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../test/index.html">finx.test</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">finx.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../version/index.html">finx.version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">FinX SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">finx</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">finx.utils</a></li>
+      <li class="breadcrumb-item active">finx.utils.task_runner</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/finx/utils/task_runner/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-finx.utils.task_runner">
+<span id="finx-utils-task-runner"></span><h1>finx.utils.task_runner<a class="headerlink" href="#module-finx.utils.task_runner" title="Link to this heading"></a></h1>
+<p>author: dick mule
+purpose: utils for running async tasks and gathering results</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.utils.task_runner.NUM_CORES" title="finx.utils.task_runner.NUM_CORES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NUM_CORES</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.utils.task_runner.ProgressManager" title="finx.utils.task_runner.ProgressManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProgressManager</span></code></a></p></td>
+<td><p>Manage progress updates for tasks</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#finx.utils.task_runner.AsyncTaskManager" title="finx.utils.task_runner.AsyncTaskManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AsyncTaskManager</span></code></a></p></td>
+<td><p>Class to manage running of multiple coroutines</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.utils.task_runner.AsyncProcessManager" title="finx.utils.task_runner.AsyncProcessManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AsyncProcessManager</span></code></a></p></td>
+<td><p>Interface for running Multiprocessing tasks</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#finx.utils.task_runner.ConcurrencyTypes" title="finx.utils.task_runner.ConcurrencyTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConcurrencyTypes</span></code></a></p></td>
+<td><p>Enumerate various concurrency methods</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#finx.utils.task_runner.TaskRunner" title="finx.utils.task_runner.TaskRunner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TaskRunner</span></code></a></p></td>
+<td><p>Interface for running a variety of async methods</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="finx.utils.task_runner.NUM_CORES">
+<span class="sig-prename descclassname"><span class="pre">finx.utils.task_runner.</span></span><span class="sig-name descname"><span class="pre">NUM_CORES</span></span><a class="headerlink" href="#finx.utils.task_runner.NUM_CORES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.utils.task_runner.</span></span><span class="sig-name descname"><span class="pre">ProgressManager</span></span><a class="headerlink" href="#finx.utils.task_runner.ProgressManager" title="Link to this definition"></a></dt>
+<dd><p>Manage progress updates for tasks</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.progress">
+<span class="sig-name descname"><span class="pre">progress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.progress" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.progress_scale">
+<span class="sig-name descname"><span class="pre">progress_scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.progress_scale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.progress_offset">
+<span class="sig-name descname"><span class="pre">progress_offset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.progress_offset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.wait_time">
+<span class="sig-name descname"><span class="pre">wait_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.wait_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.task_name">
+<span class="sig-name descname"><span class="pre">task_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.task_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.send_messages">
+<span class="sig-name descname"><span class="pre">send_messages</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.send_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.__cached_message">
+<span class="sig-name descname"><span class="pre">__cached_message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.__cached_message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.__post_init__" title="Link to this definition"></a></dt>
+<dd><p>Post init method for ProgressManager</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.chunk_progress">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chunk_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.chunk_progress" title="Link to this definition"></a></dt>
+<dd><p>utility function for determining progress message increments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<em>int</em>) – Ith task</p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em>) – size of chunk</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>chunk size or 1</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.update_progress">
+<span class="sig-name descname"><span class="pre">update_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.update_progress" title="Link to this definition"></a></dt>
+<dd><p>Method to update progress state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_completed</strong> (<em>int</em>) – Number of tasks completed</p></li>
+<li><p><strong>total_tasks</strong> (<em>int</em>) – Total number of tasks</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None type object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ProgressManager.log_progress">
+<span class="sig-name descname"><span class="pre">log_progress</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.ProgressManager.log_progress" title="Link to this definition"></a></dt>
+<dd><p>Method to send progress state.  Extend from stdout to websockets, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.utils.task_runner.</span></span><span class="sig-name descname"><span class="pre">AsyncTaskManager</span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#finx.utils.task_runner.ProgressManager" title="finx.utils.task_runner.ProgressManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProgressManager</span></code></a></p>
+<p>Class to manage running of multiple coroutines</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.tasks">
+<span class="sig-name descname"><span class="pre">tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">finx.utils.concurrency.Awaitable</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.chunk_size">
+<span class="sig-name descname"><span class="pre">chunk_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.chunk_size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.__total_tasks">
+<span class="sig-name descname"><span class="pre">__total_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.__total_tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.__post_init__" title="Link to this definition"></a></dt>
+<dd><p>Post init method for AsyncTaskManager.  Wrap tasks and set chunk size</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.__len__" title="Link to this definition"></a></dt>
+<dd><p>Return length of tasks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>length of tasks</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.n_tasks">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_tasks</span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.n_tasks" title="Link to this definition"></a></dt>
+<dd><p>Return n tasks to be run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of tasks</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.wrap_task">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrap_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">async_task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">finx.utils.concurrency.Awaitable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.wrap_task" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Async<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Wraps an async task and makes it possible to retrieve results in order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>async_task</strong> (<em>Awaitable</em>) – Awaitable async task to be wrapped</p></li>
+<li><p><strong>task_id</strong> (<em>int</em>) – Task id</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict of task id and result allows for sorting</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.wrap_tasks">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrap_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">finx.utils.concurrency.Awaitable</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">finx.utils.concurrency.Awaitable</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.wrap_tasks" title="Link to this definition"></a></dt>
+<dd><p>Wrap all tasks for sort ordering results based on original position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tasks</strong> (<em>list</em><em>[</em><em>Awaitable</em><em>]</em>) – list of tasks</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of wrapped tasks</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Awaitable]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.unpack_tasks">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unpack_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.unpack_tasks" title="Link to this definition"></a></dt>
+<dd><p>Unwrap all tasks for sort ordering results based on original position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>results</strong> (<em>list</em>) – list of dict</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncTaskManager.run_and_monitor">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_and_monitor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncTaskManager.run_and_monitor" title="Link to this definition"></a></dt>
+<dd><p>Run a list of async tasks and track the progress with logging functionality</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of results</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncProcessManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.utils.task_runner.</span></span><span class="sig-name descname"><span class="pre">AsyncProcessManager</span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncProcessManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#finx.utils.task_runner.AsyncTaskManager" title="finx.utils.task_runner.AsyncTaskManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AsyncTaskManager</span></code></a></p>
+<p>Interface for running Multiprocessing tasks</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncProcessManager.tasks">
+<span class="sig-name descname"><span class="pre">tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../concurrency/index.html#finx.utils.concurrency.ProcessWithReturnValue" title="finx.utils.concurrency.ProcessWithReturnValue"><span class="pre">finx.utils.concurrency.ProcessWithReturnValue</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.utils.task_runner.AsyncProcessManager.tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncProcessManager.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.AsyncProcessManager.__post_init__" title="Link to this definition"></a></dt>
+<dd><p>Post init method for AsyncProcessManager</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncProcessManager.from_args_list">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_args_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">process_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#finx.utils.task_runner.AsyncProcessManager" title="finx.utils.task_runner.AsyncProcessManager"><span class="pre">AsyncProcessManager</span></a></span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncProcessManager.from_args_list" title="Link to this definition"></a></dt>
+<dd><p>Create cls from args list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process_fn</strong> (<em>callable</em>) – Function to be run in multiprocessing</p></li>
+<li><p><strong>args_list</strong> (<em>list</em><em>[</em><em>Any</em><em>]</em>) – List of arguments to be passed to process_fn</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments to be passed to process_fn</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>AsyncProcessManager object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#finx.utils.task_runner.AsyncProcessManager" title="finx.utils.task_runner.AsyncProcessManager">AsyncProcessManager</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.AsyncProcessManager.run_and_monitor">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_and_monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.utils.task_runner.AsyncProcessManager.run_and_monitor" title="Link to this definition"></a></dt>
+<dd><p>Run process threads limited by CPU_COUNT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sleep_time</strong> (<em>float</em>) – Time to sleep between checks</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ConcurrencyTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.utils.task_runner.</span></span><span class="sig-name descname"><span class="pre">ConcurrencyTypes</span></span><a class="headerlink" href="#finx.utils.task_runner.ConcurrencyTypes" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../enums/index.html#finx.utils.enums.ComparatorEnum" title="finx.utils.enums.ComparatorEnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finx.utils.enums.ComparatorEnum</span></code></a></p>
+<p>Enumerate various concurrency methods</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ConcurrencyTypes.async_thread">
+<span class="sig-name descname"><span class="pre">async_thread</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#finx.utils.task_runner.ConcurrencyTypes.async_thread" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ConcurrencyTypes.async_process">
+<span class="sig-name descname"><span class="pre">async_process</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#finx.utils.task_runner.ConcurrencyTypes.async_process" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.ConcurrencyTypes.as_str">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#finx.utils.task_runner.ConcurrencyTypes" title="finx.utils.task_runner.ConcurrencyTypes"><span class="pre">ConcurrencyTypes</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#finx.utils.task_runner.ConcurrencyTypes.as_str" title="Link to this definition"></a></dt>
+<dd><p>Get enum value str from type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_type</strong> (<a class="reference internal" href="#finx.utils.task_runner.ConcurrencyTypes" title="finx.utils.task_runner.ConcurrencyTypes"><em>ConcurrencyTypes</em></a>) – Enum type</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Enum value as string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finx.utils.task_runner.</span></span><span class="sig-name descname"><span class="pre">TaskRunner</span></span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#finx.utils.task_runner.AsyncProcessManager" title="finx.utils.task_runner.AsyncProcessManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AsyncProcessManager</span></code></a></p>
+<p>Interface for running a variety of async methods</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner.async_func">
+<span class="sig-name descname"><span class="pre">async_func</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../concurrency/index.html#finx.utils.concurrency.ProcessWithReturnValue" title="finx.utils.concurrency.ProcessWithReturnValue"><span class="pre">finx.utils.concurrency.ProcessWithReturnValue</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../concurrency/index.html#finx.utils.concurrency.Hybrid" title="finx.utils.concurrency.Hybrid"><span class="pre">finx.utils.concurrency.Hybrid</span></a></em><a class="headerlink" href="#finx.utils.task_runner.TaskRunner.async_func" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner.tasks">
+<span class="sig-name descname"><span class="pre">tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">finx.utils.concurrency.Awaitable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../concurrency/index.html#finx.utils.concurrency.ProcessWithReturnValue" title="finx.utils.concurrency.ProcessWithReturnValue"><span class="pre">finx.utils.concurrency.ProcessWithReturnValue</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#finx.utils.task_runner.TaskRunner.tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner.concurrency_type">
+<span class="sig-name descname"><span class="pre">concurrency_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#finx.utils.task_runner.ConcurrencyTypes" title="finx.utils.task_runner.ConcurrencyTypes"><span class="pre">ConcurrencyTypes</span></a></em><a class="headerlink" href="#finx.utils.task_runner.TaskRunner.concurrency_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner.__post_init__" title="Link to this definition"></a></dt>
+<dd><p>Post init method for TaskRunner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner._coerce_args">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_coerce_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner._coerce_args" title="Link to this definition"></a></dt>
+<dd><p>utility function for parsing/formatting arguments passed to run_concurrently</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args_list</strong> (<em>Any</em>) – List of arguments to be coerced</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of arguments</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner.runnable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">runnable</span></span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner.runnable" title="Link to this definition"></a></dt>
+<dd><p>Return async function to call</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Async function to call</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Union[CeleryWrapper, <a class="reference internal" href="../concurrency/index.html#finx.utils.concurrency.Hybrid" title="finx.utils.concurrency.Hybrid">Hybrid</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner._run_async_process">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_run_async_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_return</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner._run_async_process" title="Link to this definition"></a></dt>
+<dd><p>Specify that we are running async process tasks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args_list</strong> (<em>list</em><em>[</em><em>Any</em><em>]</em>) – List of arguments to be passed to async function</p></li>
+<li><p><strong>no_return</strong> (<em>bool</em>) – Flag to determine if we are running in sync context</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments to be passed to async function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None type object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner._run_async_thread">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_run_async_thread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner._run_async_thread" title="Link to this definition"></a></dt>
+<dd><p>Specify that we are running async hybrid tasks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args_list</strong> (<em>list</em><em>[</em><em>Any</em><em>]</em>) – List of arguments to be passed to async function</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments to be passed to async function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None type object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.utils.task_runner.TaskRunner.run_concurrently">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_concurrently</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#finx.utils.task_runner.TaskRunner.run_concurrently" title="Link to this definition"></a></dt>
+<dd><p>Utility function for running parallel tasks and aggregating result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args_list</strong> (<em>list</em><em>[</em><em>Any</em><em>]</em>) – List of arguments to be passed to async function</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments to be passed to async function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../string_utils/index.html" class="btn btn-neutral float-left" title="finx.utils.string_utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../version/index.html" class="btn btn-neutral float-right" title="finx.version" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, FinX Capital Markets.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

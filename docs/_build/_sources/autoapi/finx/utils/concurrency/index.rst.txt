@@ -1,0 +1,463 @@
+finx.utils.concurrency
+======================
+
+.. py:module:: finx.utils.concurrency
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: utils for facilitating concurrency of methods
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   finx.utils.concurrency.Awaitable
+   finx.utils.concurrency._ALREADY_RUNNING
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.utils.concurrency.Hybrid
+   finx.utils.concurrency.ThreadWithReturnValue
+   finx.utils.concurrency.ProcessWithReturnValue
+   finx.utils.concurrency.ThreadFunction
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   finx.utils.concurrency.decohints
+   finx.utils.concurrency.to_async
+   finx.utils.concurrency.to_sync
+   finx.utils.concurrency.task_runner
+   finx.utils.concurrency.hybrid
+   finx.utils.concurrency.thread_function
+
+
+Module Contents
+---------------
+
+.. py:data:: Awaitable
+
+.. py:data:: _ALREADY_RUNNING
+
+.. py:function:: decohints(decorator: Callable) -> Callable
+
+   Decorator allowing better type hints for class decorators.
+
+   :param decorator: Callable Decorator Class
+   :type decorator: Callable
+   :return: Wrapped Callable object
+   :rtype: Callable
+
+
+.. py:function:: to_async(func: Callable, thread_safe: bool = False)
+
+   Wrap asgiref functionality.  Easier naming convention.
+
+   :param func: Sync method to be converted to async.
+   :type func: Callable
+   :param thread_safe: Specify whether to make thread safe
+   :type thread_safe: bool
+   :return: Converted Sync method -> Coroutine
+   :rtype: Coroutine
+
+
+.. py:function:: to_sync(func: Awaitable, force_new_loop: bool = False)
+
+   Wrap asgiref functionality.  Easier naming convention.
+
+   :param func: Async method to be converted to sync.
+   :type func: Awaitable
+   :param force_new_loop: Specify whether to force new loop
+   :type force_new_loop: bool
+   :return: Converted Async method -> Sync
+   :rtype: Callable
+
+
+.. py:function:: task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None)
+
+   Run async task in event loop.  If loop is not running, create new loop.
+
+   :param task: Async method to be run
+   :type task: Coroutine
+   :param loop: Event loop to run task
+   :type loop: asyncio.AbstractEventLoop
+   :return: Result of async method
+   :rtype: Any
+
+
+.. py:class:: Hybrid(func: Callable | Awaitable)
+
+   Add some features to hybrid async methods
+
+
+   .. py:attribute:: _func
+      :type:  Callable
+
+
+   .. py:attribute:: _func_name
+      :type:  str
+
+
+   .. py:attribute:: _func_path
+      :type:  str
+
+
+   .. py:attribute:: _func_class
+      :type:  Any
+      :value: None
+
+
+
+   .. py:attribute:: _event_loop
+      :type:  asyncio.AbstractEventLoop
+      :value: None
+
+
+
+   .. py:property:: my_func
+
+      Property returning protected _func
+
+      :return: Function to be wrapped
+      :rtype: Callable
+
+
+
+   .. py:method:: __get__(instance, owner)
+
+      Support class instance methods.
+
+      :param instance: instance of the class to which the descriptor is attached
+      :type instance: object
+      :param owner: the class which contains the descriptor
+      :type owner: type
+      :return: Hybrid object
+      :rtype: Hybrid
+
+
+
+   .. py:method:: __call__(*args, **kwargs)
+
+      Call method to run function
+
+      :param args: All args to be passed to function
+      :type args: tuple
+      :param kwargs: All kwargs to be passed to function
+      :type kwargs: dict
+      :return: Async result of function
+      :rtype: Any
+
+
+
+   .. py:method:: set_event_loop(loop: asyncio.AbstractEventLoop)
+
+      Set event loop for function
+
+      :param loop: Event loop to be set
+      :type loop: asyncio.AbstractEventLoop
+      :return: None
+      :rtype: None
+
+
+
+   .. py:method:: run_func(*args, **kwargs)
+      :async:
+
+
+      Run function async
+
+      :param args: All args to be passed to function
+      :type args: tuple
+      :param kwargs: All kwargs to be passed to function
+      :type kwargs: dict
+      :return: Async result of function
+      :rtype: Any
+
+
+
+   .. py:method:: run_async(*args, **kwargs)
+      :async:
+
+
+      Run function async.  Makes it so that an async hybrid function
+      can always be specified as a coroutine for parallel tasks.
+
+      .. code-block:: python
+
+          tasks = [some_fn.run_async(i) for i in range(10)]
+          results = await asyncio.gather(*tasks)
+
+      :param args: All args to be passed to function
+      :type args: tuple
+      :param kwargs: All kwargs to be passed to function
+      :type kwargs: dict
+      :return: Async result of function
+      :rtype: Any
+
+
+
+   .. py:property:: func_class
+
+      Property returning protected _func_class
+
+      :return: Func class name
+      :rtype: str
+
+
+
+   .. py:property:: func_name
+
+      Property returning protected _func_name
+
+      :return: Wrapped function name
+      :rtype: str
+
+
+
+   .. py:property:: event_loop
+
+      Property returning protected _event_loop
+
+      :return: Event loop
+      :rtype: asyncio.AbstractEventLoop
+
+
+
+.. py:function:: hybrid(f: Callable) -> Hybrid
+
+   Decorator to make function hybrid
+
+   .. code-block:: python
+
+       @hybrid
+       async def awaitable_fn():
+           await asyncio.sleep(1)
+           return "done"
+
+       class SomeClass:
+           ...
+
+           @hybrid
+           async def awaitable_fn(self):
+               await asyncio.sleep(1)
+               return "done"
+
+   :param f: Function to be wrapped
+   :type f: Callable
+   :return: Hybrid object
+   :rtype: Hybrid
+
+
+.. py:class:: ThreadWithReturnValue(target=None, group=None, name=None, args=(), kwargs=None, daemon=None)
+
+   Bases: :py:obj:`threading.Thread`
+
+
+   Thread class with return value
+
+
+   .. py:attribute:: _return
+      :value: None
+
+
+
+   .. py:method:: check_event_loop()
+
+      create new event loop within multiprocessing child process
+
+      :return: None
+      :rtype: None
+
+
+
+   .. py:method:: run()
+
+      Override run function to execute target
+
+      :return: Run the target function
+      :rtype: Any
+
+
+
+   .. py:method:: join(*args)
+
+      Wait for process to finish and get return value
+
+      :param args: All args for join
+      :type args: tuple
+      :return: Return value of target function
+      :rtype: Any
+
+
+
+.. py:class:: ProcessWithReturnValue(target: Union[callable, Hybrid] = None, name: str = None, args: tuple = (), kwargs: dict = None, no_return: bool = False)
+
+   Bases: :py:obj:`multiprocessing.Process`
+
+
+   Another processing class
+
+
+   .. py:attribute:: _return
+
+
+   .. py:attribute:: target_to_wrap
+      :type:  Union[callable, Hybrid]
+
+
+   .. py:method:: check_event_loop()
+      :staticmethod:
+
+
+      create new event loop within multiprocessing child process
+
+      :return: Running event loop or one created
+      :rtype: asyncio.AbstractEventLoop
+
+
+
+   .. py:method:: wrap_process(*args, **kwargs)
+
+      Wrap target function
+
+      :param args: All input arguments as tuple
+      :type args: tuple
+      :param kwargs: All input keyword arguments as dict
+      :type kwargs: dict
+      :return: None
+      :rtype: None
+
+
+
+   .. py:method:: run()
+
+      Override run function to execute target
+
+      :return: None
+      :rtype: None
+
+
+
+   .. py:method:: join(*args)
+
+      Wait for process to finish and get return value
+
+      :param args: Tuple of input arguments
+      :type args: tuple
+      :return: Result of target function
+      :rtype: str
+
+
+
+   .. py:method:: join_async(*args, sleep_time: float = 0.05)
+      :async:
+
+
+      Wait for process to finish and get return value
+
+      :param args: Tuple of input arguments
+      :type args: tuple
+      :param sleep_time: Time to sleep before checking if process is alive
+      :type sleep_time: float
+      :return: Result of target function
+      :rtype: str
+
+
+
+.. py:class:: ThreadFunction(thread_fn: Callable = None)
+
+   Thread function class decorator
+
+
+   .. py:attribute:: thread_function
+
+
+   .. py:attribute:: _func_classes
+      :value: []
+
+
+
+   .. py:method:: __call__(*args, **kwargs)
+
+      Call method to run function
+
+      :param args: args for wrapped function
+      :type args: tuple
+      :param kwargs: kwargs for wrapped function
+      :type kwargs: dict
+      :return: Result of wrapped function
+      :rtype: Any
+
+
+
+   .. py:method:: __get__(obj, objtype)
+
+      Support instance methods.
+
+      :param obj: attribute of object
+      :type obj: Any
+      :param objtype: type of object
+      :type objtype: Any
+      :return: ThreadFunction object
+      :rtype: ThreadFunction
+
+
+
+   .. py:method:: check_args(*args)
+
+      Check if function classes are available
+
+      :param args: All args to be passed to function
+      :type args: tuple
+      :return: All args to be passed to function
+      :rtype: tuple
+
+
+
+   .. py:method:: thread(*args, **kwargs)
+
+      Run function as thread
+
+      :param args: All arguments for wrapped function
+      :type args: tuple
+      :param kwargs: All keyword arguments for wrapped function
+      :type kwargs: dict
+      :return: Thread object
+      :rtype: ThreadWithReturnValue
+
+
+
+   .. py:method:: process(*args, **kwargs)
+
+      Run function as separate process
+
+      :param args: All arguments for wrapped function
+      :type args: tuple
+      :param kwargs: All keyword arguments for wrapped function
+      :type kwargs: dict
+      :return: Process object
+      :rtype: ProcessWithReturnValue
+
+
+
+.. py:function:: thread_function(f: callable) -> callable
+
+   Decorator to make function a thread function
+
+   :param f: Function to be wrapped
+   :type f: callable
+   :return: ThreadFunction object
+   :rtype: ThreadFunction
+
+
