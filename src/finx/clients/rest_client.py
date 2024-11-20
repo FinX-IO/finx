@@ -164,7 +164,7 @@ class FinXRestClient(BaseFinXClient):
 
     def submit_batch_run(self, full_file_path: str) -> str:
         """
-        Submit a batch run
+        Submit a batch run using the xlsx input configuration file
 
         :param full_file_path: Full path to the batch run file
         :type full_file_path: str
@@ -236,7 +236,7 @@ class FinXRestClient(BaseFinXClient):
 
     def run_batch_holdings(self, path_to_holdings_file: str, tasks_to_run: dict) -> str:
         """
-        Run a batch job for a given set of holdings
+        Run a batch job for a given set of holdings in a .csv file and specify what task configurations to run.
 
         :param path_to_holdings_file: Path to the holdings file
         :type path_to_holdings_file: str
