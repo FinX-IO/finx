@@ -84,7 +84,16 @@ class FinXSocketClient(BaseFinXClient):
                 raise ValueError("Client not authenticated - Invalid API KEY")
 
     async def __aenter__(self) -> "FinXSocketClient":
-        await self.load_functions()
+        """
+        Entrance method that initializes a session - forces usage within a with statement
+
+        >>> async with FinXSocketClient() as client:
+        >>>     # Do something with client
+
+        :return: FinX Socket Client
+        :rtype: FinXSocketClient
+        """
+        await self.load_functions.run_async()
         return self
 
     async def __aexit__(self, *err) -> None:
@@ -338,18 +347,18 @@ class FinXSocketClient(BaseFinXClient):
                 on_message=self._wrap_on_message(),
                 on_error=self._wrap_on_error(),
                 on_close=self._wrap_on_close(),
+                on_ping=lambda *args: print(f"Ping: {args}"),
             )
-            print(f"Connecting to {self.ws_url} ...")
 
             def run_socket_forever(*args, **kwargs) -> None:
-                print("Running socket forever")
-                completed = self._socket.run_forever(*args, **kwargs)
-                print(f"Socket completed: {completed}")
+                print(f"Connecting to {self.ws_url} ...")
+                _ = self._socket.run_forever(*args, **kwargs)
 
             self._socket_thread = Thread(
                 target=run_socket_forever,
                 daemon=False,
                 kwargs={
+                    "ping_interval": 10,
                     "skip_utf8_validation": True,
                     "sslopt": {"check_hostname": False},
                 },
@@ -427,7 +436,7 @@ class FinXSocketClient(BaseFinXClient):
             payload.update(self._payload_cache.payload)
             payload["monitor_hash_key"] = self._payload_cache.job_id
             self._socket.send(json.dumps(payload))
-            results = await self._listen_for_results(
+            results = await self._listen_for_results.run_async(
                 self._payload_cache.cache_keys, callback, **kwargs
             )
             self._payload_cache = None
@@ -491,7 +500,19 @@ class FinXSocketClient(BaseFinXClient):
             for k, v in payload.items():
                 print(f"{k}: {str(v)[:1000]}")
             raise ValueError("Failed to serialize payload") from e
-        results = await self._listen_for_results(cache_keys, callback, **kwargs)
+        try:
+            results = await self._listen_for_results.run_async(
+                cache_keys, callback, **kwargs
+            )
+        except TypeError:
+            # REPEAT JUST TO SEE IF THE SOCKET FREES UP
+            print("Error in listen for results ... try again")
+            task_object = self._listen_for_results(cache_keys, callback, **kwargs)
+            # handle odd behavior with jupyter event loops
+            if isinstance(task_object, (dict, list, pd.DataFrame, pd.Series)):
+                results = task_object
+            else:
+                results = await task_object
         self._payload_cache = None
         return results
 

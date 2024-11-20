@@ -185,7 +185,7 @@ class BaseFinXClient(BaseMethods, ABC):
                 params = [_BATCH_PARAMS, f"{required_zip}{optional_zip}"][index]
                 string_repr = (
                     f"async def {batch}{name}(self, {inputs}**kwargs):\n"
-                    f'    result = await self._{batch}dispatch("{f"{name}"}", {params}**kwargs)\n'
+                    f'    result = await self._{batch}dispatch.run_async("{f"{name}"}", {params}**kwargs)\n'
                     f"    if not isinstance(result, (list, dict, pd.DataFrame)):\n"
                     f"        return await result\n"
                     f"    return result"
@@ -297,7 +297,7 @@ class BaseFinXClient(BaseMethods, ABC):
             )
         ]
         for file in files_to_download:
-            downloaded_files[file["filename"]] = await self.download_file(
+            downloaded_files[file["filename"]] = await self.download_file.run_async(
                 file["filename"], file.get("bucket_name"), use_async=False
             )
         return downloaded_files
@@ -337,7 +337,7 @@ class BaseFinXClient(BaseMethods, ABC):
                 file_results.append((i, result))
         if not file_results:
             return results, file_results
-        downloaded_files = await self._download_file_results(file_results)
+        downloaded_files = await self._download_file_results.run_async(file_results)
         for index, file_result in file_results:
             file_df = downloaded_files[file_result["filename"]]
             if "cache_key" not in file_df:
@@ -350,7 +350,9 @@ class BaseFinXClient(BaseMethods, ABC):
                     )
                 ].to_dict(orient="records")[0]
             if "filename" in matched_result:
-                matched_result["result"] = await self.download_file(**matched_result)
+                matched_result["result"] = await self.download_file.run_async(
+                    **matched_result
+                )
                 matched_result = {
                     k: matched_result[k] for k in ["security_id", "result", "cache_key"]
                 }
@@ -377,7 +379,7 @@ class BaseFinXClient(BaseMethods, ABC):
         :rtype: Any
         """
         try:
-            results, _ = await self._wait_for_results(cache_keys)
+            results, _ = await self._wait_for_results.run_async(cache_keys)
             if (
                 (output_file := kwargs.get("output_file")) is not None
                 and len(results) > 0
@@ -436,7 +438,7 @@ class BaseFinXClient(BaseMethods, ABC):
         :return: None type object
         :rtype: None
         """
-        all_functions = await self._dispatch("list_api_functions")
+        all_functions = await self._dispatch.run_async("list_api_functions")
         self._reload_function_definitions(all_functions)
 
     @hybrid

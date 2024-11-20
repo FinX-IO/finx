@@ -11,6 +11,7 @@ import multiprocessing as mp
 import threading
 
 from asgiref.sync import sync_to_async, async_to_sync
+import nest_asyncio
 
 Awaitable = Union[asyncio.Task, Coroutine]
 _ALREADY_RUNNING = asyncio.get_event_loop().is_running()
@@ -81,11 +82,27 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
     result = None
     try:
         result = run_loop(task)
-        if new_loop:
+        if new_loop and not_already:
             loop.close()
         return result
     except TypeError as exc:
         raise TypeError(f"BAD LOOP PARAMS: {task=} / {result}") from exc
+    except RuntimeError:
+        # catch RuntimeError: This event loop is already running -> use nest_asyncio
+        # print(f"APPLY NEST ASYNCIO: {loop=} / {_ALREADY_RUNNING=}")
+        nest_asyncio.apply(loop)
+        try:
+            result = loop.create_task(task)
+            if new_loop and not_already:
+                loop.close()
+            return result
+        except TypeError as t_exc:
+            raise TypeError(f"BAD LOOP PARAMS: {task=} / {result}") from t_exc
+        except RuntimeError as r_exc:
+            print(f"RUNTIME ERROR: {r_exc=}")
+            if f"{r_exc}" == "Event loop stopped before Future completed.":
+                return result
+            raise RuntimeError(f"BAD LOOP PARAMS: {task=} / {result}") from r_exc
 
 
 class Hybrid:
