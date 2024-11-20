@@ -78,13 +78,14 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
     is_running: bool = loop.is_running()
     not_already = not _ALREADY_RUNNING
     run_loop = [loop.run_until_complete, loop.create_task][is_running and not_already]
+    result = None
     try:
         result = run_loop(task)
         if new_loop:
             loop.close()
         return result
     except TypeError as exc:
-        raise TypeError("BAD LOOP PARAMS") from exc
+        raise TypeError(f"BAD LOOP PARAMS: {task=} / {result}") from exc
 
 
 class Hybrid:
