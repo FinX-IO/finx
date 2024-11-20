@@ -124,7 +124,6 @@ async def main2():
     """
     print("FinXClient imported")
     async with FinXSocketClient() as finx_socket:
-        await finx_socket.load_functions()
         result = await finx_socket.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
         print(f"Context manager results: {result=}")
     async with FinXRestClient() as finx_rest:

@@ -319,6 +319,25 @@ file and a dictionary of configurations.</p>
 <span class="n">df</span>
 </pre></div>
 </div>
+</section>
+<section id="finx-context-manager-usage">
+<h3>FinX Context Manager Usage<a class="headerlink" href="#finx-context-manager-usage" title="Link to this heading">¶</a></h3>
+<p>One of the perks of using the SDK in an async context is that we can manager some of the initial steps as part of the
+async initialization.  Specifically, there is no need to call <code class="docutils literal notranslate"><span class="pre">load_functions</span></code> or <code class="docutils literal notranslate"><span class="pre">cleanup</span></code>
+as part of the async context.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">finx.clients</span> <span class="kn">import</span> <span class="n">rest_client</span><span class="p">,</span> <span class="n">socket_client</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sample_fn</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">socket_client</span><span class="o">.</span><span class="n">FinXSocketClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">finx_socket</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">finx_socket</span><span class="o">.</span><span class="n">calculate_greeks</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context manager results: </span><span class="si">{</span><span class="n">result</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">rest_client</span><span class="o">.</span><span class="n">FinXRestClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">finx_rest</span><span class="p">:</span>
+        <span class="n">result2</span> <span class="o">=</span> <span class="k">await</span> <span class="n">finx_rest</span><span class="o">.</span><span class="n">calculate_greeks</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context manager results2: </span><span class="si">{</span><span class="n">result2</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Full <strong>Documentation</strong> with all available functions is available at <a class="reference external" href="https://finx-capital-markets.gitbook.io/">FinX Docs</a></p>
 <hr class="docutils" />
 <p>title: FinX Python SDK
@@ -356,6 +375,7 @@ tags: technology, documentation, python
 </li>
 <li><a class="reference internal" href="#python-shell">Python Shell</a><ul>
 <li><a class="reference internal" href="#finx-rest-usage">FinX Rest Usage:</a></li>
+<li><a class="reference internal" href="#finx-context-manager-usage">FinX Context Manager Usage</a></li>
 </ul>
 </li>
 </ul>

@@ -171,6 +171,26 @@ df = pd.DataFrame(function_list)
 df
 ```
 
+### FinX Context Manager Usage
+
+One of the perks of using the SDK in an async context is that we can manager some of the initial steps as part of the
+async initialization.  Specifically, there is no need to call `load_functions` or `cleanup` 
+as part of the async context.
+
+```python3
+#! /usr/bin/env python3
+
+from finx.clients import rest_client, socket_client
+
+async def sample_fn():
+    async with socket_client.FinXSocketClient() as finx_socket:
+        result = await finx_socket.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results: {result=}")
+    async with rest_client.FinXRestClient() as finx_rest:
+        result2 = await finx_rest.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results2: {result2=}")
+```
+
 Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
 
 ---
