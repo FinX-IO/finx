@@ -1,0 +1,44 @@
+sample_usage
+============
+
+.. py:module:: sample_usage
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: test functionality
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   sample_usage.main
+   sample_usage.main2
+
+
+Module Contents
+---------------
+
+.. py:function:: main()
+   :async:
+
+
+   Main function to show sample usage in an async context
+
+   :return: None Type
+   :rtype: None
+
+
+.. py:function:: main2()
+   :async:
+
+
+   Main function to show sample usage with a context manager
+
+   :return: None Type
+   :rtype: None
+
+

@@ -13,6 +13,8 @@ import pandas as pd
 
 from pydantic import BaseModel, PrivateAttr
 
+from finx.utils.concurrency import hybrid, Hybrid
+
 
 class SessionManager(BaseModel):
     """
@@ -20,6 +22,13 @@ class SessionManager(BaseModel):
     """
 
     _session: Optional[aiohttp.ClientSession] = PrivateAttr(None)
+
+    # pylint: disable=too-few-public-methods
+    class Config:
+        """Nested Config for Pydantic Model"""
+
+        arbitrary_types_allowed = True
+        ignored_types = (Hybrid,)
 
     def model_post_init(self, __context: Any) -> None:
         """
@@ -35,6 +44,18 @@ class SessionManager(BaseModel):
                 headers={"content-type": "application/json"}
             )
         super().model_post_init(__context)
+
+    @hybrid
+    async def cleanup(self):
+        """
+        Function to safely remove session object resourecs
+
+        :return: None type
+        :rtype: None
+        """
+        if self._session is not None:
+            await self._session.close()
+            self._session = None
 
     def set_event_loop(self, loop: asyncio.AbstractEventLoop):
         """
@@ -74,8 +95,7 @@ class SessionManager(BaseModel):
         """
         if not self._session:
             return
-        await self._session.close()
-        self._session = None
+        await self.cleanup()
 
     async def post(
         self,

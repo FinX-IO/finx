@@ -8,6 +8,8 @@ import inspect
 import pandas as pd
 
 from finx.client import FinXClient, ClientTypes
+from finx.clients.rest_client import FinXRestClient
+from finx.clients.socket_client import FinXSocketClient
 from finx.utils.concurrency import hybrid, Hybrid
 
 
@@ -38,8 +40,8 @@ async def main():
     print(f"{exchange_rates=}")
     finx_socket.context.clear_cache()
     args = {
-        "security_id": ["91282CCA7", "DE0001141786"] * 1000 + ["IM A FAKE ID"],
-        "as_of_date": ["2021-05-19", "2020-04-21", "2021-05-18", "2020-04-20"] * 500
+        "security_id": ["91282CCA7", "DE0001141786"] * 2 + ["IM A FAKE ID"],
+        "as_of_date": ["2021-05-19", "2020-04-21", "2021-05-18", "2020-04-20"]
         + ["2024-09-30"],
     }
     batch_result = await finx_socket.batch_get_security_reference_data(args)
@@ -112,5 +114,24 @@ async def main():
     print("FINISHED")
 
 
+@hybrid
+async def main2():
+    """
+    Main function to show sample usage with a context manager
+
+    :return: None Type
+    :rtype: None
+    """
+    print("FinXClient imported")
+    async with FinXSocketClient() as finx_socket:
+        await finx_socket.load_functions()
+        result = await finx_socket.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results: {result=}")
+    async with FinXRestClient() as finx_rest:
+        result2 = await finx_rest.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results2: {result2=}")
+
+
 if __name__ == "__main__":
     main()
+    main2()
