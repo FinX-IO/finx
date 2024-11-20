@@ -7,11 +7,7 @@ from typing import Union
 
 import asyncio
 
-from finx.base_classes.base_client import (
-    BaseFinXClient,
-    ApiContextManager,
-    SessionManager,
-)
+from finx.base_classes.base_client import ApiContextManager, SessionManager
 from finx.clients import rest_client, socket_client
 from finx.utils.enums import ComparatorEnum
 

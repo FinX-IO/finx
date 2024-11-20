@@ -84,15 +84,6 @@ Module Contents
       :type:  dict[str, Any]
 
 
-   .. py:method:: __post_init__()
-
-      Post init method for ProgressManager
-
-      :return: None type object
-      :rtype: None
-
-
-
    .. py:method:: chunk_progress(i: int, chunk_size: int)
       :staticmethod:
 
@@ -148,24 +139,6 @@ Module Contents
 
    .. py:attribute:: __total_tasks
       :type:  int
-
-
-   .. py:method:: __post_init__()
-
-      Post init method for AsyncTaskManager.  Wrap tasks and set chunk size
-
-      :return: None type object
-      :rtype: None
-
-
-
-   .. py:method:: __len__()
-
-      Return length of tasks
-
-      :return: length of tasks
-      :rtype: int
-
 
 
    .. py:property:: n_tasks
@@ -241,15 +214,6 @@ Module Contents
 
    .. py:attribute:: tasks
       :type:  list[finx.utils.concurrency.ProcessWithReturnValue]
-
-
-   .. py:method:: __post_init__()
-
-      Post init method for AsyncProcessManager
-
-      :return: None type object
-      :rtype: None
-
 
 
    .. py:method:: from_args_list(process_fn: callable, args_list: list[Any], **kwargs) -> AsyncProcessManager
@@ -335,66 +299,12 @@ Module Contents
       :type:  str | ConcurrencyTypes
 
 
-   .. py:method:: __post_init__()
-
-      Post init method for TaskRunner
-
-      :return: None type object
-      :rtype: None
-
-
-
-   .. py:method:: _coerce_args(args_list: Any) -> list[Any]
-      :staticmethod:
-
-
-      utility function for parsing/formatting arguments passed to run_concurrently
-
-      :param args_list: List of arguments to be coerced
-      :type args_list: Any
-      :return: List of arguments
-      :rtype: list[Any]
-
-
-
    .. py:property:: runnable
 
       Return async function to call
 
       :return: Async function to call
       :rtype: Union[CeleryWrapper, Hybrid]
-
-
-
-   .. py:method:: _run_async_process(args_list: list[Any], no_return: bool = False, **kwargs)
-      :async:
-
-
-      Specify that we are running async process tasks
-
-      :param args_list: List of arguments to be passed to async function
-      :type args_list: list[Any]
-      :param no_return: Flag to determine if we are running in sync context
-      :type no_return: bool
-      :param kwargs: Keyword arguments to be passed to async function
-      :type kwargs: dict
-      :return: None type object
-      :rtype: None
-
-
-
-   .. py:method:: _run_async_thread(args_list: list[Any], **kwargs)
-      :async:
-
-
-      Specify that we are running async hybrid tasks
-
-      :param args_list: List of arguments to be passed to async function
-      :type args_list: list[Any]
-      :param kwargs: Keyword arguments to be passed to async function
-      :type kwargs: dict
-      :return: None type object
-      :rtype: None
 
 
 

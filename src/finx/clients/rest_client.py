@@ -38,6 +38,13 @@ class FinXRestClient(BaseFinXClient):
         # pylint: disable=useless-parent-delegation
         super().model_post_init(__context)
 
+    async def __aenter__(self) -> "FinXRestClient":
+        await self.load_functions()
+        return self
+
+    async def __aexit__(self, *err) -> None:
+        self.cleanup()
+
     def _unpack_session_response(self, data: dict, cache_lookup: CacheLookup) -> dict:
         """
 

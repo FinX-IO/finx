@@ -1,0 +1,12 @@
+finx.helpers.cashflow_results
+=============================
+
+.. py:module:: finx.helpers.cashflow_results
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: extract batch cash flow results and put into a full dataframe
+
+
+

@@ -16,7 +16,6 @@ Attributes
 .. autoapisummary::
 
    finx.utils.concurrency.Awaitable
-   finx.utils.concurrency._ALREADY_RUNNING
 
 
 Classes
@@ -47,8 +46,6 @@ Module Contents
 ---------------
 
 .. py:data:: Awaitable
-
-.. py:data:: _ALREADY_RUNNING
 
 .. py:function:: decohints(decorator: Callable) -> Callable
 
@@ -131,32 +128,6 @@ Module Contents
 
       :return: Function to be wrapped
       :rtype: Callable
-
-
-
-   .. py:method:: __get__(instance, owner)
-
-      Support class instance methods.
-
-      :param instance: instance of the class to which the descriptor is attached
-      :type instance: object
-      :param owner: the class which contains the descriptor
-      :type owner: type
-      :return: Hybrid object
-      :rtype: Hybrid
-
-
-
-   .. py:method:: __call__(*args, **kwargs)
-
-      Call method to run function
-
-      :param args: All args to be passed to function
-      :type args: tuple
-      :param kwargs: All kwargs to be passed to function
-      :type kwargs: dict
-      :return: Async result of function
-      :rtype: Any
 
 
 
@@ -385,32 +356,6 @@ Module Contents
 
    .. py:attribute:: _func_classes
       :value: []
-
-
-
-   .. py:method:: __call__(*args, **kwargs)
-
-      Call method to run function
-
-      :param args: args for wrapped function
-      :type args: tuple
-      :param kwargs: kwargs for wrapped function
-      :type kwargs: dict
-      :return: Result of wrapped function
-      :rtype: Any
-
-
-
-   .. py:method:: __get__(obj, objtype)
-
-      Support instance methods.
-
-      :param obj: attribute of object
-      :type obj: Any
-      :param objtype: type of object
-      :type objtype: Any
-      :return: ThreadFunction object
-      :rtype: ThreadFunction
 
 
 

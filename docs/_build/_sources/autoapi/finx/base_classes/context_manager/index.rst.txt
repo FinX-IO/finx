@@ -128,21 +128,6 @@ Module Contents
 
 
 
-   .. py:method:: _cache_key_from_kwargs(api_method: str, **kwargs) -> str
-      :staticmethod:
-
-
-      Create a cache key from the kwargs
-
-      :param api_method: Name of the API method
-      :type api_method: str
-      :param kwargs: Keyword arguments
-      :type kwargs: dict
-      :return: Cache key
-      :rtype: str
-
-
-
    .. py:method:: check_cache(api_method: str, **kwargs) -> CacheLookup
 
       Check the cache for a value

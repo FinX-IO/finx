@@ -33,6 +33,20 @@ Module Contents
       :type:  Optional[aiohttp.ClientSession]
 
 
+   .. py:class:: Config
+
+      Nested Config for Pydantic Model
+
+
+      .. py:attribute:: arbitrary_types_allowed
+         :value: True
+
+
+
+      .. py:attribute:: ignored_types
+
+
+
    .. py:method:: model_post_init(__context: Any) -> None
 
       Pydantic base method that initializes all fields
@@ -44,39 +58,23 @@ Module Contents
 
 
 
+   .. py:method:: cleanup()
+      :async:
+
+
+      Function to safely remove session object resourecs
+
+      :return: None type
+      :rtype: None
+
+
+
    .. py:method:: set_event_loop(loop: asyncio.AbstractEventLoop)
 
       Update event loop for session
 
       :param loop: Event loop to be set
       :type loop: asyncio.AbstractEventLoop
-      :return: None type
-      :rtype: None
-
-
-
-   .. py:method:: __aenter__()
-      :async:
-
-
-      Entrance method that initializes a session - forces usage within a with statement
-
-      >>> with SessionManager() as session:
-      >>>     # Do something with session
-
-      :return: Session Manager Class
-      :rtype: SessionManager
-
-
-
-   .. py:method:: __aexit__(*err)
-      :async:
-
-
-      Exit method that closes session after with statement is terminated
-
-      :param err: Error information
-      :type err: tuple
       :return: None type
       :rtype: None
 

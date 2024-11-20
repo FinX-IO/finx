@@ -32,17 +32,6 @@ Module Contents
    .. py:attribute:: function
 
 
-   .. py:method:: __call__(*args, **kwargs)
-
-      Run wrapped function when called
-
-      :param args: Tuple of arguments to unpack
-      :type args: tuple
-      :param kwargs: Key word arguments for function
-      :type kwargs: dict
-
-
-
    .. py:method:: run_function(*args, **kwargs)
 
       Run wrapped function when called
@@ -150,83 +139,5 @@ Module Contents
 
 
    Enum with comparison methods
-
-
-   .. py:method:: __int__()
-
-      Return enum value as integer
-
-      :return: enum value as integer
-      :rtype: int
-
-
-
-   .. py:method:: __hash__()
-
-
-   .. py:method:: __valid_comparison(other) -> bool
-
-      Check if comparison is valid
-
-      :param other: other value to compare
-      :type other: int | self.__class__
-      :return: True if comparison is valid, otherwise False
-      :rtype: bool
-
-
-
-   .. py:method:: __lt__(other)
-
-      Less than comparison
-
-      :param other: other value to compare
-      :type other: int | self.__class__
-      :return: True if less than, otherwise False
-      :rtype: bool
-
-
-
-   .. py:method:: __le__(other)
-
-      Less than or equal comparison
-
-      :param other: other value to compare
-      :type other: int | self.__class__
-      :return: True if less than or equal, otherwise False
-      :rtype: bool
-
-
-
-   .. py:method:: __gt__(other)
-
-      Greater than comparison
-
-      :param other: other value to compare
-      :type other: int | self.__class__
-      :return: True if greater than, otherwise False
-      :rtype: bool
-
-
-
-   .. py:method:: __ge__(other)
-
-      Greater than or equal comparison
-
-      :param other: other value to compare
-      :type other: int | self.__class__
-      :return: True if greater than or equal, otherwise False
-      :rtype: bool
-
-
-
-   .. py:method:: __eq__(other)
-
-      Equal comparison
-
-      :param other: other value to compare
-      :type other: int | self.__class__
-      :return: True if equal, otherwise False
-      :rtype: bool
-
 
 

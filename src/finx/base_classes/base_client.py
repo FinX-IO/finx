@@ -9,6 +9,7 @@ from traceback import format_exc
 from types import MethodType
 from typing import Any, NamedTuple, Optional
 
+import asyncio
 import os
 import json
 import time
@@ -49,6 +50,9 @@ class PayloadCache(NamedTuple):
 class BaseFinXClient(BaseMethods, ABC):
     """
     Base FinX Client interface - will initialize a context manager and session manager
+
+    :meta enable: members
+
     """
 
     context: Optional[ApiContextManager] = Field(None, repr=False)
@@ -101,6 +105,13 @@ class BaseFinXClient(BaseMethods, ABC):
         :return: None type object
         :rtype: None
         """
+        if self.session:
+            try:
+                loop = asyncio.get_event_loop()
+                loop.create_task(self.session.cleanup.run_async())
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                loop.run_until_complete(self.session.cleanup())
 
     def free(self):
         """
@@ -444,7 +455,7 @@ class BaseFinXClient(BaseMethods, ABC):
         self, batch_params=None, input_file=None, output_file=None, **kwargs
     ):
         """
-        Batch coverage check function
+        Returns a list of covered securities for a batch of security ids
 
         :param batch_params: dict of batch parameters
         :type batch_params: dict
@@ -461,7 +472,12 @@ class BaseFinXClient(BaseMethods, ABC):
     @hybrid
     async def coverage_check(self, security_id, **kwargs):
         """
-        Coverage check function
+        Returns a list of covered securities. Check to see if a security id is covered by FinX SecurityDB.
+
+        .. code-block:: python
+
+            >>> # SAMPLE USAGE
+            >>> finx_client.coverage_check(security_id='38376R3H7')
 
         :param security_id: Security ID
         :type security_id: str
@@ -496,9 +512,9 @@ class BaseFinXClient(BaseMethods, ABC):
         List fixings function
 
         :param as_of_date: Date to list fixings for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param currency: Currency to list fixings for
-        :type currency: str
+        :type currency: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -530,9 +546,9 @@ class BaseFinXClient(BaseMethods, ABC):
         :param fixings: List of fixings to get
         :type fixings: list
         :param as_of_date: Date to get fixings for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param tenors: List of tenors to get fixings for (comma separated list)
-        :type tenors: str
+        :type tenors: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -579,15 +595,15 @@ class BaseFinXClient(BaseMethods, ABC):
         :param currency: Currency to get curve for
         :type currency: str
         :param start_date: Start date for curve
-        :type start_date: str
+        :type start_date: Optional[str]
         :param end_date: End date for curve
-        :type end_date: str
+        :type end_date: Optional[str]
         :param country_code: Country code
-        :type country_code: str
+        :type country_code: Optional[str]
         :param fixing: Fixing for curve
-        :type fixing: str
+        :type fixing: Optional[str]
         :param tenor: Tenor for curve
-        :type tenor: str
+        :type tenor: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -606,7 +622,7 @@ class BaseFinXClient(BaseMethods, ABC):
         :param t_new: List of new (interpolated) times
         :type t_new: list[float]
         :param interpolator: Interpolator to use
-        :type interpolator: str
+        :type interpolator: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -638,7 +654,7 @@ class BaseFinXClient(BaseMethods, ABC):
         :param as_of_date: Date to forecast exchange rates for
         :type as_of_date: str
         :param post_convert_currency: Currency to convert exchange rates to
-        :type post_convert_currency: str
+        :type post_convert_currency: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -703,9 +719,9 @@ class BaseFinXClient(BaseMethods, ABC):
         :param price: Price of the option
         :type price: float
         :param option_side: Side of the option (i.e. call or put)
-        :type option_side: str
+        :type option_side: Optional[str]
         :param option_type: Type of the option (i.e. european or american)
-        :type option_type: str
+        :type option_type: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -749,15 +765,15 @@ class BaseFinXClient(BaseMethods, ABC):
         :param security_id: Security ID
         :type security_id: str
         :param as_of_date: Date to get security reference data for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param price: Price of the security
-        :type price: float
+        :type price: Optional[float]
         :param price_as_yield: Price as yield
-        :type price_as_yield: bool | str
+        :type price_as_yield: Optional[bool | str]
         :param include_schedule: Include schedule data
-        :type include_schedule: bool
+        :type include_schedule: Optional[bool]
         :param use_test_data: Use test data
-        :type use_test_data: bool
+        :type use_test_data: Optional[bool]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -793,9 +809,9 @@ class BaseFinXClient(BaseMethods, ABC):
         :param security_id: Security ID
         :type security_id: str
         :param as_of_date: Date to get security CPR for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param price: Price of the security
-        :type price: float
+        :type price: Optional[float]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -846,27 +862,27 @@ class BaseFinXClient(BaseMethods, ABC):
         :param security_id: Security ID
         :type security_id: str
         :param as_of_date: Date to get security cash flows for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param price: Price of the security
-        :type price: float
+        :type price: Optional[float]
         :param lognormal: Lognormal distribution
-        :type lognormal: bool
+        :type lognormal: Optional[bool]
         :param volatility: Volatility
-        :type volatility: float
+        :type volatility: Optional[float]
         :param drift_a: Mean Reversion
-        :type drift_a: float
+        :type drift_a: Optional[float]
         :param yield_shift: Yield shift
-        :type yield_shift: float
+        :type yield_shift: Optional[float]
         :param shock_in_bp: Shock in basis points
-        :type shock_in_bp: float
+        :type shock_in_bp: Optional[float]
         :param price_as_yield: Price as yield
-        :type price_as_yield: bool | str
+        :type price_as_yield: Optional[bool | str]
         :param cpr: CPR
-        :type cpr: float
+        :type cpr: Optional[float]
         :param psa: PSA
-        :type psa: float
+        :type psa: Optional[float]
         :param use_test_data: Use test data
-        :type use_test_data: bool
+        :type use_test_data: Optional[bool]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -917,27 +933,27 @@ class BaseFinXClient(BaseMethods, ABC):
         :param security_id: Security ID
         :type security_id: str
         :param as_of_date: Date to calculate security analytics for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param price: Price of the security
-        :type price: float
+        :type price: Optional[float]
         :param lognormal: Lognormal distribution
-        :type lognormal: bool
+        :type lognormal: Optional[bool]
         :param volatility: Volatility
-        :type volatility: float
+        :type volatility: Optional[float]
         :param drift_a: Mean Reversion
-        :type drift_a: float
+        :type drift_a: Optional[float]
         :param yield_shift: Yield shift
-        :type yield_shift: float
+        :type yield_shift: Optional[float]
         :param shock_in_bp: Shock in basis points
-        :type shock_in_bp: float
+        :type shock_in_bp: Optional[float]
         :param price_as_yield: Price as yield
-        :type price_as_yield: bool | str
+        :type price_as_yield: Optional[bool | str]
         :param cpr: CPR
-        :type cpr: float
+        :type cpr: Optional[float]
         :param psa: PSA
-        :type psa: float
+        :type psa: Optional[float]
         :param use_test_data: Use test data
-        :type use_test_data: bool
+        :type use_test_data: Optional[bool]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -987,27 +1003,27 @@ class BaseFinXClient(BaseMethods, ABC):
         :param security_id: Security ID
         :type security_id: str
         :param as_of_date: Date to calculate security key rates for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param price: Price of the security
-        :type price: float
+        :type price: Optional[float]
         :param lognormal: Lognormal distribution
-        :type lognormal: bool
+        :type lognormal: Optional[bool]
         :param volatility: Volatility
-        :type volatility: float
+        :type volatility: Optional[float]
         :param drift_a: Mean Reversion
-        :type drift_a: float
+        :type drift_a: Optional[float]
         :param yield_shift: Yield shift
-        :type yield_shift: float
+        :type yield_shift: Optional[float]
         :param key_rate_times: Key rate times
-        :type key_rate_times: list[float]
+        :type key_rate_times: Optional[list[float]]
         :param price_as_yield: Price as yield
-        :type price_as_yield: bool | str
+        :type price_as_yield: Optional[bool | str]
         :param cpr: CPR
-        :type cpr: float
+        :type cpr: Optional[float]
         :param psa: PSA
-        :type psa: float
+        :type psa: Optional[float]
         :param use_test_data: Use test data
-        :type use_test_data: bool
+        :type use_test_data: Optional[bool]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API
@@ -1067,45 +1083,45 @@ class BaseFinXClient(BaseMethods, ABC):
         :param security_id: Security ID
         :type security_id: str
         :param as_of_date: Date to forecast cash flows and prices for
-        :type as_of_date: str
+        :type as_of_date: Optional[str]
         :param price: Price of the security
-        :type price: float
+        :type price: Optional[float]
         :param lognormal: Lognormal distribution
-        :type lognormal: bool
+        :type lognormal: Optional[bool]
         :param volatility: Volatility
-        :type volatility: float
+        :type volatility: Optional[float]
         :param drift_a: Mean Reversion
-        :type drift_a: float
+        :type drift_a: Optional[float]
         :param yield_shift: Yield shift
-        :type yield_shift: float
+        :type yield_shift: Optional[float]
         :param shock_in_bp: Shock in basis points
-        :type shock_in_bp: float
+        :type shock_in_bp: Optional[float]
         :param price_as_yield: Price as yield
-        :type price_as_yield: bool | str
+        :type price_as_yield: Optional[bool | str]
         :param skip_projections: Skip projections
-        :type skip_projections: bool
+        :type skip_projections: Optional[bool]
         :param is_spread_shock: Spread shock
-        :type is_spread_shock: bool
+        :type is_spread_shock: Optional[bool]
         :param reindex_frequency: Reindex frequency (12 = monthly)
-        :type reindex_frequency: int
+        :type reindex_frequency: Optional[int]
         :param cpr: CPR
-        :type cpr: float
+        :type cpr: Optional[float]
         :param psa: PSA
-        :type psa: float
+        :type psa: Optional[float]
         :param reporting_dates_only: Reporting dates only
-        :type reporting_dates_only: bool
+        :type reporting_dates_only: Optional[bool]
         :param post_convert_currency: Post convert currency
-        :type post_convert_currency: str
+        :type post_convert_currency: Optional[str]
         :param use_reference_curve: Use reference curve
-        :type use_reference_curve: bool
+        :type use_reference_curve: Optional[bool]
         :param use_test_data: Use test data
-        :type use_test_data: bool
+        :type use_test_data: Optional[bool]
         :param reset_convention: Reset convention
-        :type reset_convention: str
+        :type reset_convention: Optional[str]
         :param alt_security_id: Alternative security ID
-        :type alt_security_id: str
+        :type alt_security_id: Optional[str]
         :param inflation_type: Inflation type
-        :type inflation_type: str
+        :type inflation_type: Optional[str]
         :param kwargs: Keyword arguments
         :type kwargs: dict
         :return: Results from the API

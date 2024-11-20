@@ -97,20 +97,5 @@ Module Contents
 
 
 
-   .. py:method:: __call__(client_type: Union[str, ClientTypes] = 'socket', loop: asyncio.AbstractEventLoop = None, **kwargs) -> finx.clients.socket_client.FinXSocketClient | finx.clients.rest_client.FinXRestClient
-
-      Call method for the factory class
-
-      :param client_type: The type of client to create
-      :type client_type: Union[str, ClientTypes]
-      :param loop: The event loop to use for the client
-      :type loop: asyncio.AbstractEventLoop
-      :param kwargs: Additional keyword arguments to pass to the client
-      :type kwargs: dict
-      :return: The FinX Client
-      :rtype: BaseFinXClient
-
-
-
 .. py:data:: FinXClient
 

@@ -83,6 +83,13 @@ class FinXSocketClient(BaseFinXClient):
             if not self.is_authenticated:
                 raise ValueError("Client not authenticated - Invalid API KEY")
 
+    async def __aenter__(self) -> "FinXSocketClient":
+        await self.load_functions()
+        return self
+
+    async def __aexit__(self, *err) -> None:
+        self.cleanup()
+
     def cleanup(self):
         """
         Cleanup method
@@ -92,6 +99,7 @@ class FinXSocketClient(BaseFinXClient):
         """
         if self._socket:
             self._socket.close()
+        super().cleanup()
 
     @property
     def is_ssl(self) -> bool:
@@ -375,9 +383,7 @@ class FinXSocketClient(BaseFinXClient):
                 ]
                 if request_dicts:
                     # pylint: disable=unspecified-encoding
-                    with open(
-                        filename, "w+"
-                    ) as file:
+                    with open(filename, "w+") as file:
                         file.write("\n".join(request_dicts))
                     file.close()
                     print("MADE BATCH FILE")
@@ -385,9 +391,7 @@ class FinXSocketClient(BaseFinXClient):
                     pd.DataFrame(batch_input).to_csv(filename, index=False)
             elif isinstance(batch_input[0], str):
                 # pylint: disable=unspecified-encoding
-                with open(
-                    filename, "w+"
-                ) as file:
+                with open(filename, "w+") as file:
                     file.write("\n".join(batch_input))
         return self.upload_file(filename, remove_file=True)
 

@@ -16,3 +16,5 @@ Most documentation is from type-hinting and docstrings in source files.
    :maxdepth: 1
 
    readme
+   install_requirements
+   code_of_conduct
