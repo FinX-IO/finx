@@ -95,7 +95,7 @@ class SessionManager(BaseModel):
         """
         if not self._session:
             return
-        await self.cleanup()
+        await self.cleanup.run_async()
 
     async def post(
         self,
