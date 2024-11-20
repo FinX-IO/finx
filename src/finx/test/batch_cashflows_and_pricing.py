@@ -8,7 +8,7 @@ import unittest
 import pandas as pd
 
 from finx.client import FinXClient, ClientTypes
-from finx.helpers.batch_cash_flows import load_results, BatchForecastResults
+from finx.helpers.forecast_results import load_results, BatchForecastResults
 
 
 class BatchCashFlows(unittest.TestCase):

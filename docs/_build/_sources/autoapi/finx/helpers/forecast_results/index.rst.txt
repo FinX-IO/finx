@@ -1,0 +1,63 @@
+finx.helpers.forecast_results
+=============================
+
+.. py:module:: finx.helpers.forecast_results
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: extract results from batch api to standardized
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.helpers.forecast_results.BatchForecastResults
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   finx.helpers.forecast_results.load_results
+
+
+Module Contents
+---------------
+
+.. py:class:: BatchForecastResults
+
+   Bases: :py:obj:`NamedTuple`
+
+
+   Utility class for storing batch forecast results
+
+
+   .. py:attribute:: projected_analytics
+      :type:  pandas.DataFrame
+
+
+   .. py:attribute:: forecasted_flows
+      :type:  pandas.DataFrame
+
+
+   .. py:attribute:: error
+      :type:  Optional[str]
+      :value: None
+
+
+
+.. py:function:: load_results(result: dict)
+
+   Unpack json from results and package into a list of Batch Forecast Results
+
+   :param result: dict returned from api containing serialized results
+   :type result: dict
+   :return: Batch Forecast Results
+   :rtype: BatchForecastResults
+
+

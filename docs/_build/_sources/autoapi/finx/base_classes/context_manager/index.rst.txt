@@ -1,0 +1,143 @@
+finx.base_classes.context_manager
+=================================
+
+.. py:module:: finx.base_classes.context_manager
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: Base Context Manager for FinX SDK
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.base_classes.context_manager._ParamCacheKeys
+   finx.base_classes.context_manager.CacheLookup
+   finx.base_classes.context_manager.ApiContextManager
+
+
+Module Contents
+---------------
+
+.. py:class:: _ParamCacheKeys
+
+   Bases: :py:obj:`finx.utils.enums.ExtendedEnum`
+
+
+   Keys to check in Cache
+
+
+   .. py:attribute:: security_id
+      :value: 1
+
+
+
+   .. py:attribute:: as_of_date
+      :value: 2
+
+
+
+   .. py:attribute:: api_method
+      :value: 3
+
+
+
+   .. py:attribute:: input_file
+      :value: 4
+
+
+
+   .. py:attribute:: output_file
+      :value: 5
+
+
+
+.. py:class:: CacheLookup
+
+   Bases: :py:obj:`NamedTuple`
+
+
+   A named tuple for cache lookup values
+
+
+   .. py:attribute:: value
+      :type:  dict
+
+
+   .. py:attribute:: key
+      :type:  str
+
+
+   .. py:attribute:: param_key
+      :type:  str
+
+
+.. py:class:: ApiContextManager
+
+   Bases: :py:obj:`finx.base_classes.from_kwargs.BaseMethods`
+
+
+   Context manager that manages the api key, endpoint configurations, and the results cache
+
+
+   .. py:attribute:: api_key
+      :type:  Optional[str]
+
+
+   .. py:attribute:: api_url
+      :type:  Optional[str]
+
+
+   .. py:attribute:: cache_size
+      :type:  int
+
+
+   .. py:attribute:: cache
+      :type:  dict[str, dict[str, dict]]
+
+
+   .. py:attribute:: timeout
+      :type:  int
+
+
+   .. py:attribute:: event_loop
+      :type:  asyncio.AbstractEventLoop
+
+
+   .. py:method:: model_post_init(__context: Any) -> None
+
+      Pydantic callback that allows all fields to be validated on class instantiation
+
+      :param __context: Pydantic context info
+      :type __context: Any
+      :return: None type object
+      :rtype: None
+
+
+
+   .. py:method:: clear_cache() -> None
+
+      Clear the cache and run the garbage collector
+
+      :return: None type
+      :rtype: None
+
+
+
+   .. py:method:: check_cache(api_method: str, **kwargs) -> CacheLookup
+
+      Check the cache for a value
+
+      :param api_method: Name of the API method
+      :type api_method: str
+      :param kwargs: Keyword arguments
+      :type kwargs: dict
+      :return: Cache lookup object
+      :rtype: CacheLookup
+
+
+
