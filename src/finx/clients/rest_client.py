@@ -39,7 +39,16 @@ class FinXRestClient(BaseFinXClient):
         super().model_post_init(__context)
 
     async def __aenter__(self) -> "FinXRestClient":
-        await self.load_functions()
+        """
+        Entrance method that initializes a REST session - forces usage within a with statement
+
+        >>> async with FinXRestClient() as client:
+        >>>     # Do something with client
+
+        :return: Instance of the FinXRestClient
+        :rtype: FinXRestClient
+        """
+        await self.load_functions.run_async()
         return self
 
     async def __aexit__(self, *err) -> None:
