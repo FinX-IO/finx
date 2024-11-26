@@ -222,7 +222,11 @@ class FinXRestClient(BaseFinXClient):
             return False
         for subtask_id, task_results in status["subtask_status"].items():
             if task_results["status"] != "complete":
-                logging.info("File not yet ready for download for %s => %s ...", subtask_id, task_results)
+                logging.info(
+                    "File not yet ready for download for %s => %s ...",
+                    subtask_id,
+                    task_results,
+                )
                 return False
         for subtask_id, task_results in status["subtask_status"].items():
             filename = task_results["download_file"]
@@ -282,37 +286,33 @@ class FinXRestClient(BaseFinXClient):
         :rtype: bool
         """
         formatted_message = ""
-        while (progress := self.monitor_progress(task_id))['total_status'] != 'complete':
-            completed_frac = int(50 * progress['total_progress'] / 100)
-            progress_bar = (
-                f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
-            )
+        while (progress := self.monitor_progress(task_id))[
+            "total_status"
+        ] != "complete":
+            completed_frac = int(50 * progress["total_progress"] / 100)
+            progress_bar = f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
             formatted_message = (
-                f'\r{task_id} => '
+                f"\r{task_id} => "
                 f'{progress_bar} ({float(progress["total_progress"]):.5f} %)'
             )
             print(formatted_message, end="")
             await asyncio.sleep(10)
-        print(f'{formatted_message} => Task Finished ... Waiting to download')
+        print(f"{formatted_message} => Task Finished ... Waiting to download")
         ready_to_download: bool = False
         while not ready_to_download:
             status = self.monitor_progress(task_id)
             n_completed = 0
-            n_subtasks = len(status['subtask_status'])
-            for subtask_id, task_results in status["subtask_status"].items():
+            n_subtasks = len(status["subtask_status"])
+            for task_results in status["subtask_status"].values():
                 if task_results["status"] == "complete":
                     n_completed += 1
             completed_frac = int(50 * n_completed / n_subtasks)
-            progress_bar = (
-                f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
-            )
+            progress_bar = f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
             print(
-                f'\r{task_id} => '
-                f'{progress_bar} ({n_completed}/{n_subtasks})',
-                end=""
+                f"\r{task_id} => " f"{progress_bar} ({n_completed}/{n_subtasks})",
+                end="",
             )
             ready_to_download = n_completed == n_subtasks
             await asyncio.sleep(10)
-        print(f'{formatted_message} => Ready to download')
+        print(f"{formatted_message} => Ready to download")
         return self.get_file_result(task_id)
-
