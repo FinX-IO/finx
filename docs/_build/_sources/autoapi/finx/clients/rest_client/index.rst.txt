@@ -116,3 +116,16 @@ Module Contents
 
 
 
+   .. py:method:: wait_for_completion(task_id: str) -> bool
+      :async:
+
+
+      Wait for a batch run to complete
+
+      :param task_id: Task ID to monitor
+      :type task_id: str
+      :return: True if the task is complete
+      :rtype: bool
+
+
+

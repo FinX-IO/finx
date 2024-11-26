@@ -304,6 +304,23 @@ purpose: FinX Rest Client</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="finx.clients.rest_client.FinXRestClient.wait_for_completion">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_for_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#finx.clients.rest_client.FinXRestClient.wait_for_completion" title="Link to this definition">¶</a></dt>
+<dd><p>Wait for a batch run to complete</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>task_id</strong> (<em>str</em>) – Task ID to monitor</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the task is complete</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -335,6 +352,7 @@ purpose: FinX Rest Client</p>
 <li><a class="reference internal" href="#finx.clients.rest_client.FinXRestClient.get_file_result"><code class="docutils literal notranslate"><span class="pre">FinXRestClient.get_file_result()</span></code></a></li>
 <li><a class="reference internal" href="#finx.clients.rest_client.FinXRestClient.register_scenario_rates"><code class="docutils literal notranslate"><span class="pre">FinXRestClient.register_scenario_rates()</span></code></a></li>
 <li><a class="reference internal" href="#finx.clients.rest_client.FinXRestClient.run_batch_holdings"><code class="docutils literal notranslate"><span class="pre">FinXRestClient.run_batch_holdings()</span></code></a></li>
+<li><a class="reference internal" href="#finx.clients.rest_client.FinXRestClient.wait_for_completion"><code class="docutils literal notranslate"><span class="pre">FinXRestClient.wait_for_completion()</span></code></a></li>
 </ul>
 </li>
 </ul>
