@@ -292,7 +292,7 @@ class FinXRestClient(BaseFinXClient):
                 f'{progress_bar} ({float(progress["total_progress"]):.5f} %)'
             )
             print(formatted_message, end="")
-            await asyncio.sleep(5)
+            await asyncio.sleep(10)
         print(f'{formatted_message} => Task Finished ... Waiting to download')
         ready_to_download: bool = False
         while not ready_to_download:
@@ -311,6 +311,7 @@ class FinXRestClient(BaseFinXClient):
                 f'{progress_bar} ({n_completed}/{n_subtasks})'
             )
             ready_to_download = n_completed == n_subtasks
+            await asyncio.sleep(5)
         print(f'{formatted_message} => Ready to download')
         return self.get_file_result(task_id)
 
