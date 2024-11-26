@@ -166,7 +166,7 @@ class FinXRestClient(BaseFinXClient):
             files={"file": open(full_file_path, "rb")},
             data={
                 "user_uuid": self.context.api_key,
-                "filename": full_file_path.split(self._file_delim)[-1],
+                "filename": full_file_path.split(self._file_delim())[-1],
                 "test_data": True,
             },
         )
@@ -186,7 +186,7 @@ class FinXRestClient(BaseFinXClient):
             files={"file": open(full_file_path, "rb")},
             data={
                 "user_uuid": self.context.api_key,
-                "source_file": full_file_path.split(self._file_delim)[-1],
+                "source_file": full_file_path.split(self._file_delim())[-1],
             },
         )
         if response.status_code == 200:
