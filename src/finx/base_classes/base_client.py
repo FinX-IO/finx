@@ -351,7 +351,7 @@ class BaseFinXClient(BaseMethods, ABC):
         downloaded_files = await self._download_file_results.run_async(file_results)
         n_results = len(file_results)
         for index, file_result in file_results:
-            key_as_str = json.dumps(list(cache_keys[index]))
+            check_strings = [json.dumps(list(cache_keys[index])), f'{list(cache_keys[index])}']
             print(
                 f"\rLoading result[{index + 1} / {n_results}]",
                 end=["", "\n"][index == (n_results - 1)],
@@ -360,9 +360,21 @@ class BaseFinXClient(BaseMethods, ABC):
             if "cache_key" not in file_df:
                 matched_result = file_df
             else:
-                matched_result = file_df.loc[
-                    file_df["cache_key"] == key_as_str
-                ].to_dict(orient="records")[0]
+                matched_result = None
+                for key_as_str in check_strings:
+                    try:
+                        matched_result = file_df.loc[
+                            file_df["cache_key"] == key_as_str
+                        ].to_dict(orient="records")[0]
+                    except IndexError:
+                        continue
+                if matched_result is None:
+                    logging.critical(
+                        "Failed to find result for %s in %s",
+                        cache_keys[index],
+                        file_result["filename"],
+                    )
+                    raise IndexError(f"Failed to find result[{index}] = {cache_keys[index]}")
             if "filename" in matched_result:
                 matched_result["result"] = await self.download_file.run_async(
                     **matched_result

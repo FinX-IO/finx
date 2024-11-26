@@ -1861,7 +1861,7 @@ class BatchCashFlows(unittest.TestCase):
             "Errors: %i / Success: %d", n_errors, len(unpacked_results) - n_errors
         )
         self.assertTrue(isinstance(unpacked_results[0], BatchForecastResults))
-        self.assertEquals(n_errors, 0)
+        self.assertEqual(n_errors, 0)
         finx_client.cleanup()
 
 
