@@ -237,10 +237,12 @@ class FinXSocketClient(BaseFinXClient):
                             )
                         return None
                     print(
-                        message.get("message", message).get("progress", message)
-                        if not message.get("starting monitor")
-                        else "Starting monitor ... ",
-                        end=["", "\n"][not message.get("starting monitor")]
+                        (
+                            message.get("message", message).get("progress", message)
+                            if not message.get("starting monitor")
+                            else "Starting monitor ... "
+                        ),
+                        end=["", "\n"][not message.get("starting monitor")],
                     )
                     return None
                 if (cache_keys := message.get("cache_key")) is None:

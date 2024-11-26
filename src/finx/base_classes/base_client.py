@@ -351,7 +351,10 @@ class BaseFinXClient(BaseMethods, ABC):
         downloaded_files = await self._download_file_results.run_async(file_results)
         n_results = len(file_results)
         for index, file_result in file_results:
-            check_strings = [json.dumps(list(cache_keys[index])), f'{list(cache_keys[index])}']
+            check_strings = [
+                json.dumps(list(cache_keys[index])),
+                f"{list(cache_keys[index])}",
+            ]
             print(
                 f"\rLoading result[{index + 1} / {n_results}]",
                 end=["", "\n"][index == (n_results - 1)],
@@ -374,7 +377,9 @@ class BaseFinXClient(BaseMethods, ABC):
                         cache_keys[index],
                         file_result["filename"],
                     )
-                    raise IndexError(f"Failed to find result[{index}] = {cache_keys[index]}")
+                    raise IndexError(
+                        f"Failed to find result[{index}] = {cache_keys[index]}"
+                    )
             if "filename" in matched_result:
                 matched_result["result"] = await self.download_file.run_async(
                     **matched_result
