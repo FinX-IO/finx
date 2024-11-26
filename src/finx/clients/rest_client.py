@@ -3,11 +3,12 @@
 author: dick mule
 purpose: FinX Rest Client
 """
-import logging
 from typing import Any
 from platform import system
 
+import asyncio
 import json
+import logging
 
 import requests
 
@@ -269,3 +270,47 @@ class FinXRestClient(BaseFinXClient):
             },
         ).json()
         return response
+
+    @hybrid
+    async def wait_for_completion(self, task_id: str) -> bool:
+        """
+        Wait for a batch run to complete
+
+        :param task_id: Task ID to monitor
+        :type task_id: str
+        :return: True if the task is complete
+        :rtype: bool
+        """
+        formatted_message = ""
+        while (progress := self.monitor_progress(task_id))['total_status'] != 'complete':
+            completed_frac = int(50 * progress['total_progress'] / 100)
+            progress_bar = (
+                f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
+            )
+            formatted_message = (
+                f'\r{task_id} => '
+                f'{progress_bar} ({float(progress["total_progress"]):.5f} %)'
+            )
+            print(formatted_message, end="")
+            await asyncio.sleep(5)
+        print(f'{formatted_message} => Task Finished ... Waiting to download')
+        ready_to_download: bool = False
+        while not ready_to_download:
+            status = self.monitor_progress(task_id)
+            n_completed = 0
+            n_subtasks = len(status['subtask_status'])
+            for subtask_id, task_results in status["subtask_status"].items():
+                if task_results["status"] == "complete":
+                    n_completed += 1
+            completed_frac = int(50 * n_completed / n_subtasks)
+            progress_bar = (
+                f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
+            )
+            print(
+                f'\r{task_id} => '
+                f'{progress_bar} ({n_completed}/{n_subtasks})'
+            )
+            ready_to_download = n_completed == n_subtasks
+        print(f'{formatted_message} => Ready to download')
+        return self.get_file_result(task_id)
+
