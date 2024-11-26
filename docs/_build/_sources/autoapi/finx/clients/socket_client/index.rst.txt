@@ -63,6 +63,10 @@ Module Contents
       :type:  Optional[threading.Thread]
 
 
+   .. py:attribute:: _last_message
+      :type:  str
+
+
    .. py:property:: ws_url
 
       Get the websocket URL
