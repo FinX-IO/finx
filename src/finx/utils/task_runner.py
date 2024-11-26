@@ -8,6 +8,7 @@ from typing import Any, Union
 from uuid import uuid4
 
 import asyncio
+import logging
 import multiprocessing as mp
 
 import pandas as pd
@@ -87,7 +88,7 @@ class ProgressManager:
         if self.send_messages and self.__cached_message.get(
             "remaining_tasks"
         ) != self.message.get("remaining_tasks"):
-            print(f"{self.message}")
+            logging.info("%s", self.message)
             self.__cached_message = self.message.copy()
 
 
@@ -279,13 +280,11 @@ class AsyncProcessManager(AsyncTaskManager):
             chunked_tasks = self.tasks[i * NUM_CORES : (i + 1) * NUM_CORES]
             for task in chunked_tasks:
                 task.start()
-                # print(f'\tSTARTED {task}')
             if kwargs.get("start_only"):
                 continue
-            # print(f'\tJOINING {chunked_tasks}')
             results += [await thread.join_async(sleep_time) for thread in chunked_tasks]
             i += 1
-        print("Finished running processes")
+        logging.debug("Finished running processes")
         return results
 
 
@@ -381,7 +380,7 @@ class TaskRunner(AsyncProcessManager):
         :return: None type object
         :rtype: None
         """
-        print(f"RUN ASYNC PROCESS: {no_return=}")
+        logging.debug("RUN ASYNC PROCESS: %s", no_return)
         self.tasks = [
             self.async_func(**args_list[i], no_return=no_return, **kwargs)
             for i in range(self.n_tasks)

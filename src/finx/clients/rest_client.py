@@ -3,6 +3,7 @@
 author: dick mule
 purpose: FinX Rest Client
 """
+import logging
 from typing import Any
 from platform import system
 
@@ -39,7 +40,16 @@ class FinXRestClient(BaseFinXClient):
         super().model_post_init(__context)
 
     async def __aenter__(self) -> "FinXRestClient":
-        await self.load_functions()
+        """
+        Entrance method that initializes a REST session - forces usage within a with statement
+
+        >>> async with FinXRestClient() as client:
+        >>>     # Do something with client
+
+        :return: Instance of the FinXRestClient
+        :rtype: FinXRestClient
+        """
+        await self.load_functions.run_async()
         return self
 
     async def __aexit__(self, *err) -> None:
@@ -56,7 +66,7 @@ class FinXRestClient(BaseFinXClient):
         :rtype: dict
         """
         if (error := data.get("error")) is not None:
-            print(f"API returned error: {error}")
+            logging.error("API returned error: %s", error)
             return error
         if isinstance(data.get("data"), dict) and data.get("data", {}).get("filename"):
             data = self.download_file(data["data"])
@@ -87,7 +97,7 @@ class FinXRestClient(BaseFinXClient):
         cache_lookup = self.context.check_cache(api_method, **kwargs)
         if cache_lookup.value is not None:
             return cache_lookup.value
-        print(f"API CALL: {api_method} with {payload} / {kwargs}")
+        logging.debug("API CALL: %s with %s / %s", api_method, payload, kwargs)
         if not self.session:
             async with SessionManager() as session:
                 data = await session.post(
@@ -211,7 +221,7 @@ class FinXRestClient(BaseFinXClient):
             return False
         for subtask_id, task_results in status["subtask_status"].items():
             filename = task_results["download_file"]
-            print(f"downloading file for {subtask_id=} => {filename} ...")
+            logging.debug("Downloading file for %s => %s ...", subtask_id, filename)
             response = requests.get(
                 f"{self.rest_url}download_file/", params={"filename": filename}
             )

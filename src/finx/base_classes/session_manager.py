@@ -4,6 +4,7 @@ author: dick mule
 purpose: base class for AIOHTTP session manager
 """
 import asyncio
+import logging
 
 from io import StringIO
 from typing import Any, Optional
@@ -95,7 +96,7 @@ class SessionManager(BaseModel):
         """
         if not self._session:
             return
-        await self.cleanup()
+        await self.cleanup.run_async()
 
     async def post(
         self,
@@ -115,7 +116,7 @@ class SessionManager(BaseModel):
         :return: dictionary of the response
         :rtype: dict
         """
-        print(f"POSTING TO {url} with {kwargs} / {self._session.headers}")
+        logging.debug("POSTING TO %s with %s / %s", url, kwargs, self._session.headers)
         async with self._session.post(url, json=kwargs) as resp:
             resp.raise_for_status()
             if is_json_response:

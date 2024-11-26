@@ -319,6 +319,75 @@ file and a dictionary of configurations.</p>
 <span class="n">df</span>
 </pre></div>
 </div>
+</section>
+<section id="finx-context-manager-usage">
+<h3>FinX Context Manager Usage<a class="headerlink" href="#finx-context-manager-usage" title="Link to this heading">¶</a></h3>
+<p>One of the perks of using the SDK in an async context is that we can manager some of the initial steps as part of the
+async initialization.  Specifically, there is no need to call <code class="docutils literal notranslate"><span class="pre">load_functions</span></code> or <code class="docutils literal notranslate"><span class="pre">cleanup</span></code>
+as part of the async context.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">finx.clients</span> <span class="kn">import</span> <span class="n">rest_client</span><span class="p">,</span> <span class="n">socket_client</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sample_fn</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">socket_client</span><span class="o">.</span><span class="n">FinXSocketClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">finx_socket</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">finx_socket</span><span class="o">.</span><span class="n">calculate_greeks</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context manager results: </span><span class="si">{</span><span class="n">result</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">rest_client</span><span class="o">.</span><span class="n">FinXRestClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">finx_rest</span><span class="p">:</span>
+        <span class="n">result2</span> <span class="o">=</span> <span class="k">await</span> <span class="n">finx_rest</span><span class="o">.</span><span class="n">calculate_greeks</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context manager results2: </span><span class="si">{</span><span class="n">result2</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="jupyter-notebooks">
+<h2>Jupyter Notebooks<a class="headerlink" href="#jupyter-notebooks" title="Link to this heading">¶</a></h2>
+<section id="event-loop-management">
+<h3>Event Loop Management<a class="headerlink" href="#event-loop-management" title="Link to this heading">¶</a></h3>
+<p>Jupyter notebooks utilize an event loop as part of the async context.  This can interfere with some of the method
+syntax used in the FinX Sdk.  To work around this, we use the nest_asyncio package and provide a .run_async suffix
+that can be applied to all methods, ensuring that they work within the constraints of the event loop.</p>
+<p>The considerations here do NOT apply to any runtime environment that is not using a currently active event loop.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is a sample of how to run the FinX Library in a Jupyter Notebook.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">finx.clients.rest_client</span> <span class="kn">import</span> <span class="n">FinXRestClient</span>
+<span class="kn">from</span> <span class="nn">finx.clients.socket_client</span> <span class="kn">import</span> <span class="n">FinXSocketClient</span>
+<span class="kn">from</span> <span class="nn">finx.utils.concurrency</span> <span class="kn">import</span> <span class="n">hybrid</span>
+
+
+<span class="c1"># This is a decorator that allows a method to run in both async and sync contexts.</span>
+<span class="c1"># It is not required but allows for safe execution using the .run_async suffix and can be incorporated into</span>
+<span class="c1"># any non async runtime.</span>
+<span class="nd">@hybrid</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sample_fn</span><span class="p">():</span>
+    <span class="c1"># Initialize the SOCKET client using a context manager</span>
+    <span class="c1"># This allows us to initialize the client functions after authentication and terminate</span>
+    <span class="c1"># the socket daemon thread after use.</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">FinXSocketClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">finx_socket</span><span class="p">:</span>
+        <span class="c1"># Run the calculate_greeks function asynchronously</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">finx_socket</span><span class="o">.</span><span class="n">calculate_greeks</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span>  <span class="c1"># &lt;-- .run_async suffix!</span>
+            <span class="mi">101</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">5.0</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context manager results: </span><span class="si">{</span><span class="n">result</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Initialize the REST client using a context manager</span>
+    <span class="c1"># This allows us to initialize the client functions after authentication and terminate</span>
+    <span class="c1"># the socket daemon thread after use.</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">FinXRestClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">finx_rest</span><span class="p">:</span>
+        <span class="c1"># Run the calculate_greeks function asynchronously</span>
+        <span class="n">result2</span> <span class="o">=</span> <span class="k">await</span> <span class="n">finx_rest</span><span class="o">.</span><span class="n">calculate_greeks</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span>  <span class="c1"># &lt;-- .run_async suffix!</span>
+            <span class="mi">101</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">5.0</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context manager results2: </span><span class="si">{</span><span class="n">result2</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Run the sample function - Depending on your runtime environment, you may need to use the alternative syntax:</span>
+<span class="k">await</span> <span class="n">sample_fn</span><span class="p">()</span>
+<span class="c1"># Alternative: If you are running this in a Jupyter Notebook, you can use the following syntax:</span>
+<span class="k">await</span> <span class="n">sample_fn</span><span class="o">.</span><span class="n">run_async</span><span class="p">()</span>
+</pre></div>
+</div>
 <p>Full <strong>Documentation</strong> with all available functions is available at <a class="reference external" href="https://finx-capital-markets.gitbook.io/">FinX Docs</a></p>
 <hr class="docutils" />
 <p>title: FinX Python SDK
@@ -356,6 +425,11 @@ tags: technology, documentation, python
 </li>
 <li><a class="reference internal" href="#python-shell">Python Shell</a><ul>
 <li><a class="reference internal" href="#finx-rest-usage">FinX Rest Usage:</a></li>
+<li><a class="reference internal" href="#finx-context-manager-usage">FinX Context Manager Usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#jupyter-notebooks">Jupyter Notebooks</a><ul>
+<li><a class="reference internal" href="#event-loop-management">Event Loop Management</a></li>
 </ul>
 </li>
 </ul>

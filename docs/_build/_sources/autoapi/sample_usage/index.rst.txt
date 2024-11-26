@@ -17,6 +17,7 @@ Functions
 
    sample_usage.main
    sample_usage.main2
+   sample_usage.sample_fn
 
 
 Module Contents
@@ -40,5 +41,9 @@ Module Contents
 
    :return: None Type
    :rtype: None
+
+
+.. py:function:: sample_fn()
+   :async:
 
 

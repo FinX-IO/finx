@@ -171,6 +171,78 @@ df = pd.DataFrame(function_list)
 df
 ```
 
+### FinX Context Manager Usage
+
+One of the perks of using the SDK in an async context is that we can manager some of the initial steps as part of the
+async initialization.  Specifically, there is no need to call `load_functions` or `cleanup` 
+as part of the async context.
+
+```python3
+#! /usr/bin/env python3
+
+from finx.clients import rest_client, socket_client
+
+async def sample_fn():
+    async with socket_client.FinXSocketClient() as finx_socket:
+        result = await finx_socket.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results: {result=}")
+    async with rest_client.FinXRestClient() as finx_rest:
+        result2 = await finx_rest.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results2: {result2=}")
+```
+
+## Jupyter Notebooks
+
+### Event Loop Management
+
+Jupyter notebooks utilize an event loop as part of the async context.  This can interfere with some of the method 
+syntax used in the FinX Sdk.  To work around this, we use the nest_asyncio package and provide a .run_async suffix 
+that can be applied to all methods, ensuring that they work within the constraints of the event loop.  
+
+The considerations here do NOT apply to any runtime environment that is not using a currently active event loop.
+
+```python3
+#! /usr/bin/env python3
+"""
+This is a sample of how to run the FinX Library in a Jupyter Notebook.
+"""
+from finx.clients.rest_client import FinXRestClient
+from finx.clients.socket_client import FinXSocketClient
+from finx.utils.concurrency import hybrid
+
+
+# This is a decorator that allows a method to run in both async and sync contexts.  
+# It is not required but allows for safe execution using the .run_async suffix and can be incorporated into 
+# any non async runtime.
+@hybrid  
+async def sample_fn():
+    # Initialize the SOCKET client using a context manager
+    # This allows us to initialize the client functions after authentication and terminate 
+    # the socket daemon thread after use.
+    async with FinXSocketClient() as finx_socket: 
+        # Run the calculate_greeks function asynchronously
+        result = await finx_socket.calculate_greeks.run_async(  # <-- .run_async suffix!
+            101, 100, 0.01, 0.1, 0.0, 0.25, 5.0
+        )
+        print(f"Context manager results: {result=}")
+    # Initialize the REST client using a context manager
+    # This allows us to initialize the client functions after authentication and terminate 
+    # the socket daemon thread after use.
+    async with FinXRestClient() as finx_rest:
+        # Run the calculate_greeks function asynchronously
+        result2 = await finx_rest.calculate_greeks.run_async(  # <-- .run_async suffix!
+            101, 100, 0.01, 0.1, 0.0, 0.25, 5.0
+        )
+        print(f"Context manager results2: {result2=}")
+
+
+# Run the sample function - Depending on your runtime environment, you may need to use the alternative syntax:
+await sample_fn()
+# Alternative: If you are running this in a Jupyter Notebook, you can use the following syntax:
+await sample_fn.run_async()
+
+```
+
 Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
 
 ---

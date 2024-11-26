@@ -6,6 +6,7 @@ If building the SDK to test-pypi or to pypi, the following environment variables
 """
 
 import json
+import logging
 import os
 import urllib.request
 
@@ -28,7 +29,7 @@ def bump_version(level: str, deploy_environment: str) -> str:
     # Extract current version
     current_version = data["info"]["version"]
     major, minor, patch = map(int, current_version.split(".")[:3])
-    print("major, minor, patch: ", major, minor, patch)
+    logging.info("major, minor, patch: %s %s %s", major, minor, patch)
 
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
