@@ -10,6 +10,15 @@ finx.test.batch_cashflows_and_pricing
 
 
 
+Attributes
+----------
+
+.. autoapisummary::
+
+   finx.test.batch_cashflows_and_pricing.FIELD_SIZE_LIMIT
+   finx.test.batch_cashflows_and_pricing.FIELD_SIZE_LIMIT
+
+
 Classes
 -------
 
@@ -20,6 +29,10 @@ Classes
 
 Module Contents
 ---------------
+
+.. py:data:: FIELD_SIZE_LIMIT
+
+.. py:data:: FIELD_SIZE_LIMIT
 
 .. py:class:: BatchCashFlows(methodName='runTest')
 
@@ -38,7 +51,7 @@ Module Contents
 
 
 
-   .. py:method:: test_list_api_functions()
+   .. py:method:: test_batch_forecast()
 
       Function should return all api functions from endpoint
 
