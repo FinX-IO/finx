@@ -10,6 +10,7 @@ from types import MethodType
 from typing import Any, NamedTuple, Optional
 
 import asyncio
+import logging
 import os
 import json
 import time
@@ -255,8 +256,8 @@ class BaseFinXClient(BaseMethods, ABC):
         """
         file = open(filename, "rb")
         # Upload file to server and record filename
-        print(f"Uploading batch file to {self.context.api_url}batch-upload/")
-        print(filename, pd.read_csv(filename))
+        logging.debug("Uploading batch file to %sbatch-upload/", self.context.api_url)
+        # print(filename, pd.read_csv(filename))
         response = requests.post(
             f"{self.context.api_url}batch-upload/",
             data={"finx_api_key": self.context.api_key, "filename": filename},
@@ -265,7 +266,11 @@ class BaseFinXClient(BaseMethods, ABC):
         try:
             response = response.json()
         except requests.JSONDecodeError as exc:
-            print(f"UPLOAD ERROR: {response.status_code=} -> {response.text=}")
+            logging.critical(
+                "UPLOAD ERROR: status_code=%i -> %s",
+                response.status_code,
+                response.text,
+            )
             if remove_file:
                 os.remove(filename)
             raise ValueError("Failed to upload file") from exc
@@ -274,7 +279,7 @@ class BaseFinXClient(BaseMethods, ABC):
             os.remove(filename)
         if response.get("failed"):
             raise ValueError(f'Failed to upload file: {response["message"]}')
-        print("Batch file uploaded")
+        # print("Batch file uploaded")
         return response.get("filename", filename)
 
     @hybrid
@@ -296,6 +301,11 @@ class BaseFinXClient(BaseMethods, ABC):
                 frozenset(d.items()) for d in list(map(lambda x: x[1], file_results))
             )
         ]
+        logging.debug(
+            "Downloading %i files files_to_download=%s",
+            len(files_to_download),
+            files_to_download,
+        )
         for file in files_to_download:
             downloaded_files[file["filename"]] = await self.download_file.run_async(
                 file["filename"], file.get("bucket_name"), use_async=False
@@ -337,17 +347,21 @@ class BaseFinXClient(BaseMethods, ABC):
                 file_results.append((i, result))
         if not file_results:
             return results, file_results
+        # print(f"Results found for {len(cache_keys)} keys => {file_results}")
         downloaded_files = await self._download_file_results.run_async(file_results)
+        n_results = len(file_results)
         for index, file_result in file_results:
+            key_as_str = json.dumps(list(cache_keys[index]))
+            print(
+                f"\rLoading result[{index + 1} / {n_results}]",
+                end=["", "\n"][index == (n_results - 1)],
+            )
             file_df = downloaded_files[file_result["filename"]]
             if "cache_key" not in file_df:
                 matched_result = file_df
             else:
                 matched_result = file_df.loc[
-                    file_df["cache_key"].map(
-                        lambda x: json.loads(x)
-                        == list(cache_keys[index])  # pylint: disable=cell-var-from-loop
-                    )
+                    file_df["cache_key"] == key_as_str
                 ].to_dict(orient="records")[0]
             if "filename" in matched_result:
                 matched_result["result"] = await self.download_file.run_async(
@@ -385,7 +399,7 @@ class BaseFinXClient(BaseMethods, ABC):
                 and len(results) > 0
                 and type(results[0]) in [list, dict]
             ):
-                print(f"Writing data to {output_file}")
+                logging.debug("Writing data to %s", output_file)
                 pd.DataFrame(results).to_csv(output_file, index=False)
             if callable(callback):
                 return callback(results, **kwargs, cache_keys=cache_keys)
@@ -395,8 +409,8 @@ class BaseFinXClient(BaseMethods, ABC):
                 else results[0] if len(results) > 0 else results
             )
         except Exception as e:  # pylint: disable=broad-exception-caught
-            print(f"Failed to find result/execute callback: {format_exc()}")
-            print(f"Exception: {e}")
+            logging.critical("Failed to find result/execute callback: %s", format_exc())
+            logging.critical("Exception: %s", e)
 
     @abstractmethod
     @hybrid

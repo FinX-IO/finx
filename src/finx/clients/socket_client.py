@@ -9,6 +9,7 @@ from typing import Any, Callable, Optional
 from uuid import uuid4
 
 import json
+import logging
 import os
 import time
 
@@ -47,6 +48,7 @@ class FinXSocketClient(BaseFinXClient):
     _is_authenticated: bool = PrivateAttr(False)
     _socket: Optional[FinXWebSocket] = PrivateAttr(None)
     _socket_thread: Optional[Thread] = PrivateAttr(None)
+    _last_message: str = PrivateAttr("")
 
     @property
     def ws_url(self):
@@ -75,7 +77,7 @@ class FinXSocketClient(BaseFinXClient):
         if not self._socket:
             self._run_socket()
         if not self.is_authenticated:
-            print("Awaiting authentication...")
+            logging.info("Awaiting authentication...")
             i = 5000
             while not self.is_authenticated and i >= 1:
                 time.sleep(0.001)
@@ -139,7 +141,7 @@ class FinXSocketClient(BaseFinXClient):
         :return: None type
         :rtype: None
         """
-        print("Authenticating...")
+        logging.info("Authenticating...")
         if not self._awaiting_auth:
             self._awaiting_auth = True
             s.send(json.dumps({"finx_api_key": self.context.api_key}))
@@ -161,7 +163,7 @@ class FinXSocketClient(BaseFinXClient):
             :return: None type
             :rtype: None
             """
-            print(f"Socket opened: {s.is_connected}")
+            logging.debug("Socket opened: %s", s.is_connected)
             self.authenticate(s)
 
         return on_open
@@ -173,7 +175,7 @@ class FinXSocketClient(BaseFinXClient):
         :return: None type
         :rtype: None
         """
-        print("Successfully authenticated")
+        logging.debug("Successfully authenticated")
         self._is_authenticated = True
         self._awaiting_auth = False
 
@@ -206,7 +208,7 @@ class FinXSocketClient(BaseFinXClient):
                     self.update_payload_cache(job_id, *list(self._payload_cache)[1:])
                     return None
                 if (error := message.get("error")) is not None:
-                    print(f"API returned error: {error}")
+                    logging.error("API returned error: %s", error)
                     data = error
                 else:
                     data = message.get("data", message.get("message", {}))
@@ -214,7 +216,32 @@ class FinXSocketClient(BaseFinXClient):
                 if data_type is not list and (
                     data_type is not dict or data.get("progress") is not None
                 ):
-                    print(message)
+                    if message.get("task_name"):
+                        completed_frac = int(
+                            50 * message["completed"] / message["total_tasks"]
+                        )
+                        progress_bar = (
+                            f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
+                        )
+                        formatted_message = (
+                            f'\r{message.get("task_name")} => '
+                            f'{progress_bar} ({float(message["progress"]):.5f} %)'
+                        )
+                        if formatted_message != self._last_message:
+                            self._last_message = formatted_message
+                            print(
+                                formatted_message,
+                                end=["", "\n"][
+                                    message["completed"] == message["total_tasks"]
+                                ],
+                            )
+                        return None
+                    print(
+                        message.get("message", message).get("progress", message)
+                        if not message.get("starting monitor")
+                        else "Starting monitor ... ",
+                        end=["", "\n"][not message.get("starting monitor")]
+                    )
                     return None
                 if (cache_keys := message.get("cache_key")) is None:
                     return None
@@ -233,10 +260,13 @@ class FinXSocketClient(BaseFinXClient):
                         value = data
                     self.context.cache[key[1]][key[2]] = value
             except Exception as e:  # pylint: disable=broad-exception-caught
-                print(
-                    f"Socket ({s.is_connected}) on_message error: {format_exc()}, {message}"
+                logging.error(
+                    "Socket (%s) on_message error: %s, %s",
+                    s.is_connected,
+                    format_exc(),
+                    message,
                 )
-                print(f"Error: {e}")
+                logging.error("Error: %s", e)
             return None
 
         return on_message
@@ -260,8 +290,11 @@ class FinXSocketClient(BaseFinXClient):
             :return: None type
             :rtype: None
             """
-            print(
-                f"Error on socket ({s.is_connected=}/{self.is_authenticated=}): {error}"
+            logging.error(
+                "Error on socket (IsConnected=%s/Authenticated=%s): %s",
+                s.is_connected,
+                self.is_authenticated,
+                error,
             )
 
         return on_error
@@ -283,7 +316,7 @@ class FinXSocketClient(BaseFinXClient):
             :return: None type
             :rtype: None
             """
-            print(f"Socket closed: {status_code=}/{message=}")
+            logging.debug("Socket closed: %s/%s", status_code, message)
             if self._payload_cache:
                 return self._run_socket()
             self._is_authenticated = False
@@ -307,7 +340,7 @@ class FinXSocketClient(BaseFinXClient):
         :return: Cache keys, cached responses, outstanding requests
         :rtype: tuple[list[CacheLookup], list[dict], list[dict]]
         """
-        print("Parsing batch input...")
+        logging.debug("Parsing batch input...")
         cache_keys: list[CacheLookup] = []
         batch_input_df = [pd.DataFrame, pd.read_csv][isinstance(batch_input, str)](
             batch_input
@@ -317,10 +350,8 @@ class FinXSocketClient(BaseFinXClient):
                 **(base_cache_payload | security_input)
             )
             cache_keys.append(cache_lookup)
-        batch_input_df["cache_keys"] = cache_keys
-        batch_input_df["cached_responses"] = batch_input_df["cache_keys"].map(
-            lambda x: x.value
-        )
+        batch_input_df["cache_keys"] = list(map(list, cache_keys))
+        batch_input_df["cached_responses"] = batch_input_df["cache_keys"].str[0]
         cached_responses = batch_input_df.loc[
             batch_input_df["cached_responses"].notnull()
         ]["cached_responses"].tolist()
@@ -347,11 +378,11 @@ class FinXSocketClient(BaseFinXClient):
                 on_message=self._wrap_on_message(),
                 on_error=self._wrap_on_error(),
                 on_close=self._wrap_on_close(),
-                on_ping=lambda *args: print(f"Ping: {args}"),
+                on_ping=lambda *args: logging.debug("Ping: %s", args),
             )
 
             def run_socket_forever(*args, **kwargs) -> None:
-                print(f"Connecting to {self.ws_url} ...")
+                logging.info("Connecting to %s ...", self.ws_url)
                 _ = self._socket.run_forever(*args, **kwargs)
 
             self._socket_thread = Thread(
@@ -395,7 +426,7 @@ class FinXSocketClient(BaseFinXClient):
                     with open(filename, "w+") as file:
                         file.write("\n".join(request_dicts))
                     file.close()
-                    print("MADE BATCH FILE")
+                    logging.debug("MADE BATCH FILE")
                 else:
                     pd.DataFrame(batch_input).to_csv(filename, index=False)
             elif isinstance(batch_input[0], str):
@@ -448,7 +479,7 @@ class FinXSocketClient(BaseFinXClient):
         if not need_to_batch:
             cache_lookup: CacheLookup = self.context.check_cache(**payload)
             if cache_lookup.value is not None:
-                print("Request found in cache")
+                logging.debug("Request found in cache: %s", cache_lookup.key)
                 if callable(callback):
                     return callback(
                         cache_lookup.value, **kwargs, cache_keys=cache_lookup
@@ -469,14 +500,16 @@ class FinXSocketClient(BaseFinXClient):
                     self._parse_batch_input(batch_input, base_cache_payload)
                 )
                 total_requests = len(cached_responses) + len(outstanding_requests)
-            print(f"total requests = {total_requests}")
+            logging.debug("total requests = %i", total_requests)
             if len(cached_responses) == total_requests:
-                print(f"All {total_requests} requests found in cache")
+                logging.debug("All requests found in cache!")
                 if callable(callback):
                     return callback(cached_responses, **kwargs, cache_keys=cache_keys)
                 return cached_responses
-            print(
-                f"{len(cached_responses)} out of {total_requests} requests found in cache"
+            logging.debug(
+                "%i out of %i requests found in cache",
+                len(cached_responses),
+                total_requests,
             )
             payload["api_method"] = "batch_" + api_method
             payload["batch_input"] = (
@@ -498,22 +531,13 @@ class FinXSocketClient(BaseFinXClient):
             self._socket.send(json.dumps(payload))
         except Exception as e:
             for k, v in payload.items():
-                print(f"{k}: {str(v)[:1000]}")
+                logging.error("%s: %s", k, str(v)[:1000])
             raise ValueError("Failed to serialize payload") from e
-        try:
-            results = await self._listen_for_results.run_async(
-                cache_keys, callback, **kwargs
-            )
-        except TypeError:
-            # REPEAT JUST TO SEE IF THE SOCKET FREES UP
-            print("Error in listen for results ... try again")
-            task_object = self._listen_for_results(cache_keys, callback, **kwargs)
-            # handle odd behavior with jupyter event loops
-            if isinstance(task_object, (dict, list, pd.DataFrame, pd.Series)):
-                results = task_object
-            else:
-                results = await task_object
+        results = await self._listen_for_results.run_async(
+            cache_keys, callback, **kwargs
+        )
         self._payload_cache = None
+        self._last_message = ""
         return results
 
     @hybrid

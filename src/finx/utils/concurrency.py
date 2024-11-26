@@ -7,6 +7,7 @@ from typing import Any, Callable, Coroutine, Union
 
 import asyncio
 import functools
+import logging
 import multiprocessing as mp
 import threading
 
@@ -89,7 +90,9 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
         raise TypeError(f"BAD LOOP PARAMS: {task=} / {result}") from exc
     except RuntimeError:
         # catch RuntimeError: This event loop is already running -> use nest_asyncio
-        # print(f"APPLY NEST ASYNCIO: {loop=} / {_ALREADY_RUNNING=}")
+        logging.debug(
+            "APPLY NEST ASYNCIO: %s / {_ALREADY_RUNNING=%s}", loop, _ALREADY_RUNNING
+        )
         nest_asyncio.apply(loop)
         try:
             result = loop.create_task(task)
@@ -99,7 +102,7 @@ def task_runner(task: Coroutine, loop: asyncio.AbstractEventLoop = None):
         except TypeError as t_exc:
             raise TypeError(f"BAD LOOP PARAMS: {task=} / {result}") from t_exc
         except RuntimeError as r_exc:
-            print(f"RUNTIME ERROR: {r_exc=}")
+            logging.error("RUNTIME ERROR: %s", r_exc)
             if f"{r_exc}" == "Event loop stopped before Future completed.":
                 return result
             raise RuntimeError(f"BAD LOOP PARAMS: {task=} / {result}") from r_exc

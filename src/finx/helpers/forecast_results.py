@@ -26,8 +26,10 @@ def load_results(result: dict):
     :return: Batch Forecast Results
     :rtype: BatchForecastResults
     """
-    if "error" in result or not all(
-        x in result for x in ("projected_analytics", "forecasted_flows")
+    if (
+        "error" in result
+        and pd.notnull(result["error"])
+        or not all(x in result for x in ("projected_analytics", "forecasted_flows"))
     ):
         return BatchForecastResults(
             pd.DataFrame(),

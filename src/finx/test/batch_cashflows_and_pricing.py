@@ -3,12 +3,25 @@
 author: dick mule
 purpose: test for batch cash flow load testing and helper functions
 """
+import csv
+import logging
+import sys
 import unittest
 
 import pandas as pd
 
 from finx.client import FinXClient, ClientTypes
 from finx.helpers.forecast_results import load_results, BatchForecastResults
+
+
+FIELD_SIZE_LIMIT = sys.maxsize
+
+while True:
+    try:
+        csv.field_size_limit(FIELD_SIZE_LIMIT)
+        break
+    except OverflowError:
+        FIELD_SIZE_LIMIT = int(FIELD_SIZE_LIMIT / 10)
 
 
 class BatchCashFlows(unittest.TestCase):
@@ -1826,23 +1839,29 @@ class BatchCashFlows(unittest.TestCase):
             },
         ]
 
-    def test_list_api_functions(self):
+    def test_batch_forecast(self):
         """
         Function should return all api functions from endpoint
 
         :return: None type
         :rtype: None
         """
+        logging.getLogger().setLevel(logging.INFO)
         finx_client = FinXClient(ClientTypes.socket)
         finx_client.load_functions()
-        data = pd.DataFrame(self.sample_records * 10)
-        data["skip_projections"] = False
+        data = pd.DataFrame(self.sample_records)
+        data["skip_projections"] = True
         payload = {}
         for column in data.columns:
             payload[column] = data[column].tolist()
         results = finx_client.batch_forecast_cf_and_prices(payload)
-        unpacked_results = list(map(load_results, results))
+        unpacked_results: list[BatchForecastResults] = list(map(load_results, results))
+        n_errors = sum(x.error is not None for x in unpacked_results)
+        logging.info(
+            "Errors: %i / Success: %d", n_errors, len(unpacked_results) - n_errors
+        )
         self.assertTrue(isinstance(unpacked_results[0], BatchForecastResults))
+        self.assertEquals(n_errors, 0)
         finx_client.cleanup()
 
 

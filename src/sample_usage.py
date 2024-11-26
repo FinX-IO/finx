@@ -123,7 +123,9 @@ async def main2():
     :rtype: None
     """
     print("FinXClient imported")
-    async with FinXSocketClient() as finx_socket:
+    async with (
+        FinXSocketClient() as finx_socket
+    ):  # initializes all functions and closes socket once done
         result = await finx_socket.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
         print(f"Context manager results: {result=}")
     async with FinXRestClient() as finx_rest:
@@ -147,7 +149,7 @@ async def sample_fn():
 
 if __name__ == "__main__":
     print("MAIN")
-    # main()
+    main()
     print("MAIN2")
     main2()
     print("SAMPLE FN")
