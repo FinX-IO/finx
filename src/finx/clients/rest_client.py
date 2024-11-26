@@ -220,8 +220,12 @@ class FinXRestClient(BaseFinXClient):
         if status["total_status"] != "complete":
             return False
         for subtask_id, task_results in status["subtask_status"].items():
+            if task_results["status"] != "complete":
+                logging.info("File not yet ready for download for %s => %s ...", subtask_id, task_results)
+                return False
+        for subtask_id, task_results in status["subtask_status"].items():
             filename = task_results["download_file"]
-            logging.debug("Downloading file for %s => %s ...", subtask_id, filename)
+            logging.info("Downloading file for %s => %s ...", subtask_id, filename)
             response = requests.get(
                 f"{self.rest_url}download_file/", params={"filename": filename}
             )
