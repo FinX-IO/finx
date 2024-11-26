@@ -308,10 +308,11 @@ class FinXRestClient(BaseFinXClient):
             )
             print(
                 f'\r{task_id} => '
-                f'{progress_bar} ({n_completed}/{n_subtasks})'
+                f'{progress_bar} ({n_completed}/{n_subtasks})',
+                end=""
             )
             ready_to_download = n_completed == n_subtasks
-            await asyncio.sleep(5)
+            await asyncio.sleep(10)
         print(f'{formatted_message} => Ready to download')
         return self.get_file_result(task_id)
 
