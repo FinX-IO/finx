@@ -21,6 +21,32 @@ jobs:
       - name: Setup Python
         uses: ./.github/actions/setup-python
 
+  bump_major_version:
+    name: Bump Major Version
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/major-candidate'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Pipenv
+        uses: ./.github/actions/setup-python
+
+      - name: Install Build Tools
+        run: pip install --upgrade build twine
+
+      - name: Build Wheel
+        env:
+          DEPLOY_LEVEL: "major"
+          DEPLOY_ENVIRONMENT: "test"
+        run: python -m build --wheel
+
+      - name: Publish to Test PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        run: ls dist/* && python -m twine upload --non-interactive --verbose --repository testpypi --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }} dist/*
+
   test_pypi_publish:
     name: Publish to Test PyPI
     runs-on: ubuntu-latest
