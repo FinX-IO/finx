@@ -1,22 +1,35 @@
-# If building the SDK to test-pypi or to pypi, the following environment variables are required:
-#
-# 1. `TWINE_USERNAME` - The username for the pypi account.
-# 2. `TWINE_PASSWORD` - The password for the pypi account.
+"""
+If building the SDK to test-pypi or to pypi, the following environment variables are required:
+
+1. `TWINE_USERNAME` - The username for the pypi account.
+2. `TWINE_PASSWORD` - The password for the pypi account.
+"""
+
 import json
+import logging
 import os
 import urllib.request
 
 
-def bump_version(level, deploy_environment):
+def bump_version(level: str, deploy_environment: str) -> str:
+    """
+    Version bumping function for the Finx SDK
+
+    :param level: Major, minor, or patch
+    :type level: str
+    :param deploy_environment: Test, prod, or no-deploy
+    :type deploy_environment: str
+    :return: The new version number
+    :rtype: str
+    """
     # Retrieve JSON data
-    # TODO: Replace the finx-io-sandbox with a variable
     url = "https://test.pypi.org/pypi/finx-io/json"
-    response = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)  # pylint: disable=consider-using-with
     data = json.loads(response.read())
     # Extract current version
     current_version = data["info"]["version"]
     major, minor, patch = map(int, current_version.split(".")[:3])
-    print('major, minor, patch: ', major, minor, patch)
+    logging.info("major, minor, patch: %s %s %s", major, minor, patch)
 
     # Increase version number based on level
     if level == "major" and deploy_environment == "test":
@@ -24,28 +37,29 @@ def bump_version(level, deploy_environment):
         minor = 0
         patch = 0
         return f"{major}.{minor}.{patch}"
-    elif level == "minor" and deploy_environment == "test":
+    if level == "minor" and deploy_environment == "test":
         minor += 1
         patch = 0
         return f"{major}.{minor}.{patch}"
-    elif level == "patch" and deploy_environment == "test":
+    if level == "patch" and deploy_environment == "test":
         patch += 1
         return f"{major}.{minor}.{patch}"
-    elif level == "major" and deploy_environment == "prod":
+    if level == "major" and deploy_environment == "prod":
         major += 0
         minor = 0
         patch = 0
         return f"{major}.{minor}.{patch}"
-    elif level == "minor" and deploy_environment == "prod":
+    if level == "minor" and deploy_environment == "prod":
         minor += 0
         patch = 0
         return f"{major}.{minor}.{patch}"
-    elif level == "patch" and deploy_environment == "prod":
+    if level == "patch" and deploy_environment == "prod":
         patch += 0
         return f"{major}.{minor}.{patch}"
-    elif level == "patch" and deploy_environment == "no-deploy":
+    if level == "patch" and deploy_environment == "no-deploy":
         patch += 0
         return None
+    return f"{major}.{minor}.{patch}"
 
 
 VERSION = bump_version(os.getenv("DEPLOY_LEVEL"), os.getenv("DEPLOY_ENVIRONMENT"))

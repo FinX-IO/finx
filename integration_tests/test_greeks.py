@@ -3,21 +3,28 @@
 # author: Geoff Fite
 import os
 import asyncio
-import time
-import finx
-from finx.client import FinXClient
-import pandas as pd
-import numpy as np
+
+from finx.client import FinXClient, ClientTypes
 
 
 def main(environment: str = "dev"):
+    """
+    Main routine to test the FinXClient
+
+    :param environment: dev or prod, default is dev
+    :type environment: str
+    :return: None Type
+    :rtype: None
+    """
     print('main routine kicked off using api_key:', os.getenv('FINX_API_KEY'))
     finx_api_key = os.getenv('FINX_API_KEY')
     # TEST: Calculate a set of greeks on an option
-    finx = FinXClient('socket', finx_api_key=finx_api_key, ssl=True)
+    client = FinXClient(ClientTypes.socket)
+    client.load_functions()
     # s0, k, r, sigma, q, T, p, option_side, option_type
-    greeks: dict = finx.calculate_greeks(101, 100, 0.01, 0.88, 0, 5, 0.88, 'call', 'european')
+    greeks: dict = client.calculate_greeks(101, 100, 0.01, 0.88, 0, 5, 0.88, 'call', 'european')
     print(f'**********************\nGREEKS: {greeks}\n\n')
+    client.cleanup()
 
 
 if __name__ == '__main__':
@@ -28,7 +35,7 @@ if __name__ == '__main__':
     # Hybrid decorated methods can be called like synchronous methods
     print(f'{check_event_loop}')
     if check_event_loop.is_running():
-        asyncio.apply()
+        asyncio.set_event_loop(check_event_loop)
         # * The only caveat is if Hybrid method is called from within a running event loop *
         check_event_loop.run_until_complete(main())
     else:

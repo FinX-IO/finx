@@ -1,0 +1,62 @@
+finx.test.batch_cashflows_and_pricing
+=====================================
+
+.. py:module:: finx.test.batch_cashflows_and_pricing
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: test for batch cash flow load testing and helper functions
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   finx.test.batch_cashflows_and_pricing.FIELD_SIZE_LIMIT
+   finx.test.batch_cashflows_and_pricing.FIELD_SIZE_LIMIT
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.test.batch_cashflows_and_pricing.BatchCashFlows
+
+
+Module Contents
+---------------
+
+.. py:data:: FIELD_SIZE_LIMIT
+
+.. py:data:: FIELD_SIZE_LIMIT
+
+.. py:class:: BatchCashFlows(methodName='runTest')
+
+   Bases: :py:obj:`unittest.TestCase`
+
+
+   Unittest batch cash flows
+
+
+   .. py:property:: sample_records
+
+      Return sample records
+
+      :return: all dictionaries for sample data
+      :rtype: list[dict]
+
+
+
+   .. py:method:: test_batch_forecast()
+
+      Function should return all api functions from endpoint
+
+      :return: None type
+      :rtype: None
+
+
+

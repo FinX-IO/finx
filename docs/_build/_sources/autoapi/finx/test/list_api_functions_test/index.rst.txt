@@ -1,0 +1,40 @@
+finx.test.list_api_functions_test
+=================================
+
+.. py:module:: finx.test.list_api_functions_test
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: unittest the list api functions method
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.test.list_api_functions_test.ListAPIFunctionsTest
+
+
+Module Contents
+---------------
+
+.. py:class:: ListAPIFunctionsTest(methodName='runTest')
+
+   Bases: :py:obj:`unittest.TestCase`
+
+
+   Unittest testing list api functions
+
+
+   .. py:method:: test_list_api_functions()
+
+      Function should return all api functions from endpoint
+
+      :return: None type
+      :rtype: None
+
+
+

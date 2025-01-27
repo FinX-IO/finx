@@ -1,0 +1,40 @@
+finx.test.calculate_greeks_test
+===============================
+
+.. py:module:: finx.test.calculate_greeks_test
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: Calculate Greeks Test
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.test.calculate_greeks_test.CalculateGreeksTest
+
+
+Module Contents
+---------------
+
+.. py:class:: CalculateGreeksTest(methodName='runTest')
+
+   Bases: :py:obj:`unittest.TestCase`
+
+
+   Unittest for calculating greeks
+
+
+   .. py:method:: test_list_api_functions()
+
+      Test List Api functions using socket client
+
+      :return: None Type
+      :rtype: None
+
+
+

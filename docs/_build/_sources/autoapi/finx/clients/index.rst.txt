@@ -1,0 +1,16 @@
+finx.clients
+============
+
+.. py:module:: finx.clients
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/finx/clients/rest_client/index
+   /autoapi/finx/clients/socket_client/index
+
+

@@ -1,19 +1,16 @@
+## FinX Capital Markets LLC
+
 This python package is the **FinX Python SDK** and is used to interface with the **FinX Capital Markets Analytics 
 Platform**.
 
-
-| Branch | Build & Test Results                                                                                                                                                                                                          |
-| ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/main.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/main) |
-| Test.PyPi.org | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/FinX-IO/finx/tree/dev.svg?style=svg&circle-token=a2c782bbf496cf79a9dbee9a41960601a56d28f7)](https://dl.circleci.com/status-badge/redirect/gh/FinX-IO/finx/tree/dev)   |
-
-### FinX Capital Markets LLC
-
 Please see LICENSE and SECURITY for terms of use.
-
+| Branch | Build & Test Results                                                                                                                                                                                                           |
+| ------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| PyPi.org | INSERT BADGE |
+| Test.PyPi.org | INSERT BADGE|
 ***
 
-# FinX Python Software Development Kit
+### FinX Python Software Development Kit
 
 The **FinX SDK** is a python package that has interfaces to the FinX Capital Markets
 Analytics Platform (the 'FinX Platform'). The code in the SDK makes calls to REST APIs 
@@ -25,9 +22,9 @@ Full **Documentation** is available at [https://finx-capital-markets.gitbook.io/
 
 ***
 
-# Installation
+### Installation
 
-## Requirements
+### Requirements
 
 The FinX SDK requires Python 3.10 or higher.
 
@@ -36,18 +33,26 @@ The FinX SDK requires Python 3.10 or higher.
 In your container, pipenv or other python environment, you must have the following
 packages installed:
 
-```requirements.txt
+```
 aiohttp>=3.8.4
+aenum>=3.1.15
+asgiref>=3.8.1
 setuptools>=67.0.0
 nest-asyncio>=1.5.6
 numpy>=1.25.0
 pandas>=2.0.2
 plotly>=5.15.0
+pydantic>=2.3.0
 pytest>=6.2.5
 requests>=2.31.0
 scipy>=1.10.1
 websocket-client>=1.6.0
 websockets>=11.0.3
+pylint>=3.3.1
+sphinx>=8.1.3
+sphinx-autoapi>=3.3.3
+autodoc_pydantic>=2.2.0
+sphinx-rtd-theme>=3.0.2
 ```
 
 ### ENVIRONMENT VARIABLES
@@ -59,7 +64,7 @@ in your user account settings, or in the email sent to you upon registration.
 2. `FINX_API_URL` - The URL of the FinX Platform API.
 3. `FINX_USER_EMAIL` - The email address used to register with FinX.
 
-## Install from PyPI using Pip
+### Install from PyPI using Pip
 
 In your python environment of choice, install finx using Pip:
 
@@ -76,20 +81,27 @@ pipenv environment. To install finx using pipenv, run the following commands:
     pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket websocket-client websockets
     pipenv install finx-io 
 
-## Check Installation and Environment Variables with Pipenv
+### Check Installation and Environment Variables with Pipenv
 
 Here's a full example of how to install finx using pipenv, with a quick test to ensure the environment variables are set correctly:
 
     #! /bin/bash
     mkdir pipenv-temp && cd pipenv-temp
     pipenv clean
-    pipenv install aiohttp setuptools nest-asyncio numpy pandas plotly pytest requests scipy websocket-client websockets
     pipenv install finx-io 
     pipenv shell
     export FINX_API_KEY=<replace-with-your-api-key>
     export FINX_API_URL=<replace-with-your-api-url>
     export FINX_USER_EMAIL=<replace-with-your-email>
-    python3 -c "import finx; from finx.client import FinXClient; finx_client = FinXClient('socket', ssl=True); function_list = finx_client.list_api_functions(); print(function_list)"
+    python3 -c "
+        import finx
+        from finx.client import ClientTypes, FinXClient
+        finx_client = FinXClient(ClientTypes.socket)
+        finx_client.load_functions()
+        function_list = finx_client.list_api_functions()
+        print(function_list)
+        finx_client.cleanup()
+    "
 
 ## Python Shell
 
@@ -97,17 +109,140 @@ Local Python3 Shell with environment variables pre-set:
 
 ```python3
 #! /usr/bin/env python3
-import finx
-import os
 import pandas as pd
 
-from finx.client import FinXClient
+from finx.client import FinXClient, ClientTypes
 
-finx_client = FinXClient('socket',ssl=True)
+finx_client = FinXClient(
+    ClientTypes.socket, finx_api_key="your-api-key", finx_api_url="api-url"
+)
+finx_client.load_functions()  # Initialize the SDK and refresh all functions with most recent API parameters
 function_list = finx_client.list_api_functions()
+
+finx_client.cleanup()  # Make sure to close the socket and daemon thread
+
 df = pd.DataFrame(function_list)
 df
 ```
+### FinX Rest Usage:
+
+Unlike the socket api, the FinX Rest API can interact with standardized
+batch processes on the FinX Platform.
+
+For instance, the rest api can upload the FinX private data excel template to import new securities to the platform.
+Additionally, this client can post the batch job excel data template OR manually configure the tasks using a holdings
+file and a dictionary of configurations.
+
+```python3
+#! /usr/bin/env python3
+import pandas as pd
+
+from finx.client import FinXClient, ClientTypes
+
+finx_client = FinXClient(
+    ClientTypes.rest, finx_api_key="your-api-key", finx_api_url="api-url"
+)
+finx_client.load_functions()  # Initialize the SDK and refresh all functions with most recent API parameters
+function_list = finx_client.list_api_functions()
+
+# private data template upload
+finx_client.upload_private_data("path/to/private/data/template.xlsx", test_data=True)
+
+# post batch job
+finx_client.submit_batch_run("path/to/batch/job/template.xlsx")
+# run batch job
+finx_client.run_batch_holdings(
+    "path/to/holdings/file.xlsx", 
+    {
+        "ReferenceData": {
+            "parse_collateral": True
+        },
+        "RunCashFlowScenario": {
+            "shock_value": 0.,
+            "include_cashflows": True,
+            "skip_projections": False
+        }
+    }
+)
+
+finx_client.cleanup()  # Make sure to close the socket and daemon thread
+
+df = pd.DataFrame(function_list)
+df
+```
+
+### FinX Context Manager Usage
+
+One of the perks of using the SDK in an async context is that we can manager some of the initial steps as part of the
+async initialization.  Specifically, there is no need to call `load_functions` or `cleanup` 
+as part of the async context.
+
+```python3
+#! /usr/bin/env python3
+
+from finx.clients import rest_client, socket_client
+
+async def sample_fn():
+    async with socket_client.FinXSocketClient() as finx_socket:
+        result = await finx_socket.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results: {result=}")
+    async with rest_client.FinXRestClient() as finx_rest:
+        result2 = await finx_rest.calculate_greeks(101, 100, 0.01, 0.1, 0.0, 0.25, 5.0)
+        print(f"Context manager results2: {result2=}")
+```
+
+## Jupyter Notebooks
+
+### Event Loop Management
+
+Jupyter notebooks utilize an event loop as part of the async context.  This can interfere with some of the method 
+syntax used in the FinX Sdk.  To work around this, we use the nest_asyncio package and provide a .run_async suffix 
+that can be applied to all methods, ensuring that they work within the constraints of the event loop.  
+
+The considerations here do NOT apply to any runtime environment that is not using a currently active event loop.
+
+```python3
+#! /usr/bin/env python3
+"""
+This is a sample of how to run the FinX Library in a Jupyter Notebook.
+"""
+from finx.clients.rest_client import FinXRestClient
+from finx.clients.socket_client import FinXSocketClient
+from finx.utils.concurrency import hybrid
+
+
+# This is a decorator that allows a method to run in both async and sync contexts.  
+# It is not required but allows for safe execution using the .run_async suffix and can be incorporated into 
+# any non async runtime.
+@hybrid  
+async def sample_fn():
+    # Initialize the SOCKET client using a context manager
+    # This allows us to initialize the client functions after authentication and terminate 
+    # the socket daemon thread after use.
+    async with FinXSocketClient() as finx_socket: 
+        # Run the calculate_greeks function asynchronously
+        result = await finx_socket.calculate_greeks.run_async(  # <-- .run_async suffix!
+            101, 100, 0.01, 0.1, 0.0, 0.25, 5.0
+        )
+        print(f"Context manager results: {result=}")
+    # Initialize the REST client using a context manager
+    # This allows us to initialize the client functions after authentication and terminate 
+    # the socket daemon thread after use.
+    async with FinXRestClient() as finx_rest:
+        # Run the calculate_greeks function asynchronously
+        result2 = await finx_rest.calculate_greeks.run_async(  # <-- .run_async suffix!
+            101, 100, 0.01, 0.1, 0.0, 0.25, 5.0
+        )
+        print(f"Context manager results2: {result2=}")
+
+
+# Run the sample function - Depending on your runtime environment, you may need to use the alternative syntax:
+await sample_fn()
+# Alternative: If you are running this in a Jupyter Notebook, you can use the following syntax:
+await sample_fn.run_async()
+
+```
+
 Full **Documentation** with all available functions is available at [FinX Docs](https://finx-capital-markets.gitbook.io/)
 
 ---

@@ -1,0 +1,101 @@
+finx.client
+===========
+
+.. py:module:: finx.client
+
+.. autoapi-nested-parse::
+
+   author: dick mule
+   purpose: Expose FinX Clients for API usage
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   finx.client.FinXClient
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   finx.client.ClientTypes
+   finx.client._FinXClientFactory
+
+
+Module Contents
+---------------
+
+.. py:class:: ClientTypes
+
+   Bases: :py:obj:`finx.utils.enums.ComparatorEnum`
+
+
+   Enumerate FinX Sdk Client Types
+
+
+   .. py:attribute:: rest
+      :value: 0
+
+
+
+   .. py:attribute:: socket
+      :value: 1
+
+
+
+   .. py:method:: from_int(i: int) -> ClientTypes
+      :staticmethod:
+
+
+      Return name from index
+
+      :param i: Index of enum
+      :type  i: int
+      :return: Name of enum
+      :rtype: str
+
+
+
+.. py:class:: _FinXClientFactory
+
+   Protected factory class that can manage state for new instances
+
+
+   .. py:attribute:: __instance
+      :type:  _FinXClientFactory
+      :value: None
+
+
+
+   .. py:attribute:: __context_manager
+      :type:  finx.base_classes.base_client.ApiContextManager
+      :value: None
+
+
+
+   .. py:attribute:: __session_manager
+      :type:  finx.base_classes.base_client.SessionManager
+      :value: None
+
+
+
+   .. py:method:: set_credentials(finx_api_key: str = None, finx_api_endpoint: str = None)
+
+      Set the credentials for the FinX API
+
+      :param finx_api_key: Secret key for the FinX API
+      :type finx_api_key: str
+      :param finx_api_endpoint: The endpoint for the FinX API
+      :type finx_api_endpoint: str
+      :return: None
+      :rtype: None
+
+
+
+.. py:data:: FinXClient
+
