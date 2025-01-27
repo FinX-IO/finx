@@ -3,7 +3,9 @@
 author: dick mule
 purpose: test functionality
 """
+import asyncio
 import inspect
+import logging
 
 import pandas as pd
 

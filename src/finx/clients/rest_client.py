@@ -3,11 +3,12 @@
 author: dick mule
 purpose: FinX Rest Client
 """
-import logging
 from typing import Any
 from platform import system
 
+import asyncio
 import json
+import logging
 
 import requests
 
@@ -166,7 +167,7 @@ class FinXRestClient(BaseFinXClient):
             files={"file": open(full_file_path, "rb")},
             data={
                 "user_uuid": self.context.api_key,
-                "filename": full_file_path.split(self._file_delim)[-1],
+                "filename": full_file_path.split(self._file_delim())[-1],
                 "test_data": True,
             },
         )
@@ -186,7 +187,7 @@ class FinXRestClient(BaseFinXClient):
             files={"file": open(full_file_path, "rb")},
             data={
                 "user_uuid": self.context.api_key,
-                "source_file": full_file_path.split(self._file_delim)[-1],
+                "source_file": full_file_path.split(self._file_delim())[-1],
             },
         )
         if response.status_code == 200:
@@ -220,8 +221,16 @@ class FinXRestClient(BaseFinXClient):
         if status["total_status"] != "complete":
             return False
         for subtask_id, task_results in status["subtask_status"].items():
+            if task_results["status"] != "complete":
+                logging.info(
+                    "File not yet ready for download for %s => %s ...",
+                    subtask_id,
+                    task_results,
+                )
+                return False
+        for subtask_id, task_results in status["subtask_status"].items():
             filename = task_results["download_file"]
-            logging.debug("Downloading file for %s => %s ...", subtask_id, filename)
+            logging.info("Downloading file for %s => %s ...", subtask_id, filename)
             response = requests.get(
                 f"{self.rest_url}download_file/", params={"filename": filename}
             )
@@ -265,3 +274,45 @@ class FinXRestClient(BaseFinXClient):
             },
         ).json()
         return response
+
+    @hybrid
+    async def wait_for_completion(self, task_id: str) -> bool:
+        """
+        Wait for a batch run to complete
+
+        :param task_id: Task ID to monitor
+        :type task_id: str
+        :return: True if the task is complete
+        :rtype: bool
+        """
+        formatted_message = ""
+        while (progress := self.monitor_progress(task_id))[
+            "total_status"
+        ] != "complete":
+            completed_frac = int(50 * progress["total_progress"] / 100)
+            progress_bar = f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
+            formatted_message = (
+                f"\r{task_id} => "
+                f'{progress_bar} ({float(progress["total_progress"]):.5f} %)'
+            )
+            print(formatted_message, end="")
+            await asyncio.sleep(10)
+        print(f"{formatted_message} => Task Finished ... Waiting to download")
+        ready_to_download: bool = False
+        while not ready_to_download:
+            status = self.monitor_progress(task_id)
+            n_completed = 0
+            n_subtasks = len(status["subtask_status"])
+            for task_results in status["subtask_status"].values():
+                if task_results["status"] == "complete":
+                    n_completed += 1
+            completed_frac = int(50 * n_completed / n_subtasks)
+            progress_bar = f'{"#" * completed_frac}{"-" * (50 - completed_frac)}'
+            print(
+                f"\r{task_id} => " f"{progress_bar} ({n_completed}/{n_subtasks})",
+                end="",
+            )
+            ready_to_download = n_completed == n_subtasks
+            await asyncio.sleep(10)
+        print(f"{formatted_message} => Ready to download")
+        return self.get_file_result(task_id)
