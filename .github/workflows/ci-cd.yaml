@@ -24,7 +24,6 @@ jobs:
   bump_major_version:
     name: Bump Major Version
     runs-on: ubuntu-latest
-    needs: build_and_unit_test
     if: github.ref == 'refs/heads/major-candidate'
     steps:
       - name: Checkout Repository
