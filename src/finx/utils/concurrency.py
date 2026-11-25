@@ -15,7 +15,11 @@ from asgiref.sync import sync_to_async, async_to_sync
 import nest_asyncio
 
 Awaitable = Union[asyncio.Task, Coroutine]
-_ALREADY_RUNNING = asyncio.get_event_loop().is_running()
+try:
+    # get_event_loop() raises RuntimeError on Python 3.14 when no loop is set
+    _ALREADY_RUNNING = asyncio.get_running_loop().is_running()
+except RuntimeError:
+    _ALREADY_RUNNING = False
 
 
 def decohints(decorator: Callable) -> Callable:
